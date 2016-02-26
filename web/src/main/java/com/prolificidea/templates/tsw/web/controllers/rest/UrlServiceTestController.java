@@ -13,11 +13,7 @@ public class UrlServiceTestController {
 
     @RequestMapping(value = "/api/test", method = RequestMethod.GET)
     public String test() {
-
-        urlService.setOwner("prolific-idea");
-        urlService.setRepo("Code-Off-App");
-        urlService.setBranch("master");
-        urlService.setFile("pom.xml");
+        urlService.setOwnerRepoBranchFile("prolific-idea", "Code-Off-App", "master", "pom.xml");
 
         String results = urlService.getContent();
 
