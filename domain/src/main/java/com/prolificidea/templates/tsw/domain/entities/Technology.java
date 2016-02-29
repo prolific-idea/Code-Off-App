@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.prolificidea.templates.tsw.domain.entities;
 
 import java.io.Serializable;
@@ -27,9 +22,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "technology")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Technology.findAll", query = "SELECT t FROM Technology t"),
-    @NamedQuery(name = "Technology.findByTechId", query = "SELECT t FROM Technology t WHERE t.techId = :techId"),
-    @NamedQuery(name = "Technology.findByDescription", query = "SELECT t FROM Technology t WHERE t.description = :description")})
+        @NamedQuery(name = "Technology.findAll", query = "SELECT t FROM Technology t"),
+        @NamedQuery(name = "Technology.findByTechId", query = "SELECT t FROM Technology t WHERE t.techId = :techId"),
+        @NamedQuery(name = "Technology.findByDescription", query = "SELECT t FROM Technology t WHERE t.description = :description")})
 public class Technology implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -97,5 +92,5 @@ public class Technology implements Serializable {
     public String toString() {
         return "com.prolificidea.templates.tsw.domain.entities.Technology[ techId=" + techId + " ]";
     }
-    
+
 }

@@ -9,3 +9,4 @@
 # Maven
 log/
 target/
+web/src/main/webapp/assets/bower_components/

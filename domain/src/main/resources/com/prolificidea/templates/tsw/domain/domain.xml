@@ -5,14 +5,18 @@
 	version="1.0">
 
 	<persistence-unit name="PersistenceUnitName" transaction-type="RESOURCE_LOCAL">
-		<class>com.prolificidea.templates.tsw.domain.AppUser</class>
-        <class>com.prolificidea.templates.tsw.domain.AppUserDetails</class>
-        <class>com.prolificidea.templates.tsw.domain.AppUserRole</class>
-        <class>com.prolificidea.templates.tsw.domain.Role</class>
+            <class>com.prolificidea.templates.tsw.domain.entities.Technology</class>
+         <class>com.prolificidea.templates.tsw.domain.entities.Challenge</class>
+          <class>com.prolificidea.templates.tsw.domain.entities.Entry</class>
+          <class>com.prolificidea.templates.tsw.domain.entities.Person</class>
+        <!-- <class>com.prolificidea.templates.tsw.domain.entities.Role</class>
+          <class>com.prolificidea.templates.tsw.domain.entities.Appuser</class>
+         <class>com.prolificidea.templates.tsw.domain.entities.Appuserdetails</class>
+         <class>com.prolificidea.templates.tsw.domain.entities.Appuserrole</class> -->
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
-        <properties>
+        <!--<properties>
             <property name="hibernate.hbm2ddl.auto" value="create" />
-        </properties>
+        </properties>-->
 	</persistence-unit>
 
 </persistence>
