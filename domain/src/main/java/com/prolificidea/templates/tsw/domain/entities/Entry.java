@@ -7,18 +7,7 @@ package com.prolificidea.templates.tsw.domain.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,27 +26,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Entry implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "entryId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "entryId", nullable = false, unique = true)
     private Integer entryId;
     @Lob
     @Column(name = "solution")
     private byte[] solution;
     @Basic(optional = false)
-    @Column(name = "date")
+    @Column(name = "date", nullable = false )
     @Temporal(TemporalType.DATE)
     private Date date;
     @Column(name = "url")
     private String url;
     @Column(name = "result")
     private Integer result;
-    @JoinColumn(name = "challengeId", referencedColumnName = "challengeId")
+    @JoinColumn(name = "challengeId", referencedColumnName = "challengeId", nullable = false)
     @ManyToOne(optional = false)
     private Challenge challengeId;
-    @JoinColumn(name = "personId", referencedColumnName = "personId")
+    @JoinColumn(name = "personId", referencedColumnName = "personId", nullable = false)
     @ManyToOne(optional = false)
     private Person personId;
-    @JoinColumn(name = "techId", referencedColumnName = "techId")
+    @JoinColumn(name = "techId", referencedColumnName = "techId", nullable = false)
     @ManyToOne(optional = false)
     private Technology techId;
 

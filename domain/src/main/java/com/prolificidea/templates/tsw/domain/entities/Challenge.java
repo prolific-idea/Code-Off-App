@@ -30,14 +30,14 @@ public class Challenge implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "challengeId")
+    @Column(name = "challengeId", unique = true, nullable = false)
     private Integer challengeId;
     @Basic(optional = false)
     @Lob
-    @Column(name = "solution")
+    @Column(name = "solution", nullable = false)
     private byte[] solution;
     @Basic(optional = false)
-    @Column(name = "url")
+    @Column(name = "url", nullable = false)
     private String url;
     @Column(name = "solutionFilePath")
     private String solutionFilePath;
@@ -45,7 +45,7 @@ public class Challenge implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date startDate;
     @Basic(optional = false)
-    @Column(name = "endDate")
+    @Column(name = "endDate", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "challengeId")

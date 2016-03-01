@@ -1,0 +1,6 @@
+ALTER TABLE `dbo`.`challenge` 
+CHANGE COLUMN `startDate` `startDate` DATETIME NULL COMMENT '' ,
+CHANGE COLUMN `endDate` `endDate` DATETIME NOT NULL COMMENT '' ;
+
+ALTER TABLE `dbo`.`entry` 
+CHANGE COLUMN `date` `date` DATETIME NOT NULL COMMENT '' ;
