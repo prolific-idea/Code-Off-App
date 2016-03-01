@@ -7,15 +7,7 @@ package com.prolificidea.templates.tsw.domain.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -33,9 +25,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Appuserdetails.findByLastName", query = "SELECT a FROM Appuserdetails a WHERE a.lastName = :lastName"),
     @NamedQuery(name = "Appuserdetails.findByEmailAddress", query = "SELECT a FROM Appuserdetails a WHERE a.emailAddress = :emailAddress")})
 public class Appuserdetails implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "appUserDetailsId")
     private Integer appUserDetailsId;
     @Column(name = "firstName")

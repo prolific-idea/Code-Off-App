@@ -7,15 +7,7 @@ package com.prolificidea.templates.tsw.domain.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,18 +29,18 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "personId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "personId", nullable = false, unique = true)
     private Integer personId;
     @Basic(optional = false)
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
     private String lastName;
     @Basic(optional = false)
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private int score;
     @Column(name = "url")
     private String url;

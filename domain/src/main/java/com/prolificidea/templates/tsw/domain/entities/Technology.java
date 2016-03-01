@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Technology implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "techId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "techId", nullable = false, unique = true)
     private Integer techId;
     @Column(name = "description")
     private String description;
