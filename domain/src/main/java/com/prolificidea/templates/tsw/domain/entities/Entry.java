@@ -5,10 +5,10 @@
  */
 package com.prolificidea.templates.tsw.domain.entities;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
