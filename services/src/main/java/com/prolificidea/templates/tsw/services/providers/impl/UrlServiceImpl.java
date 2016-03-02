@@ -1,9 +1,12 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
 import com.prolificidea.templates.tsw.services.providers.UrlService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 @Service
 public class UrlServiceImpl implements UrlService {
@@ -14,7 +17,7 @@ public class UrlServiceImpl implements UrlService {
 
     private RestTemplate restCall = new RestTemplate();
 
-    public UrlServiceImpl(){
+    public UrlServiceImpl() {
         restCall = new RestTemplate();
     }
 
@@ -41,5 +44,27 @@ public class UrlServiceImpl implements UrlService {
                         String.class, owner, repo, branch, file);
 
         return results;
+    }
+
+    private byte[] getFileContentHash(String content) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hash = null;
+
+        md.update(content.getBytes());
+        hash = md.digest();
+
+        return hash;
+    }
+
+    public boolean compareFilesContent(String file1Content, String file2Content) {
+        try {
+            byte[] file1Hash = getFileContentHash(file1Content);
+            byte[] file2Hash = getFileContentHash(file2Content);
+
+            return Arrays.equals(file1Hash,file2Hash);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
