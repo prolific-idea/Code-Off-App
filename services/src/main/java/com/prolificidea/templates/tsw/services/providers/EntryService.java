@@ -18,4 +18,5 @@ public interface EntryService {
     void deleteEntry(Object id);
     Entry createEntry(Entry t);
     Entry updateEntry(Entry t);
+    List<Entry> getEntriesByPerson(int id);
 }

@@ -25,8 +25,8 @@ public class Technology implements Serializable {
     private Integer techId;
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "techId")
-    private List<Entry> entryList;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "techId")
+//    private List<Entry> entryList;
 
     public Technology() {
     }
@@ -51,14 +51,14 @@ public class Technology implements Serializable {
         this.description = description;
     }
 
-    @XmlTransient
-    public List<Entry> getEntryList() {
-        return entryList;
-    }
-
-    public void setEntryList(List<Entry> entryList) {
-        this.entryList = entryList;
-    }
+//    @XmlTransient
+//    public List<Entry> getEntryList() {
+//        return entryList;
+//    }
+//
+//    public void setEntryList(List<Entry> entryList) {
+//        this.entryList = entryList;
+//    }
 
     @Override
     public int hashCode() {
