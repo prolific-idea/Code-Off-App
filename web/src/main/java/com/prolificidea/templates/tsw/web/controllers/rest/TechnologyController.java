@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
-import com.prolificidea.templates.tsw.domain.entities.Technology;
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 import com.prolificidea.templates.tsw.services.providers.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,14 @@ public class TechnologyController {
     TechnologyService technologyService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody List<Technology> getAllTechnology() {
-        List<Technology> techs = technologyService.findAllTechnologys();
+    public @ResponseBody List<TechnologyDTO> getAllTechnology() {
+        List<TechnologyDTO> techs = technologyService.findAllTechnologys();
         return  techs;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public  Technology getAllTechnology(@PathVariable int id ) {
-        Technology tech = technologyService.findTechnology(id);
+    public  TechnologyDTO getAllTechnology(@PathVariable int id ) {
+        TechnologyDTO tech = technologyService.findTechnology(id);
         return  tech;
     }
 }

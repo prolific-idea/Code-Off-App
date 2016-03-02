@@ -48,6 +48,8 @@ public class Challenge implements Serializable {
     @Column(name = "endDate", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    @Column(name = "numberOfLinesToCompare")
+    private Integer numberOfLinesToCompare;
 //    @Transient
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "challengeId", fetch = FetchType.LAZY)
 //    private List<Entry> entryList;
@@ -112,6 +114,14 @@ public class Challenge implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getNumberOfLinesToCompare() {
+        return numberOfLinesToCompare;
+    }
+
+    public void setNumberOfLinesToCompare(Integer numberOfLinesToCompare) {
+        this.numberOfLinesToCompare = numberOfLinesToCompare;
     }
 
 //    @XmlTransient

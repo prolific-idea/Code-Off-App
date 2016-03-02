@@ -44,8 +44,8 @@ public class Person implements Serializable {
     private int score;
     @Column(name = "url")
     private String url;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
-    private List<Entry> entryList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+//    private List<Entry> entryList;
 
     public Person() {
     }
@@ -108,14 +108,14 @@ public class Person implements Serializable {
         this.url = url;
     }
 
-    @XmlTransient
-    public List<Entry> getEntryList() {
-        return entryList;
-    }
-
-    public void setEntryList(List<Entry> entryList) {
-        this.entryList = entryList;
-    }
+//    @XmlTransient
+//    public List<Entry> getEntryList() {
+//        return entryList;
+//    }
+//
+//    public void setEntryList(List<Entry> entryList) {
+//        this.entryList = entryList;
+//    }
 
     @Override
     public int hashCode() {

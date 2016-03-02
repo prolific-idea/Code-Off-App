@@ -41,13 +41,13 @@ public class Entry implements Serializable {
     @Column(name = "result")
     private Integer result;
     @JoinColumn(name = "challengeId", referencedColumnName = "challengeId", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Challenge challengeId;
     @JoinColumn(name = "personId", referencedColumnName = "personId", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Person personId;
     @JoinColumn(name = "techId", referencedColumnName = "techId", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Technology techId;
 
     public Entry() {
