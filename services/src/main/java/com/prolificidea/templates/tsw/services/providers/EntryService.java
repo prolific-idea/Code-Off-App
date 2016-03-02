@@ -1,6 +1,7 @@
 package com.prolificidea.templates.tsw.services.providers;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 
 import java.util.List;
 
@@ -9,14 +10,14 @@ import java.util.List;
  */
 public interface EntryService {
 
-    Entry findEntry(Object id);
-    List<Entry> findAllEntrys();
-    List<Entry> findAllEntrys(int pageSize, int pageNumber);
-    List<Entry> searchEntrys(String property, String criteria);
-    List<Entry> searchEntrys(String property, String criteria, int pageSize, int pageNumber);
+    EntryDTO findEntry(Object id);
+    List<EntryDTO> findAllEntrys();
+    List<EntryDTO> findAllEntrys(int pageSize, int pageNumber);
+    List<EntryDTO> searchEntrys(String property, String criteria);
+    List<EntryDTO> searchEntrys(String property, String criteria, int pageSize, int pageNumber);
     long countEntrys();
     void deleteEntry(Object id);
-    Entry createEntry(Entry t);
-    Entry updateEntry(Entry t);
-    List<Entry> getEntriesByPerson(int id);
+    EntryDTO createEntry(EntryDTO t);
+    EntryDTO updateEntry(EntryDTO t);
+    List<EntryDTO> getEntriesByPerson(int id);
 }
