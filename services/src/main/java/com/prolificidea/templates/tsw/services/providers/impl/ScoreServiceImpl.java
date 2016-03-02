@@ -1,7 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
-import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import com.prolificidea.templates.tsw.services.providers.ScoreService;
@@ -34,10 +33,10 @@ public class ScoreServiceImpl implements ScoreService {
     //
     //
 
-
+//
     public void addScore(Entry entry) {
-        Person person = personService.findPerson(entry.getPersonId());
-
-
+//        Person person = personService.findPerson(entry.getPersonId());
+//
+//
     }
 }

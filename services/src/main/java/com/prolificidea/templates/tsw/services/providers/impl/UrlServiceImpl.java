@@ -1,13 +1,16 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -55,7 +58,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     public boolean compareSolution(File solution, File answer, int challengeId) {
-        Challenge challenge = challengeService.findChallenge(challengeId);
+        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
@@ -70,7 +73,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     public boolean compareSolution(String solution, String answer, int challengeId) {
-        Challenge challenge = challengeService.findChallenge(challengeId);
+        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
