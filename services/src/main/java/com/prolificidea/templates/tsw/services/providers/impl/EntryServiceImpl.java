@@ -1,7 +1,9 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.persistence.EntryDao;
+import com.prolificidea.templates.tsw.persistence.PersonDao;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class EntryServiceImpl implements EntryService {
     @Autowired
     EntryDao entryDao;
 
+    @Autowired
+    PersonDao personDao;
     public Entry findEntry(Object id) {
         return entryDao.find(id);
     }
@@ -55,5 +59,10 @@ public class EntryServiceImpl implements EntryService {
     @Transactional
     public Entry updateEntry(Entry t) {
         return entryDao.update(t);
+    }
+
+    public List<Entry> getEntriesByPerson(int id) {
+        Person p = personDao.find(id);
+        return entryDao.findAllEntriesByPerson(p);
     }
 }

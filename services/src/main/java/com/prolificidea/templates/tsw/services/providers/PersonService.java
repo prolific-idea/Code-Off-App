@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers;
 
-import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface PersonService {
 
-    Person findPerson(Object id);
-    List<Person> findAllPersons();
-    List<Person> findAllPersons(int pageSize, int pageNumber);
-    List<Person> searchPersons(String property, String criteria);
-    List<Person> searchPersons(String property, String criteria, int pageSize, int pageNumber);
+    PersonDTO findPerson(Object id);
+    List<PersonDTO> findAllPersons();
+    List<PersonDTO> findAllPersons(int pageSize, int pageNumber);
+    List<PersonDTO> searchPersons(String property, String criteria);
+    List<PersonDTO> searchPersons(String property, String criteria, int pageSize, int pageNumber);
     long countPersons();
     void deletePerson(Object id);
-    Person createPerson(Person t);
-    Person updatePerson(Person t);
+    PersonDTO createPerson(PersonDTO t);
+    PersonDTO updatePerson(PersonDTO t);
 }

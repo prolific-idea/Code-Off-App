@@ -1,7 +1,7 @@
 package com.prolificidea.templates.tsw.services.providers;
 
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface ChallengeService {
 
-    Challenge findChallenge(Object id);
-    List<Challenge> findAllChallenges();
-    List<Challenge> findAllChallenges(int pageSize, int pageNumber);
-    List<Challenge> searchChallenges(String property, String criteria);
-    List<Challenge> searchChallenges(String property, String criteria, int pageSize, int pageNumber);
+    ChallengeDTO findChallenge(Object id);
+    List<ChallengeDTO> findAllChallenges();
+    List<ChallengeDTO> findAllChallenges(int pageSize, int pageNumber);
+    List<ChallengeDTO> searchChallenges(String property, String criteria);
+    List<ChallengeDTO> searchChallenges(String property, String criteria, int pageSize, int pageNumber);
     long countChallenges();
     void deleteChallenge(Object id);
-    Challenge createChallenge(Challenge t);
-    Challenge updateChallenge(Challenge t);
+    ChallengeDTO createChallenge(ChallengeDTO t);
+    ChallengeDTO updateChallenge(ChallengeDTO t);
 }

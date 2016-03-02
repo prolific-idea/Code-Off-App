@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
-import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +21,8 @@ public class LeaderboardRestController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<Person> getLeaderboard() {
-        List<Person> challenges = personService.findAllPersons();
+    List<PersonDTO> getLeaderboard() {
+        List<PersonDTO> challenges = personService.findAllPersons();
         return challenges;
     }
 }
