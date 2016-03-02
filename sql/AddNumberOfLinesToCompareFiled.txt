@@ -1,0 +1,2 @@
+ALTER TABLE `dbo`.`challenge` 
+ADD COLUMN `numberOfLinesToCompare` INT NULL DEFAULT 0 COMMENT '' AFTER `endDate`;
