@@ -1,13 +1,21 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -23,7 +31,8 @@ public class UrlServiceImpl implements UrlService {
     private String branch;
     private String file;
 
-    private RestTemplate restCall = new RestTemplate();
+    @Autowired
+    private RestOperations restCall;// = new RestTemplate();
 
     public UrlServiceImpl() {
         restCall = new RestTemplate();
@@ -45,17 +54,20 @@ public class UrlServiceImpl implements UrlService {
     }
 
     public String getContent() {
-        //https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}
-        String results =
-                restCall.getForObject(
-                        "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}",
-                        String.class, owner, repo, branch, file);
+        HttpHeaders headers = new HttpHeaders();
 
-        return results;
+        headers.set("Authorization","Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
+        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters",headers);
+
+        ResponseEntity<String> fileContentResults = restCall.exchange(
+                "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}",
+                HttpMethod.GET, contentHttpEntity,String.class,owner, repo, branch, file);
+
+        return fileContentResults.getBody();
     }
 
     public boolean compareSolution(File solution, File answer, int challengeId) {
-        Challenge challenge = challengeService.findChallenge(challengeId);
+        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
@@ -70,7 +82,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     public boolean compareSolution(String solution, String answer, int challengeId) {
-        Challenge challenge = challengeService.findChallenge(challengeId);
+        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
