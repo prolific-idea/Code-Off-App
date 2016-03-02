@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+
 @RestController
 public class UrlServiceTestController {
     @Autowired
@@ -24,6 +26,7 @@ public class UrlServiceTestController {
     @RequestMapping(value = "/api/compare", method = RequestMethod.GET)
     public boolean compare() {
         UrlService urlService = new UrlServiceImpl();
-        return urlService.compareFilesContent("abcd", "abc");
+        File f = new File("C:\\Users\\theodore.badenhorst\\CodeOff\\Code-Off-App\\pom.xml");
+        return urlService.compareSolution(f, f, 0);
     }
 }
