@@ -19,10 +19,18 @@ public class ChallengeRestController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<Challenge> getAllChallenges() {
-        List<Challenge> challenges = challengeService.findAllChallenges();
+    List<Challenge> getAllChallenges(@RequestParam(required = false, defaultValue = "0") int pageSize  , @RequestParam(required = false, defaultValue = "0") int pageNum) {
+        List<Challenge> challenges;
+        if (pageNum == 0 && pageSize == 0)
+        {
+            challenges = challengeService.findAllChallenges();
+        }
+        else {
+            challenges = challengeService.findAllChallenges(pageSize, pageNum);
+        }
         return challenges;
     }
+
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody

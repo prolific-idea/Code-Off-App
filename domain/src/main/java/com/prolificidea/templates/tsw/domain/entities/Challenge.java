@@ -48,8 +48,9 @@ public class Challenge implements Serializable {
     @Column(name = "endDate", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "challengeId")
-    private List<Entry> entryList;
+//    @Transient
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "challengeId", fetch = FetchType.LAZY)
+//    private List<Entry> entryList;
 
     public Challenge() {
     }
@@ -113,14 +114,14 @@ public class Challenge implements Serializable {
         this.endDate = endDate;
     }
 
-    @XmlTransient
-    public List<Entry> getEntryList() {
-        return entryList;
-    }
-
-    public void setEntryList(List<Entry> entryList) {
-        this.entryList = entryList;
-    }
+//    @XmlTransient
+//    public List<Entry> getEntryList() {
+//        return entryList;
+//    }
+//
+//    public void setEntryList(List<Entry> entryList) {
+//        this.entryList = entryList;
+//    }
 
     @Override
     public int hashCode() {
