@@ -1,7 +1,9 @@
 package com.prolificidea.templates.tsw.services.providers;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface EntryService {
     EntryDTO createEntry(EntryDTO t);
     EntryDTO updateEntry(EntryDTO t);
     List<EntryDTO> getEntriesByPerson(int id);
+    List<EntryDTO> findAllEntriesByPersonAndChallenge(int personId, int challengeId);
 }

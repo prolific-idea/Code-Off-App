@@ -1,12 +1,15 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.persistence.EntryDao;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
 import com.prolificidea.templates.tsw.persistence.TechnologyDao;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +94,12 @@ public class EntryServiceImpl implements EntryService {
     public List<EntryDTO> getEntriesByPerson(int id) {
         Person p = personDao.find(id);
         return convertDomainListToDtoList(entryDao.findAllEntriesByPerson(p));
+    }
+
+    public List<EntryDTO> findAllEntriesByPersonAndChallenge(int personId, int challengeId) {
+        Person person = personDao.find(personId);
+        Challenge challenge = challengeDao.find(challengeId);
+        return convertDomainListToDtoList(entryDao.findAllEntriesByPersonAndChallenge(person,challenge));
     }
 
     private List<EntryDTO> convertDomainListToDtoList(List<Entry> entrys) {

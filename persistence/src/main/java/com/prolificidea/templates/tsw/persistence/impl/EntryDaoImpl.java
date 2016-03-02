@@ -1,5 +1,6 @@
 package com.prolificidea.templates.tsw.persistence.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.persistence.EntryDao;
@@ -18,6 +19,12 @@ public class EntryDaoImpl extends GenericDaoImpl<Entry> implements EntryDao {
 
     public List<Entry> findAllEntriesByPerson(Person p) {
         Query q = this.entityManager.createQuery("SELECT x from Entry x where x.personId like :pId").setParameter("pId", p);
+        return q.getResultList();
+    }
+
+    public List<Entry> findAllEntriesByPersonAndChallenge(Person p, Challenge c) {
+        Query q = this.entityManager.createQuery("SELECT x from Entry x where x.personId like :person AND x.challengeId like :challenge")
+                .setParameter("person", p).setParameter("challenge", c);
         return q.getResultList();
     }
 }
