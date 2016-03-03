@@ -1,6 +1,5 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
@@ -30,28 +29,18 @@ public class ScoreServiceImpl implements ScoreService {
         List<EntryDTO> entries = entryService.findAllEntriesByPersonAndChallenge(entry.getPersonId(),entry.getChallengeId());
         PersonDTO p = personService.findPerson(entry.getPersonId());
         int score = 0;
-        boolean f = false;
-        while (!f) {
-            for (EntryDTO e : entries)
-            {
 
-                score += e.getResult();
-                if (e.getResult() == 2) f = true;
 
-            }
-        }
 
-        if (score > 2) score = 2;
+
+
+
         p.setScore(p.getScore() + score);
         personService.updatePerson(p);
-//  1: res = 1. score++
-        // 2 : res = 2.
 
 
 
 
-//        if (entries.size() == 1) {
-//            p.setScore(p.getScore() + entry.getResult());
-//        }
+
     }
 }
