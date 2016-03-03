@@ -43,4 +43,10 @@ public class EntryRestController {
         return new ResponseEntity<EntryDTO>(entry, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/person/{id}/challenge/{challengeId}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<EntryDTO> getEntryByPersonIdAndChallengeId(@PathVariable int id, @PathVariable int challengeId) {
+        return entryService.findAllEntriesByPersonAndChallenge(id, challengeId);
+    }
+
 }
