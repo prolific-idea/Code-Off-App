@@ -1,7 +1,13 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
+import com.prolificidea.templates.tsw.services.providers.PersonService;
+import com.prolificidea.templates.tsw.services.providers.TechnologyService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by stuart.callen on 2016/03/02.
@@ -25,13 +32,18 @@ import java.util.Date;
 @EnableScheduling
 public class SolutionRepoPollServiceImpl {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private static int challengeID =1;
 
-
-    private RestTemplate restCall = new RestTemplate();
-
+    @Autowired
+    ChallengeService challengeService;
+    @Autowired
+    PersonService personService;
+    @Autowired
+    TechnologyService technologyService;
     @Autowired
     EntryService entryService;
 
+    private RestTemplate restCall = new RestTemplate();
 
     private String time;
 
@@ -42,30 +54,62 @@ public class SolutionRepoPollServiceImpl {
         // TODO: 2016/03/02  look to see if something is forked and create a new entry;
     }
 
-    private void addEntry(JSONArray forks) {
+    private void addEntry(JSONObject fork) throws JSONException {
 
-    /*    Entry entry = new Entry();
-        entry.setChallengeId(1);
+        EntryDTO entry =new EntryDTO();
+        entry.setUrl(buildRepoURL(fork));
+        List<EntryDTO> entryExsists = entryService.searchEntrys("url",entry.getUrl());
+        if (entryExsists.size()> 0) {
+            return ;
+        }
+        entry.setChallengeId(challengeID);
         entry.setDate(new Date());
-        entry.setPersonId(1);
-        entry.setUrl("/url");
-        entry.setSolution();
-        entry.setTechId();*/
+
+        int person = createPerson(fork);
+        entry.setPersonId(person);
+        entry.setUrl(buildRepoURL(fork));
+        entry.setSolution(new byte[]{1,123,123,124,34,12});
+        entry.setTechId(1);
+        entryService.createEntry(entry);
+    }
+
+    private int createPerson(JSONObject fork) throws JSONException {
+
+        PersonDTO person = new PersonDTO();
+        person.setUsername(getUsername(fork));
+        List<PersonDTO> personList =personService.searchPersons("username",person.getUsername());
+        if(personList.size() >0)
+        {
+            return personList.get(0).getPersonId();
+        }
+        person.setUrl(buildRepoURL(fork));
+        person.setScore(0);
+        //// TODO: 2016/03/03 fetch user names
+        PersonDTO newPerson=personService.createPerson(person);
+        return newPerson.getPersonId();
+
+    }
+
+    private String getUsername(JSONObject fork) throws JSONException {
+        JSONObject owner = fork.getJSONObject("owner");
+        String userName = owner.getString("login");
+        return userName;
     }
 
     public String getEntryRepo(JSONArray forks) throws JSONException {
+        String userRepoURL = "Failed";
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
-            String userRepoURL = buildRepoURL(fork);
+            userRepoURL = buildRepoURL(fork);
             JSONArray userRepoBranches = getJSONFromURL(userRepoURL+"/branches");
             checkBranches(userRepoBranches);
-            return userRepoURL;
-
+            addEntry( fork);
         }
-        return "failed";
+        return userRepoURL ;
     }
 
-    private void checkBranches(JSONArray fork) {
+    private void checkBranches(JSONArray repoBranches) {
+       // String userRepoURL = buildRepoURL(repoBranches);
 
 
        // https://api.github.com/repos/{}/Code-Off/branches
@@ -75,6 +119,7 @@ public class SolutionRepoPollServiceImpl {
         return "https://api.github.com/repos/"+fork.get("full_name");
         // https://api.github.com/repos/{full_name}/
     }
+
 
     private void addEntries(JSONArray forks){
 
