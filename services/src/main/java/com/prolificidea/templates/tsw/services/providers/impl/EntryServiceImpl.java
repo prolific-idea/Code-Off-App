@@ -2,13 +2,17 @@ package com.prolificidea.templates.tsw.services.providers.impl;
 
 import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.persistence.EntryDao;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
+import com.prolificidea.templates.tsw.persistence.TechnologyDao;
+import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,24 +26,31 @@ public class EntryServiceImpl implements EntryService {
 
     @Autowired
     PersonDao personDao;
-    public Entry findEntry(Object id) {
-        return entryDao.find(id);
+
+    @Autowired
+    ChallengeDao challengeDao;
+
+    @Autowired
+    TechnologyDao technologyDao;
+
+    public EntryDTO findEntry(Object id) {
+        return new EntryDTO(entryDao.find(id));
     }
 
-    public List<Entry> findAllEntrys() {
-        return entryDao.findAll();
+    public List<EntryDTO> findAllEntrys() {
+        return convertDomainListToDtoList(entryDao.findAll());
     }
 
-    public List<Entry> findAllEntrys(int pageSize, int pageNumber) {
-        return entryDao.findAll(pageSize, pageNumber);
+    public List<EntryDTO> findAllEntrys(int pageSize, int pageNumber) {
+        return convertDomainListToDtoList(entryDao.findAll(pageSize, pageNumber));
     }
 
-    public List<Entry> searchEntrys(String property, String criteria) {
-        return entryDao.search(property, criteria);
+    public List<EntryDTO> searchEntrys(String property, String criteria) {
+        return convertDomainListToDtoList(entryDao.search(property, criteria));
     }
 
-    public List<Entry> searchEntrys(String property, String criteria, int pageSize, int pageNumber) {
-        return entryDao.search(property, criteria, pageSize, pageNumber);
+    public List<EntryDTO> searchEntrys(String property, String criteria, int pageSize, int pageNumber) {
+        return convertDomainListToDtoList(entryDao.search(property, criteria, pageSize, pageNumber));
     }
 
     public long countEntrys() {
@@ -52,17 +63,43 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Transactional
-    public Entry createEntry(Entry t) {
-        return entryDao.create(t);
+    public EntryDTO createEntry(EntryDTO t) {
+        Entry e = new Entry();
+        e.setChallengeId(challengeDao.find(t.getChallengeId()));
+        e.setDate(t.getDate());
+        e.setPersonId(personDao.find(t.getPersonId()));
+        e.setResult(t.getResult());
+        e.setSolution(t.getSolution());
+        e.setTechId(technologyDao.find(t.getTechId()));
+        e.setUrl(t.getUrl());
+        return new EntryDTO(entryDao.create(e));
     }
 
     @Transactional
-    public Entry updateEntry(Entry t) {
-        return entryDao.update(t);
+    public EntryDTO updateEntry(EntryDTO t) {
+        Entry e = entryDao.find(t.getEntryId());
+        e.setChallengeId(challengeDao.find(t.getChallengeId()));
+        e.setDate(t.getDate());
+        e.setPersonId(personDao.find(t.getPersonId()));
+        e.setResult(t.getResult());
+        e.setSolution(t.getSolution());
+        e.setTechId(technologyDao.find(t.getTechId()));
+        e.setUrl(t.getUrl());
+        return new EntryDTO(entryDao.update(e));
     }
 
-    public List<Entry> getEntriesByPerson(int id) {
+    public List<EntryDTO> getEntriesByPerson(int id) {
         Person p = personDao.find(id);
-        return entryDao.findAllEntriesByPerson(p);
+        return convertDomainListToDtoList(entryDao.findAllEntriesByPerson(p));
+    }
+
+    private List<EntryDTO> convertDomainListToDtoList(List<Entry> entrys) {
+        List<EntryDTO> entryDTOs = new ArrayList<EntryDTO>();
+        for (Entry e : entrys)
+        {
+            entryDTOs.add(new EntryDTO(e));
+
+        }
+        return entryDTOs;
     }
 }
