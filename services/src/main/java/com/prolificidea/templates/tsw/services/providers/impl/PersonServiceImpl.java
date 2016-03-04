@@ -72,6 +72,14 @@ public class PersonServiceImpl implements PersonService{
     }
 
 
+    public List<PersonDTO> findAllPersonsDesc(int pageSize, int pageNumber) {
+        return convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize, pageNumber));
+    }
+
+    public List<PersonDTO> findAllPersonsDesc() {
+        return convertDomainListToDtoList(personDao.findAllPersonsDesc());
+    }
+
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
         for (Person p : persons)
@@ -81,4 +89,5 @@ public class PersonServiceImpl implements PersonService{
         }
         return personDTOs;
     }
+
 }
