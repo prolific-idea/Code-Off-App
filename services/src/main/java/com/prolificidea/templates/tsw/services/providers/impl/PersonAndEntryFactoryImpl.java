@@ -39,6 +39,9 @@ public class PersonAndEntryFactoryImpl {
     @Autowired
     ChallengeService challengeService;
 
+    @Autowired
+    UrlServiceImpl urlService;
+
     public ChallengeDTO challenge;
 
     private RestTemplate restCall = new RestTemplate();
@@ -106,7 +109,7 @@ public class PersonAndEntryFactoryImpl {
     }
 
     private boolean checkSolutionExists(EntryDTO entry){
-        UrlServiceImpl urlService = new UrlServiceImpl(restCall,entry.getFullName(),entry.getBranch(),challenge.getSolutionFilePath());
+        urlService.setOwnerRepoBranchFile(entry.getFullName(),entry.getBranch(),challenge.getSolutionFilePath());
        String fileSolution= urlService.getContent();
         if (fileSolution.equals(""))
             return false;
