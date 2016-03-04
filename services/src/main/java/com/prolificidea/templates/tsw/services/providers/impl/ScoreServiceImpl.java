@@ -74,7 +74,7 @@ public class ScoreServiceImpl implements ScoreService {
     public void recalculateScores(PersonDTO personDTO) {
         List<EntryDTO> entries = entryService.getEntriesByPerson(personDTO.getPersonId());
         List<ChallengeDTO> challenges = challengeService.findAllChallenges();
-        int i = 0;
+        int i = 1;
         int sum = 0;
         for (ChallengeDTO c : challenges)
         {

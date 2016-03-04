@@ -35,7 +35,7 @@ public class ScoreServiceTest {
         System.out.println(p.getFirstName() + ": " + p.getScore());
         System.out.println("Adding score.......");
         scoreService.addScore(e);
-        System.out.println("New score: " + p.getScore());
+        System.out.println("New score: " + personService.findPerson(2).getScore());
     }
 
     @Test
