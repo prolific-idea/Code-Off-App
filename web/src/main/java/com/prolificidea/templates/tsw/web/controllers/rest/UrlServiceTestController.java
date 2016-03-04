@@ -1,6 +1,7 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
 import com.prolificidea.templates.tsw.services.providers.UrlService;
+import com.prolificidea.templates.tsw.services.providers.impl.PersonAndEntryFactoryImpl;
 import com.prolificidea.templates.tsw.services.providers.impl.SolutionRepoPollServiceImpl;
 import com.prolificidea.templates.tsw.services.providers.impl.UrlServiceImpl;
 import org.json.JSONArray;
@@ -20,6 +21,9 @@ import java.io.File;
 public class UrlServiceTestController {
     @Autowired
     UrlService urlService;
+
+    @Autowired
+    PersonAndEntryFactoryImpl personAndEntryFactory;
 
     @Autowired
     SolutionRepoPollServiceImpl solutionRepoPollService;
@@ -49,7 +53,7 @@ public class UrlServiceTestController {
     public String UrlJson() {
         String temp ="Null";
         try {
-           temp= solutionRepoPollService.getEntryRepo(solutionRepoPollService.getJSONFromURL("https://api.github.com/repos/prolific-idea/Code-Off/forks"));
+           temp= personAndEntryFactory.getEntryRepo("https://api.github.com/repos/prolific-idea/Code-Off/forks");
         } catch (JSONException e) {
             e.printStackTrace();
         }

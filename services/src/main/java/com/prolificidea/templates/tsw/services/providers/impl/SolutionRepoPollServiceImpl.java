@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,9 @@ import java.util.List;
 public class SolutionRepoPollServiceImpl {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private static int challengeID =1;
+
+    @Autowired
+    private PersonAndEntryFactoryImpl personAndEnt;
 
     @Autowired
     ChallengeService challengeService;
@@ -54,7 +58,7 @@ public class SolutionRepoPollServiceImpl {
         // TODO: 2016/03/02  look to see if something is forked and create a new entry;
     }
 
-    private void addEntry(JSONObject fork) throws JSONException {
+   /* private void addEntry(JSONObject fork , int personID,String branch) throws JSONException {
 
         EntryDTO entry =new EntryDTO();
         entry.setUrl(buildRepoURL(fork));
@@ -64,10 +68,9 @@ public class SolutionRepoPollServiceImpl {
         }
         entry.setChallengeId(challengeID);
         entry.setDate(new Date());
-
-        int person = createPerson(fork);
-        entry.setPersonId(person);
-        entry.setUrl(buildRepoURL(fork));
+        
+        entry.setPersonId(personID);
+        entry.setUrl(branch);
         entry.setSolution(new byte[]{1,123,123,124,34,12});
         entry.setTechId(1);
         entryService.createEntry(entry);
@@ -100,25 +103,47 @@ public class SolutionRepoPollServiceImpl {
         String userRepoURL = "Failed";
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
-            userRepoURL = buildRepoURL(fork);
+            personAndEnt.CreatePeopleAndEntries(fork);
+ *//*           userRepoURL = buildRepoURL(fork);
             JSONArray userRepoBranches = getJSONFromURL(userRepoURL+"/branches");
-            checkBranches(userRepoBranches);
-            addEntry( fork);
+            checkBranches(userRepoBranches,fork,userRepoURL+"/branches");*//*
         }
         return userRepoURL ;
     }
 
-    private void checkBranches(JSONArray repoBranches) {
-       // String userRepoURL = buildRepoURL(repoBranches);
+    private void checkBranches(JSONArray repoBranches,JSONObject fork, String URL) throws JSONException {
+        List<String> validBranches = new ArrayList<String>();
+        for (int branchNumber = 0; branchNumber  < repoBranches.length(); branchNumber ++) {
+            JSONObject branch = repoBranches.getJSONObject(branchNumber);
+            URL = URL + "/" + branch;
+            // TODO: 2016/03/03  if branch is valid and has solution add entry 
+            //// TODO: 2016/03/03 add check method to get valid numbers
+            validBranches.add(URL);
+            createPersonAndEntries(fork,validBranches);
+        }
+    }
 
-
-       // https://api.github.com/repos/{}/Code-Off/branches
+    private void createPersonAndEntries(JSONObject fork, List<String> validBranches) throws JSONException {
+        if (validBranches.size() ==0)
+        {
+            return;
+        }
+        int personID =createPerson(fork);
+        for(String branch :validBranches){
+            addEntry(fork,personID,branch);   
+        }
+        
+        
     }
 
     private String buildRepoURL(JSONObject fork) throws JSONException {
         return "https://api.github.com/repos/"+fork.get("full_name");
         // https://api.github.com/repos/{full_name}/
     }
+
+
+
+
 
 
     private void addEntries(JSONArray forks){
@@ -141,7 +166,7 @@ public class SolutionRepoPollServiceImpl {
         }
         return null;
     }
-
+*/
     public String getTime() {
         return time;
     }
