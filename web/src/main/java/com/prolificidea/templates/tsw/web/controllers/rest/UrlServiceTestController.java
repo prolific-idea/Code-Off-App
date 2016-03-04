@@ -40,8 +40,9 @@ public class UrlServiceTestController {
     @RequestMapping(value = "/api/compare", method = RequestMethod.GET)
     public boolean compare() {
         UrlService urlService = new UrlServiceImpl();
-        File f = new File("C:\\Users\\theodore.badenhorst\\CodeOff\\Code-Off-App\\pom.xml");
-        return urlService.compareSolution(f, f, 0);
+        urlService.setOwnerRepoBranchFile("prolific-idea", "Code-Off-App", "master", "pom.xml");
+        String solution = urlService.getContent();
+        return urlService.compareSolution(solution, 1);
     }
 
     @RequestMapping(value = "/api/time", method = RequestMethod.GET)

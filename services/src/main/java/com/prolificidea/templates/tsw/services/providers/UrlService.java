@@ -8,7 +8,5 @@ public interface UrlService {
 
     String getContent();
 
-    boolean compareSolution(File solution, File answer, int challengeId);
-
-    boolean compareSolution(String solution, String answer, int challengeId);
+    boolean compareSolution(String solution, int challengeId);
 }
