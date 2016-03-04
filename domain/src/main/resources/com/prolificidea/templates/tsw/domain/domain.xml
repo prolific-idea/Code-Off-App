@@ -9,6 +9,7 @@
          <class>com.prolificidea.templates.tsw.domain.entities.Challenge</class>
           <class>com.prolificidea.templates.tsw.domain.entities.Entry</class>
           <class>com.prolificidea.templates.tsw.domain.entities.Person</class>
+        <class>com.prolificidea.templates.tsw.domain.entities.Leaderboard</class>
         <!-- <class>com.prolificidea.templates.tsw.domain.entities.Role</class>
           <class>com.prolificidea.templates.tsw.domain.entities.Appuser</class>
          <class>com.prolificidea.templates.tsw.domain.entities.Appuserdetails</class>

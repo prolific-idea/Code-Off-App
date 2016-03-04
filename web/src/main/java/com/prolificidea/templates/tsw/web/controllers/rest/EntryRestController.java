@@ -1,6 +1,5 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
-import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,13 @@ public class EntryRestController {
     public @ResponseBody
     List<EntryDTO> getAllEntries() {
         return entryService.findAllEntrys();
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    EntryDTO getEntryById(@PathVariable int id) {
+
+        return entryService.findEntry(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

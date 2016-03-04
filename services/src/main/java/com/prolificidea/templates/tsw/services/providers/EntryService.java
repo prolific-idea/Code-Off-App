@@ -1,9 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers;
 
-import com.prolificidea.templates.tsw.domain.entities.Entry;
-import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
-import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 
 import java.util.List;
 
