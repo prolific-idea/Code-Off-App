@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -22,24 +23,13 @@ public class UrlServiceImpl implements UrlService {
     @Autowired
     ChallengeService challengeService;
 
+    @Autowired
+    private RestOperations restCall;
+
     private String owner;
     private String repo;
     private String branch;
     private String file;
-
-    @Autowired
-    private RestOperations restCall;// = new RestTemplate();
-
-    public UrlServiceImpl() {
-    }
-
-    public UrlServiceImpl(RestTemplate restCall, String owner, String repo, String branch, String file) {
-        this.owner = owner;
-        this.repo = repo;
-        this.branch = branch;
-        this.file = file;
-        this.restCall = restCall;
-    }
 
     public void setOwnerRepoBranchFile(String owner, String repo, String branch, String file) {
         this.owner = owner;
@@ -64,7 +54,7 @@ public class UrlServiceImpl implements UrlService {
     public boolean compareSolution(String submittedSolution, int challengeId) {
         ChallengeDTO challenge = challengeService.findChallenge(challengeId);
         byte[] answerByte = challenge.getSolution();
-        String challengeSolution = new String(answerByte);
+        String challengeSolution = new String(answerByte, Charset.forName("UTF-8"));
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
