@@ -3,197 +3,146 @@
 
 <head>
 
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-	<title>CodeOff</title>
+    <title>CodeOff</title>
 
-	<!-- Bootstrap Core CSS -->
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom CSS -->
-	<link href="assets/css/logo-nav.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/logo-nav.css" rel="stylesheet">
 
-	<link href="assets/images/favicon.ico" rel="shortcut icon">
+    <link href="assets/images/favicon.ico" rel="shortcut icon">
 
-	<link href="assets/css/code-off-style.css" rel="stylesheet">
+    <link href="assets/css/code-off-style.css" rel="stylesheet">
 
-	<link href="assets/fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="assets/fonts/font-mfizz-2.2/font-mfizz.css" rel="stylesheet">
+    <link href="assets/fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/fonts/font-mfizz-2.2/font-mfizz.css" rel="stylesheet">
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+    <!-- jQuery -->
+    <script src="assets/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <script src="assets/js/angular.min.js"></script>
+
+    <script src="assets/js/angular/app.module.js"></script>
+    <script src="assets/js/angular/core/codeoff-navigation.js"></script>
+    <script src="assets/js/angular/core/directives/codeoff-navbar.js"></script>
+    <script src="assets/js/angular/core/codeoff-footer.js"></script>
+    <script src="assets/js/angular/core/directives/codeoff-footerbar.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
-<body>
+<body ng-app="codeOffApp">
 
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="code-off-navbar">
-	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand pull-left" href="index.html" id="code-off-title">
-				<img src="assets/images/sitelogo.png" class width="20">
-				<span class="pi-prolific">&nbsp; Prolific</span>
-				<span class="pi-idea">Idea</span>
-			</a>
-		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<!--<li>-->
-				<!--<a href="index.html"><span>Home</span></a>-->
-				<!--</li>-->
-				<!--<li>-->
-				<!--<a href="#"><span>Challenges</span></a>-->
-				<!--</li>-->
-				<li>
-					<a href="https://www.facebook.com/prolificidea"><i class="fa fa-facebook"></i></a>
-				</li>
-				<li>
-					<a href="https://twitter.com/ProlificIdea"><i class="fa fa-twitter"></i></a>
-				</li>
-				<li>
-					<a href="https://www.linkedin.com/company/prolific-idea"><i class="fa fa-linkedin"></i></a>
-				</li>
-				<li>
-					<a href="http://blog.prolificidea.com/"><i class="fa fa-bookmark"></i></a>
-				</li>
-				<li>
-					<a href="http://www.prolificidea.com/mailto:info@prolificidea.com?subject=Prolific%20Idea%20Query"><i
-							class="fa fa-envelope"></i></a>
-				</li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container -->
-</nav>
-
+<code-off-nav></code-off-nav>
 <hr class="line-nav">
 
 <section class="wrapper">
-	<div class="row">
-		<div class="col-lg-12 mb" style="margin-bottom: 25px;">
-			<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-				<div class="code-off-leaderboard-border">
-					<table class="table table-responsive">
-						<thead>
-						<tr>
-							<th>
-								<img class="img-responsive code-off-header-logo" src="assets/images/code_off_logo.png"
-									 style="margin-bottom: 40px;">
-							</th>
-							<th>
-								<p>
-									Code Off is an initiative that challenges developers to take 30 minutes off a Friday
-									afternoon to work on something interesting with their peers. Code Off also aims to
-									help
-									developers expand their Github portfolio. Each Friday afternoon at 15:30 a new
-									problem will
-									be released on Github. Fork the repository, and get started.
-								</p>
-								<p>
-									The automated leaderboard is still in development. We encourage you to collaborate
-									with
-									other developers on Github.
-								</p>
-							</th>
-						</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-		</div>
+    <div class="row">
+        <div class="col-lg-12 mb" style="margin-bottom: 25px;">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="code-off-leaderboard-border">
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <th>
+                                <img class="img-responsive code-off-header-logo" src="assets/images/code_off_logo.png"
+                                     style="margin-bottom: 40px;">
+                            </th>
+                            <th>
+                                <p>
+                                    Code Off is an initiative that challenges developers to take 30 minutes off a Friday
+                                    afternoon to work on something interesting with their peers. Code Off also aims to
+                                    help
+                                    developers expand their Github portfolio. Each Friday afternoon at 15:30 a new
+                                    problem will
+                                    be released on Github. Fork the repository, and get started.
+                                </p>
 
-		<div class="col-lg-12">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb">
-				<div class="code-off-leaderboard-border">
-					<h2 class="h2" id="leaderboard-heading">Leaderboard</h2>
-					<table class="table table-striped" id="leaderboard-table">
-						<thead>
-						<tr>
-							<th></th>
-							<th>Tech</th>
-							<th>Code Offs</th>
-							<th>Points</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>
-								<a href="https://github.com/Stuart-Callen">Stuart Callen</a>
-							</td>
-							<td class="code-off-tech">
-								<i class="icon-java-bold"></i>
-								<i class="icon-erlang"></i>
-							</td>
-							<td class="code-off-points">
-								2
-							</td>
-							<td class="code-off-points">
-								4
-							</td>
-						</tr>
-						</tbody>
-					</table>
-					<br>
-				</div>
-			</div>
-		</div>
+                                <p>
+                                    The automated leaderboard is still in development. We encourage you to collaborate
+                                    with
+                                    other developers on Github.
+                                </p>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-		<div class="col-lg-12">
-			<div class="col-lg-12 col-md-12 col-sm-12 mb" id="code-off-info">
-				<h4>Information</h4>
-				<p>Points are calculated as follows:</p>
-				<ul>
-					<li>1 point is earned for submitting a solution.</li>
-					<li>1 point for the correct solution.</li>
-					<li>More than one solution can be submitted each week in as many technologies as you like. Badges
-						are
-						awarded for these.
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+        <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb">
+                <div class="code-off-leaderboard-border">
+                    <h2 class="h2" id="leaderboard-heading">Leaderboard</h2>
+                    <table class="table table-striped" id="leaderboard-table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Tech</th>
+                            <th>Code Offs</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <a href="https://github.com/Stuart-Callen">Stuart Callen</a>
+                            </td>
+                            <td class="code-off-tech">
+                                <i class="icon-java-bold"></i>
+                                <i class="icon-erlang"></i>
+                            </td>
+                            <td class="code-off-points">
+                                2
+                            </td>
+                            <td class="code-off-points">
+                                4
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb" id="code-off-info">
+                <h4>Information</h4>
+
+                <p>Points are calculated as follows:</p>
+                <ul>
+                    <li>1 point is earned for submitting a solution.</li>
+                    <li>1 point for the correct solution.</li>
+                    <li>More than one solution can be submitted each week in as many technologies as you like. Badges
+                        are
+                        awarded for these.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </section>
 
-<footer class="pi-footer">
-	<div class="pi-text-center">
-		<a class="" href="index.html" id="code-off-footer">
-			<img src="assets/images/sitelogo.png" width="36" style="display: inline-block;">
-		</a>
-		<div id="social-media">
-			<a href="https://www.facebook.com/prolificidea"><i class="fa fa-facebook fa-2x"></i></a>
-			<a href="https://twitter.com/ProlificIdea"><i class="fa fa-twitter fa-2x"></i></a>
-			<a href="https://www.linkedin.com/company/prolific-idea"><i class="fa fa-linkedin fa-2x"></i></a>
-			<a href="http://blog.prolificidea.com/"><i class="fa fa-bookmark fa-2x"></i></a>
-			<a href="http://www.prolificidea.com/mailto:info@prolificidea.com?subject=Prolific%20Idea%20Query"><i
-					class="fa fa-envelope fa-2x"></i></a>
-		</div>
-	</div>
-</footer>
+<code-off-foot></code-off-foot>
 
-<!-- jQuery -->
-<script src="assets/js/jquery.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="assets/js/bootstrap.min.js"></script>
+</div>
 
 </body>
 
