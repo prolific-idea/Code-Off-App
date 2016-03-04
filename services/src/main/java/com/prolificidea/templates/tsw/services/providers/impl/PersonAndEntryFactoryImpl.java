@@ -29,7 +29,7 @@ import java.util.List;
 @Service
 public class PersonAndEntryFactoryImpl {
 
-    public static int challengeID = 1;
+    public static int challengeID = 101;
     @Autowired
     PersonService personService;
 

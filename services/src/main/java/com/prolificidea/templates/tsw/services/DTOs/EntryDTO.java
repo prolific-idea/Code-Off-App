@@ -102,7 +102,7 @@ public class EntryDTO {
         return fullName;
     }
     public void setFullName(String fullName) {
-        fullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getBranch() {
