@@ -4,11 +4,9 @@ import java.io.File;
 
 public interface UrlService {
 
-    void setOwnerRepoBranchFile(String owner, String repo, String branch, String file);
+    void setOwnerRepoBranchFile(String ownerRepo, String branch, String file);
 
     String getContent();
 
-    boolean compareSolution(File solution, File answer, int challengeId);
-
-    boolean compareSolution(String solution, String answer, int challengeId);
+    boolean compareSolution(String solution, int challengeId);
 }

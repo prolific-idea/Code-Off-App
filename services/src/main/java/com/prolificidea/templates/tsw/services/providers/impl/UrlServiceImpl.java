@@ -4,18 +4,13 @@ import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -26,29 +21,25 @@ public class UrlServiceImpl implements UrlService {
     @Autowired
     ChallengeService challengeService;
 
-    private String owner;
-    private String repo;
+    @Autowired
+    private RestOperations restCall;
+
     private String branch;
     private String file;
-
-    @Autowired
-    private RestOperations restCall;// = new RestTemplate();
+    private String ownerRepo;
 
     public UrlServiceImpl() {
-        restCall = new RestTemplate();
     }
 
-    public UrlServiceImpl(RestTemplate restCall, String owner, String repo, String branch, String file) {
-        this.owner = owner;
-        this.repo = repo;
+    public UrlServiceImpl(RestTemplate restCall, String ownerRepo, String branch, String file) {
+        this.ownerRepo = ownerRepo;
         this.branch = branch;
         this.file = file;
         this.restCall = restCall;
     }
 
-    public void setOwnerRepoBranchFile(String owner, String repo, String branch, String file) {
-        this.owner = owner;
-        this.repo = repo;
+    public void setOwnerRepoBranchFile(String ownerRepo, String branch, String file) {
+        this.ownerRepo = ownerRepo;
         this.branch = branch;
         this.file = file;
     }
@@ -56,81 +47,71 @@ public class UrlServiceImpl implements UrlService {
     public String getContent() {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization","Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
-        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters",headers);
-
-        ResponseEntity<String> fileContentResults = restCall.exchange(
-                "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}",
-                HttpMethod.GET, contentHttpEntity,String.class,owner, repo, branch, file);
-
-        return fileContentResults.getBody();
-    }
-
-    public boolean compareSolution(File solution, File answer, int challengeId) {
-        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
-
-        int linesToCompare = challenge.getNumberOfLinesToCompare();
-
+        headers.set("Authorization", "Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
+        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters", headers);
         try {
-            if (linesToCompare == 0)
-                return compareFilesContent(solution, answer);
-            return compareFileLines(solution, answer, linesToCompare);
-        } catch (IOException e) {
+            ResponseEntity<String> fileContentResults = restCall.exchange(
+                    "https://raw.githubusercontent.com/{ownerRepo}/{branch}/{file}",
+                    HttpMethod.GET, contentHttpEntity, String.class, ownerRepo, branch, file);
+
+            if (fileContentResults.getStatusCode() != HttpStatus.OK)
+                return "";
+
+            return fileContentResults.getBody();
+        }
+        catch (HttpClientErrorException e)
+        {
             e.printStackTrace();
-            return false;
+            return "";
         }
     }
 
-    public boolean compareSolution(String solution, String answer, int challengeId) {
+    public boolean compareSolution(String submittedSolution, int challengeId) {
         ChallengeDTO challenge = challengeService.findChallenge(challengeId);
+        byte[] answerByte = challenge.getSolution();
+        String challengeSolution = new String(answerByte, Charset.forName("UTF-8"));
 
         int linesToCompare = challenge.getNumberOfLinesToCompare();
 
         if (linesToCompare == 0)
-            return compareFilesContent(solution, answer);
+            return compareFilesContent(submittedSolution, challengeSolution);
 
-        return compareFileLines(solution, answer, linesToCompare);
+        return compareFileLines(submittedSolution, challengeSolution, linesToCompare);
     }
 
-    private boolean compareFilesContent(File solution, File answer) throws IOException {
-        BufferedReader solutionFileReader = new BufferedReader(new FileReader(solution));
-        BufferedReader answerFileReader = new BufferedReader(new FileReader(answer));
-
-        String solutionLines = readFileLines(solutionFileReader);
-        String answerLines = readFileLines(answerFileReader);
-        return compareFilesContent(solutionLines, answerLines);
-    }
-
-    private boolean compareFileLines(File solution, File answer, int linesToCompare) throws IOException {
-        BufferedReader solutionFileReader = new BufferedReader(new FileReader(solution));
-        BufferedReader answerFileReader = new BufferedReader(new FileReader(answer));
-
-        String solutionLines = readFileLines(solutionFileReader);
-        String answerLines = readFileLines(answerFileReader);
-
-        return compareFileLines(solutionLines, answerLines, linesToCompare);
-    }
-
-    private String readFileLines(BufferedReader reader) throws IOException {
-        StringBuilder lines = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            lines.append(line + "\n");
-        }
-
-        return lines.toString().trim();
-    }
-
-    private boolean compareFilesContent(String file1Content, String file2Content) {
+    private boolean compareFilesContent(String submittedSolution, String challengeSolution) {
+        submittedSolution = submittedSolution.replace("\r","").trim();
+        challengeSolution = challengeSolution.replace("\r","");
         try {
-            byte[] file1Hash = getFileContentHash(file1Content);
-            byte[] file2Hash = getFileContentHash(file2Content);
+            byte[] file1Hash = getFileContentHash(submittedSolution);
+            byte[] file2Hash = getFileContentHash(challengeSolution);
 
             return Arrays.equals(file1Hash, file2Hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean compareFileLines(String submittedSolution, String challengeSolution, int linesToCompare) {
+        submittedSolution = submittedSolution.replace("\r","");
+        challengeSolution = challengeSolution.replace("\r","");
+        String[] submittedSolutionLines = splitString(submittedSolution, "\n");
+        String[] challengeSolutionLines = splitString(challengeSolution, "\n");
+
+        if (submittedSolutionLines.length < linesToCompare)
+            return false;
+
+        for (int i = 0; i < linesToCompare; i++) {
+            if (!challengeSolutionLines[i].equals(submittedSolutionLines[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String[] splitString(String stringToSplit, String splitOn) {
+        return stringToSplit.split(splitOn);
     }
 
     private byte[] getFileContentHash(String content) throws NoSuchAlgorithmException {
@@ -141,24 +122,5 @@ public class UrlServiceImpl implements UrlService {
         hash = md.digest();
 
         return hash;
-    }
-
-    private boolean compareFileLines(String solution, String answer, int linesToCompare) {
-        String[] solutionLines = splitString(solution, "\n");
-        String[] answerLines = splitString(answer, "\n");
-
-        if (solutionLines.length < linesToCompare)
-            return false;
-
-        for (int i = 0; i < linesToCompare; i++) {
-            if (!answerLines[i].equals(solutionLines[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private String[] splitString(String solution, String splitOn) {
-        return solution.split(splitOn);
     }
 }

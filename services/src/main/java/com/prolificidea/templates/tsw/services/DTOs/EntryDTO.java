@@ -17,6 +17,8 @@ public class EntryDTO {
     private int challengeId;
     private int personId;
     private int techId;
+    private String fullName;
+    private String branch;
 
     public EntryDTO() {
     }
@@ -94,5 +96,20 @@ public class EntryDTO {
 
     public void setTechId(int techId) {
         this.techId = techId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 }

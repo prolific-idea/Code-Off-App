@@ -52,9 +52,9 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         sb.append(type.getSimpleName());
         sb.append(" x where x.");
         sb.append(property);
-        sb.append(" like %");
+        sb.append(" like '%");
         sb.append(criteria);
-        sb.append("%");
+        sb.append("%'");
         Query query = this.entityManager.createQuery(sb.toString());
         return query.getResultList();
     }
