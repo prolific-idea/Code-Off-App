@@ -115,7 +115,6 @@ public class PersonAndEntryFactoryImpl {
         if (fileSolution.equals(""))
             return false;
         // TODO: 2016/03/04 set solution file of entry
-        // TODO: 2016/03/04  compare solution
         boolean isCorrect =urlService.compareSolution(fileSolution,challenge.getChallengeId());
         if (isCorrect)
         {
@@ -125,8 +124,6 @@ public class PersonAndEntryFactoryImpl {
         {
             entry.setResult(1);
         }
-
-        // TODO: 2016/03/04 set score for solution;
         return true;
     }
 
@@ -138,11 +135,20 @@ public class PersonAndEntryFactoryImpl {
     }
 
     private void createEntries(List<EntryDTO> entries, int newPersonID) {
+        EntryDTO store;
         for(EntryDTO entry:entries)
         {
             List<EntryDTO> entryExsists = entryService.searchEntrys("url",entry.getUrl());
             if (entryExsists.size()> 0) {
-                return ;
+                EntryDTO oldEntry = entryExsists.get(0);
+                if(oldEntry.getResult() != entry.getResult())
+                {
+                    oldEntry.setResult(entry.getResult());
+                    store= entryService.updateEntry(oldEntry);
+                    //store.getResult();
+                }
+
+                return;
             }
             entry.setPersonId(newPersonID);
             entryService.createEntry(entry);
