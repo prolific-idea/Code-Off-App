@@ -4,10 +4,7 @@ import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
@@ -41,12 +38,15 @@ public class UrlServiceImpl implements UrlService {
     public String getContent() {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization","Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
-        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters",headers);
+        headers.set("Authorization", "Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
+        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<String> fileContentResults = restCall.exchange(
                 "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}",
-                HttpMethod.GET, contentHttpEntity,String.class,owner, repo, branch, file);
+                HttpMethod.GET, contentHttpEntity, String.class, owner, repo, branch, file);
+
+        if (fileContentResults.getStatusCode() != HttpStatus.OK)
+            return "";
 
         return fileContentResults.getBody();
     }
@@ -65,6 +65,8 @@ public class UrlServiceImpl implements UrlService {
     }
 
     private boolean compareFilesContent(String submittedSolution, String challengeSolution) {
+        submittedSolution = submittedSolution.replace("\r","").trim();
+        challengeSolution = challengeSolution.replace("\r","");
         try {
             byte[] file1Hash = getFileContentHash(submittedSolution);
             byte[] file2Hash = getFileContentHash(challengeSolution);
@@ -77,6 +79,8 @@ public class UrlServiceImpl implements UrlService {
     }
 
     private boolean compareFileLines(String submittedSolution, String challengeSolution, int linesToCompare) {
+        submittedSolution = submittedSolution.replace("\r","");
+        challengeSolution = challengeSolution.replace("\r","");
         String[] submittedSolutionLines = splitString(submittedSolution, "\n");
         String[] challengeSolutionLines = splitString(challengeSolution, "\n");
 
