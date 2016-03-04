@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface UrlService {
 
-    void setOwnerRepoBranchFile(String owner, String repo, String branch, String file);
+    void setOwnerRepoBranchFile(String ownerRepo, String branch, String file);
 
     String getContent();
 

@@ -30,7 +30,7 @@ public class UrlServiceTestController {
 
     @RequestMapping(value = "/api/test", method = RequestMethod.GET)
     public String test() {
-        urlService.setOwnerRepoBranchFile("prolific-idea", "Code-Off-App", "master", "pom.xml");
+        urlService.setOwnerRepoBranchFile("prolific-idea/Code-Off-App", "master", "pom.xml");
 
         String results = urlService.getContent();
 
@@ -40,7 +40,7 @@ public class UrlServiceTestController {
     @RequestMapping(value = "/api/compare", method = RequestMethod.GET)
     public boolean compare() {
         UrlService urlService = new UrlServiceImpl();
-        urlService.setOwnerRepoBranchFile("prolific-idea", "Code-Off-App", "master", "pom.xml");
+        urlService.setOwnerRepoBranchFile("prolific-idea/Code-Off-App", "master", "pom.xml");
         String solution = urlService.getContent();
         return urlService.compareSolution(solution, 1);
     }

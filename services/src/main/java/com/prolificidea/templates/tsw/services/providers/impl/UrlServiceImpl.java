@@ -22,10 +22,11 @@ public class UrlServiceImpl implements UrlService {
     @Autowired
     ChallengeService challengeService;
 
-    private String owner;
-    private String repo;
+    /* private String owner;
+     private String repo;*/
     private String branch;
     private String file;
+    private String ownerRepo;
 
     @Autowired
     private RestOperations restCall;// = new RestTemplate();
@@ -33,17 +34,15 @@ public class UrlServiceImpl implements UrlService {
     public UrlServiceImpl() {
     }
 
-    public UrlServiceImpl(RestTemplate restCall, String owner, String repo, String branch, String file) {
-        this.owner = owner;
-        this.repo = repo;
+    public UrlServiceImpl(RestTemplate restCall, String ownerRepo, String branch, String file) {
+        this.ownerRepo = ownerRepo;
         this.branch = branch;
         this.file = file;
         this.restCall = restCall;
     }
 
-    public void setOwnerRepoBranchFile(String owner, String repo, String branch, String file) {
-        this.owner = owner;
-        this.repo = repo;
+    public void setOwnerRepoBranchFile(String ownerRepo, String branch, String file) {
+        this.ownerRepo = ownerRepo;
         this.branch = branch;
         this.file = file;
     }
@@ -51,12 +50,12 @@ public class UrlServiceImpl implements UrlService {
     public String getContent() {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization","Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
-        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters",headers);
+        headers.set("Authorization", "Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
+        HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<String> fileContentResults = restCall.exchange(
-                "https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{file}",
-                HttpMethod.GET, contentHttpEntity,String.class,owner, repo, branch, file);
+                "https://raw.githubusercontent.com/{ownerRepo}/{branch}/{file}",
+                HttpMethod.GET, contentHttpEntity, String.class, ownerRepo, branch, file);
 
         return fileContentResults.getBody();
     }

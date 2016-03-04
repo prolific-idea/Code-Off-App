@@ -1,8 +1,11 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import org.json.JSONArray;
@@ -26,15 +29,22 @@ import java.util.List;
 @Service
 public class PersonAndEntryFactoryImpl {
 
+    public static int challengeID = 1;
     @Autowired
     PersonService personService;
 
     @Autowired
     EntryService entryService;
 
+    @Autowired
+    ChallengeService challengeService;
+
+    public ChallengeDTO challenge;
+
     private RestTemplate restCall = new RestTemplate();
 
     public String getEntryRepo(String URLForks) throws JSONException {
+        challenge= challengeService.findChallenge(challengeID);
         JSONArray forks = getJSONFromURL(URLForks);
         String userRepoURL = "End";
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
@@ -51,7 +61,7 @@ public class PersonAndEntryFactoryImpl {
         PersonDTO person = new PersonDTO();
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
         buildPerson(person,entries,fork);
-        buildEntries(person,entries);
+        buildEntries(person,entries,fork);
 
         // TODO: 2016/03/03 create person first before netieis but only if there is entries added things here
         if (entries.size() >0) {
@@ -61,14 +71,16 @@ public class PersonAndEntryFactoryImpl {
 
     }
 
-    private void buildEntries(PersonDTO person, List<EntryDTO> entries) throws JSONException {
+    private void buildEntries(PersonDTO person, List<EntryDTO> entries, JSONObject fork) throws JSONException {
         String branchesUrl = person.getUrl()+"/branches";
         JSONArray branches = getJSONFromURL(branchesUrl);
         for (int branchNumber = 0; branchNumber < branches.length(); branchNumber ++)
         {
             JSONObject branch = branches.getJSONObject(branchNumber);
             EntryDTO  entry = new EntryDTO();
-            entry.setUrl(person.getUrl()+"/branches/"+ branch.getString("name"));
+            entry.setBranch(branch.getString("name"));
+            entry.setFullName(fork.getString("full_name"));
+            entry.setUrl(person.getUrl()+"/branches/"+ entry.getBranch());
 
             EntryDTO validEntry = createAndCheckEntry(entry);
 
@@ -80,19 +92,32 @@ public class PersonAndEntryFactoryImpl {
     }
 
     private EntryDTO createAndCheckEntry(EntryDTO entry) {
-            // TODO: 2016/03/03 check if it has solution value  one function
-            // TODO: 2016/03/03  mark solution and assign score one function
-        // TODO: 2016/03/03 add entry to valid list
-        if (true)// need validaty checker
+        boolean valid= checkSolutionExists(entry);
+        if (valid)// need validaty checker
         {
             setEntry(entry);
         }
+        else
+        {
+            entry =null;
+        }
 
-        return entry; // TODO: 2016/03/03   not correct fix this
+        return entry;
+    }
+
+    private boolean checkSolutionExists(EntryDTO entry){
+        UrlServiceImpl urlService = new UrlServiceImpl(restCall,entry.getFullName(),entry.getBranch(),challenge.getSolutionFilePath());
+       String fileSolution= urlService.getContent();
+        if (fileSolution.equals(""))
+            return false;
+        // TODO: 2016/03/04 set solution file of entry
+        // TODO: 2016/03/04  compare solution
+        // TODO: 2016/03/04 set score for solution;
+        return true;
     }
 
     private void setEntry(EntryDTO entry) {
-        entry.setChallengeId(1); // TODO: 2016/03/03  set values to the current challnge
+        entry.setChallengeId(challengeID); // TODO: 2016/03/03  set values to the current challnge
         entry.setDate(new Date());
         entry.setSolution(new byte[]{1,123,123,124,34,12});// TODO: 2016/03/03 set this in check solution
         entry.setResult(1);// TODO: 2016/03/03 set this when checking answer
