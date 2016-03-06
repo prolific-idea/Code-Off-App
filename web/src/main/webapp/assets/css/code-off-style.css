@@ -1,10 +1,24 @@
 body {
     font-family: Montserrat, sans-serif !important;
+    background-color: #F7F7F7;
+    width: 100%;
+    overflow: hidden;
+    background-image: url('images/blocks.png');
+    background-repeat: repeat;
+}
+
+.wrapper {
+    display: inline-block;
+    margin-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-top: 0px;
+    width: 100%;
 }
 
 #code-off-navbar {
-    background-color: #34495E;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #282828;
     font-weight: 300;
 }
 
@@ -25,8 +39,8 @@ body {
 .pi-prolific {
     font-weight: 700;
     float: left;
-    display: block;
-    font-size: 30px;
+    display: inline-block;
+    font-size: 26px;
     padding-left: 0;
     margin-top: 15px;
     color: #E67E22;
@@ -35,16 +49,34 @@ body {
 .pi-idea {
     font-weight: 700;
     float: left;
-    display: block;
-    font-size: 30px;
+    display: inline-block;
+    font-size: 26px;
     padding-left: 0;
     margin-top: 15px;
-    color: #2980B9;
+    color: #00A2EF;
+}
+
+#code-off-navbar #code-off-title {
+    display: inline;
+}
+
+#code-off-navbar #code-off-title img {
+    display: inline;
+    float: left;
+    padding-top: 10px;
+}
+
+.navbar-fixed-top .nav {
+    padding: 0;
+}
+
+#code-off-title {
+    padding: 0;
 }
 
 #code-off-navbar ul li a {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
     color: #fff;
 }
 
@@ -57,56 +89,142 @@ body {
     color: #D8E1E8;
 }
 
-#code-off-navbar #code-off-login-btn a {
-    color: #2980B9;
-    background-color: #fff;
+hr.line-nav{
+    border: 0;
+    height: 4px;
+    background: #E67E22;
+    margin-top: -50px;
 }
 
-#code-off-navbar #code-off-login-btn a:hover {
+.code-off-leaderboard-border {
+    background: #FFFFFF;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 10px;
+    border-color: #00A2EF;
+}
+
+#leaderboard-heading {
+    color: #797979;
+    font-weight: 700;
+}
+
+#leaderboard-table {
+    color: #797979;
+}
+
+#leaderboard-table a {
+    color: #48BBF2;
+    font-weight: bold;
+}
+
+#leaderboard-table a:hover {
+    color: #EF8300;
+}
+
+#leaderboard-table .code-off-tech {
+    font-size: 1.8em;
+    color: #797979;
+}
+
+#leaderboard-table .code-off-points {
+    font-size: 1.8em;
+    color: #797979;
+    padding-left: 10px;
+}
+
+#code-off-info {
+    font-family: Montserrat, sans-serif !important;
+    font-weight: 500;
+    color: #8A8A8A;
+    margin: 0px 0px 0px 0px;
+}
+
+#code-off-info h4 {
+    font-weight: 700;
+}
+
+#code-off-info ul {
+    list-style-type: none;
+    margin-left: 20px;
+    padding: 0;
+}
+
+.code-off-content {
+    font-size: 15px;
+    color: #555555;
+    margin-top: 25px;
+    font-family: 'Montserrat Light', arial;
+    padding-right: 20px;
+}
+
+.code-off-intro-background {
+    background: #FFFFFF;
+    text-align: center;
+}
+
+.code-off-header-logo{
+    max-height:65px;
+    height:auto;
+}
+
+th > p {
+    font-weight: normal;
+}
+
+/*
+ * Footer
+ */
+.pi-footer {
+    background-color: #282828;
+    padding: 0.55% 0;
+    margin: 16px 0px 0px 0px;
+}
+
+.pi-text-center {
+    text-align: center;
+    margin: 20px;
+}
+
+#code-off-footer img {
+    padding-bottom: 12px;
+}
+
+.pi-prolific-footer {
+    font-weight: 700;
+    float: none;
+    display: inline-block;
+    font-size: 26px;
+    padding-left: 0;
+    margin: 0px;
     color: #E67E22;
-    background-color: #34495E;
-    font-weight: 600;
 }
 
-hr.fancy-line {
-    border-top: 1px solid #ABABAB;
-    width: 95%;
+.pi-idea-footer {
+    font-weight: 700;
+    float: none;
+    display: inline-block;
+    font-size: 26px;
+    padding: 10px 0;
+    margin: 0px;
+    color: #00A2EF;
 }
 
-#section-code-off-leaderboard {
-    background-color: #ECF0F1;
-    display: block;
-    margin-top: 8px;
+#social-media {
+    display: inline;
 }
 
-#section-code-off-leaderboard .container {
-    width: 91%;
+#social-media a {
+    color: #FFF;
+    padding: 0px 0px 0px 6px;
 }
 
-#section-code-off-leaderboard .panel {
-    margin-top: 18px;
+#social-media a:hover {
+    color: #E67E22;
 }
 
-#section-code-off-leaderboard .panel {
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    border-width: 4px;
-    border-color: #34495E;
-}
-
-#section-code-off-leaderboard .panel .panel-heading {
-    background-color: #34495E;
-    border-radius: 0px;
-}
-
-#section-code-off-leaderboard .panel .panel-heading h1 {
-    font-weight: 600;
-    font-size: 30px;
-    color: #fff;
-}
-
-#section-code-off-footer {
-    background-color: #fff;
-    display: block;
-}
