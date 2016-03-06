@@ -29,7 +29,7 @@ import java.util.List;
 @Service
 public class PersonAndEntryFactoryImpl {
 
-    public static int challengeID = 101;
+
     @Autowired
     PersonService personService;
 
@@ -46,8 +46,10 @@ public class PersonAndEntryFactoryImpl {
 
     private RestTemplate restCall = new RestTemplate();
 
-    public String getEntryRepo(String URLForks) throws JSONException {
-        challenge= challengeService.findChallenge(challengeID);
+    public String getEntryRepo( int challengeId) throws JSONException {
+
+        challenge= challengeService.findChallenge(challengeId);
+        String URLForks = "https://api.github.com/repos"+ challenge.getUrl() +"/forks";
         JSONArray forks = getJSONFromURL(URLForks);
         String userRepoURL = "End";
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
@@ -66,7 +68,6 @@ public class PersonAndEntryFactoryImpl {
         buildPerson(person,entries,fork);
         buildEntries(person,entries,fork);
 
-        // TODO: 2016/03/03 create person first before netieis but only if there is entries added things here
         if (entries.size() >0) {
             int newPersonID = createPerson(person);
             createEntries(entries ,newPersonID);
@@ -114,25 +115,40 @@ public class PersonAndEntryFactoryImpl {
         if (fileSolution.equals(""))
             return false;
         // TODO: 2016/03/04 set solution file of entry
-        // TODO: 2016/03/04  compare solution
-        // TODO: 2016/03/04 set score for solution;
+        boolean isCorrect =urlService.compareSolution(fileSolution,challenge.getChallengeId());
+        if (isCorrect)
+        {
+            entry.setResult(2);
+        }
+        else
+        {
+            entry.setResult(1);
+        }
         return true;
     }
 
     private void setEntry(EntryDTO entry) {
-        entry.setChallengeId(challengeID); // TODO: 2016/03/03  set values to the current challnge
+        entry.setChallengeId(challenge.getChallengeId());
         entry.setDate(new Date());
         entry.setSolution(new byte[]{1,123,123,124,34,12});// TODO: 2016/03/03 set this in check solution
-        entry.setResult(1);// TODO: 2016/03/03 set this when checking answer
         entry.setTechId(1);// TODO: 2016/03/03 set when fixing tech
     }
 
     private void createEntries(List<EntryDTO> entries, int newPersonID) {
+        EntryDTO store;
         for(EntryDTO entry:entries)
         {
             List<EntryDTO> entryExsists = entryService.searchEntrys("url",entry.getUrl());
             if (entryExsists.size()> 0) {
-                return ;
+                EntryDTO oldEntry = entryExsists.get(0);
+                if(oldEntry.getResult() != entry.getResult())
+                {
+                    oldEntry.setResult(entry.getResult());
+                    store= entryService.updateEntry(oldEntry);
+                    //store.getResult();
+                }
+
+                return;
             }
             entry.setPersonId(newPersonID);
             entryService.createEntry(entry);

@@ -56,7 +56,7 @@ public class UrlServiceTestController {
     public String UrlJson() {
         String temp ="Null";
         try {
-           temp= personAndEntryFactory.getEntryRepo("https://api.github.com/repos/prolific-idea/Code-Off/forks");
+           temp= personAndEntryFactory.getEntryRepo(101);
         } catch (JSONException e) {
             e.printStackTrace();
         }

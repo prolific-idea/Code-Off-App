@@ -36,9 +36,12 @@ public class ScoreServiceTest {
         System.out.println(p.getFirstName() + ": " + p.getScore());
         System.out.println("Adding score.......");
         scoreService.addScore(e);
+<<<<<<< HEAD
 
         System.out.println("New score: " + personService.findPerson(2).getScore());
 
+=======
+>>>>>>> 076c1fb97bc434413795c8aff1c9469240862dbe
         System.out.println("New score: " + p.getScore());*/
 
     }
