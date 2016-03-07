@@ -21,4 +21,5 @@ public interface PersonService {
     PersonDTO createPerson(PersonDTO t);
     PersonDTO updatePerson(PersonDTO t);
     List<PersonDTO> getScoresByChallenge(int id);
+    List<PersonDTO> getScoresByTech(int id);
 }

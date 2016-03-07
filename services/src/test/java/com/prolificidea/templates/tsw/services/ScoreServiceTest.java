@@ -1,5 +1,6 @@
 package com.prolificidea.templates.tsw.services;
 
+import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
@@ -9,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by matthew.jordaan on 2016/03/03.
@@ -52,6 +55,15 @@ public class ScoreServiceTest {
         }
         System.out.println("New score: " + personService.findPerson(2).getScore());
         System.out.println("New score: " + p.getScore());*/
+
+    }
+
+    @Test
+    public void testFilterByTech() {
+        List<PersonDTO> persons = personService.getScoresByTech(2);
+        for (PersonDTO p : persons) {
+            System.out.println(p.getFirstName() + ":  SCORE: " + p.getScore());
+        }
 
     }
 
