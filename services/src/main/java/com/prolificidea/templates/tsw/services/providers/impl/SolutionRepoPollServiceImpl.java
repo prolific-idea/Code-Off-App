@@ -17,7 +17,6 @@ import java.util.Date;
 @EnableScheduling
 public class SolutionRepoPollServiceImpl {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    private static int challengeID =1;
 
     @Autowired
     private PersonAndEntryFactoryImpl personAndEnt;
@@ -26,14 +25,27 @@ public class SolutionRepoPollServiceImpl {
 
     private String time;
 
-    @Scheduled(fixedRate = 60000 * 5)//Should be 60000*30
+    private final int ONE_MINUTE =60000;
+
+    private int challengeID =0; // needs to be removed when scheduling between dates
+
+    @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
     public void pollRepositoryForSolution() {
         time = "The time is now " + dateFormat.format(new Date());
         try {
-            personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(101);
+            if (challengeID != 0)
+            personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(challengeID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getChallengeID() {
+        return challengeID;
+    }
+
+    public void setChallengeID(int challengeID) {
+        this.challengeID = challengeID;
     }
 
     public String getTime() {

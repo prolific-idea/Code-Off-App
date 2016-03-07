@@ -1,14 +1,9 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
-import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
-import com.prolificidea.templates.tsw.services.providers.ChallengeService;
-import com.prolificidea.templates.tsw.services.providers.EntryService;
-import com.prolificidea.templates.tsw.services.providers.PersonService;
-import com.prolificidea.templates.tsw.services.providers.ScoreService;
+import com.prolificidea.templates.tsw.services.providers.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,11 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by stuart.callen on 2016/03/03.
- */
 @Service
-public class PersonAndEntryFactoryImpl {
+public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
 
     @Autowired
@@ -46,7 +38,7 @@ public class PersonAndEntryFactoryImpl {
     @Autowired
     ScoreService scoreService;
 
-    public ChallengeDTO challenge;
+    private ChallengeDTO challenge;
 
     private RestTemplate restCall = new RestTemplate();
 
