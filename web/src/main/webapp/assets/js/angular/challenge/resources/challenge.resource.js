@@ -19,8 +19,7 @@
                     isArray: true
                 },
                 update: {
-                    method: "PUT",
-                    params: {id: "@id"}
+                    method: "PUT"
                 },
                 remove: {
                     method: "DELETE",

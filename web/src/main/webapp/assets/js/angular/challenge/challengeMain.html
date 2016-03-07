@@ -35,11 +35,15 @@
     <script src="../../../js/angular-resource.min.js"></script>
 
     <script src="challenge.module.js"></script>
+    <script src="directives/codeoff-navbar.js"></script>
     <script src="resources/challenge.resource.js"></script>
+    <script src="resources/challenge.update.factory.js"></script>
     <script src="directives/create-Challenge-Container.js"></script>
     <script src="directives/view-challenges-Container.js"></script>
+    <script src="directives/update-challenge-Container.js"></script>
     <script src="controllers/create.challenge.controller.js"></script>
     <script src="controllers/view.challenges.controller.js"></script>
+    <script src="controllers/update.challenge.controller.js"></script>
     <script src="directives/customNgChange.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -51,6 +55,7 @@
 </head>
 
 <body ng-app="codeOffChallengeAdmin">
+<admin-nav-bar></admin-nav-bar>
 <hr class="line-nav">
 
 <section class="wrapper">
@@ -61,14 +66,17 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div style="margin-left: 10px; margin-right: 3px; z-index: 0;">
+            <div style="z-index: 0;">
                 <view-challenges></view-challenges>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div style="z-index: 0;">
+                <update-challenge></update-challenge>
             </div>
         </div>
     </div>
 </section>
-
-<code-off-foot></code-off-foot>
 
 </div>
 

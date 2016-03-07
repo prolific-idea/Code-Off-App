@@ -7,12 +7,10 @@
             var files = event.target.files;
             if (files.length > 0) {
                 var fileToUpload = files[0];
-                console.log(fileToUpload);
                 var fileReader = new FileReader();
 
                 fileReader.onload = function (fileLoadedEvent) {
-                    ctrl.challenge.solution = fileLoadedEvent.target.result;
-                    console.log(ctrl.challenge.solution);
+                    ctrl.challenge.solution = fileLoadedEvent.target.result.split(",")[1];
                 };
                 fileReader.readAsDataURL(fileToUpload);
             }
@@ -21,8 +19,11 @@
         ctrl.Create = function () {
             ctrl.DirtyForm = true;
             Challenges.create(ctrl.challenge).$promise.then(function () {
-                ctrl.createNotification = true
-            }, $log.error);
+                ctrl.createNotification = true;
+            }, function () {
+                ctrl.errorNotification = true;
+                $log.error;
+            });
         }
 
         ctrl.challenge = {
@@ -37,6 +38,7 @@
         ctrl.OK = function () {
             ctrl.DirtyForm = false;
             ctrl.createNotification = false;
+            ctrl.errorNotification = false;
             ctrl.challenge = null;
         }
 

@@ -1,5 +1,5 @@
 <div ng-controller="createChallengeController">
-    <div class="code-off-leaderboard-border" style="height: 500px;overflow: scroll;">
+    <div class="code-off-leaderboard-border" style="height: 500px;overflow-y: scroll;">
         <div ng-if="DirtyForm">
             <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
                 <div style="width: 40%; margin: 200px auto auto;" class="alert alert-success"
@@ -10,18 +10,28 @@
                             class="fa fa-thumbs-up">OK</span></button>
                 </div>
             </div>
+            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+                <div style="width: 40%; margin: 200px auto auto;" class="alert alert-danger"
+                     align="center"
+                     role="alert" ng-if="errorNotification == true">
+                    <h4 style="text-align: center;">Error occurred please look at the console for more information.</h4>
+                    <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                            class="fa fa-thumbs-up">OK</span></button>
+                </div>
+            </div>
         </div>
         <ng-form name="createChallengeForm">
-            <h1>Create challenge</h1>
-            {{challenge}}
+            <h2 class="h2" style="color: #797979; font-weight: 700;">Create challenge</h2>
+
             <div class="form-group">
-                <label for="ChallengeUrl">Challenge Url: https://github.com/prolific-idea/</label><br/><input
-                    id="ChallengeUrl"
-                    name="ChallengeUrl"
-                    class="form-control"
-                    placeholder="Challenge Url"
-                    ng-model="challenge.url"
-                    required/>
+                <label for="ChallengeUrl">Challenge Url: https://github.com/prolific-idea/</label><br/>
+                <input
+                        id="ChallengeUrl"
+                        name="ChallengeUrl"
+                        class="form-control"
+                        placeholder="Challenge Url"
+                        ng-model="challenge.url"
+                        required/>
 
                 <div ng-messages="createChallengeForm.ChallengeUrl.$error"
                      ng-show="createChallengeForm.ChallengeUrl.$touched && createChallengeForm.ChallengeUrl.$invalid">
@@ -29,15 +39,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="ChallengeSolution">Select solution file</label><br/><input
-                    id="ChallengeSolution"
-                    name="ChallengeSolution"
-                    type="file"
-                    class="form-control"
-                    value="{{challenge.solution}}"
-                    placeholder="Challenge Solution"
-                    custom-ng-change="getTheFiles"
-                    required/>
+                <label for="ChallengeSolution">Select solution file</label><br/>
+                <input
+                        id="ChallengeSolution"
+                        name="ChallengeSolution"
+                        type="file"
+                        class="form-control"
+                        value="{{challenge.solution}}"
+                        placeholder="Challenge Solution"
+                        custom-ng-change="getTheFiles"
+                        required/>
 
                 <div ng-messages="createChallengeForm.ChallengeSolution.$error"
                      ng-show="createChallengeForm.ChallengeSolution.$touched && createChallengeForm.ChallengeSolution.$invalid">
@@ -45,13 +56,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="ChallengeSolutionFilePath">Solution File Path: </label><br/><input
-                    id="ChallengeSolutionFilePath"
-                    name="ChallengeSolutionFilePath"
-                    class="form-control"
-                    placeholder="Challenge Solution File Path"
-                    ng-model="challenge.solutionFilePath"
-                    required/>
+                <label for="ChallengeSolutionFilePath">Solution File Path: </label><br/>
+                <input
+                        id="ChallengeSolutionFilePath"
+                        name="ChallengeSolutionFilePath"
+                        class="form-control"
+                        placeholder="Challenge Solution File Path"
+                        ng-model="challenge.solutionFilePath"
+                        required/>
 
                 <div ng-messages="createChallengeForm.ChallengeSolutionFilePath.$error"
                      ng-show="createChallengeForm.ChallengeSolutionFilePath.$touched && createChallengeForm.ChallengeSolutionFilePath.$invalid">
@@ -60,13 +72,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="ChallengeStartDate">Challenge Start Date</label><br/><input id="ChallengeStartDate"
-                                                                                        name="ChallengeStartDate"
-                                                                                        type="date"
-                                                                                        class="form-control"
-                                                                                        placeholder="Challenge Start Date"
-                                                                                        ng-model="challenge.startDate"
-                                                                                        required/>
+                <label for="ChallengeStartDate">Challenge Start Date</label><br/>
+                <input id="ChallengeStartDate"
+                       name="ChallengeStartDate"
+                       type="date"
+                       class="form-control"
+                       placeholder="Challenge Start Date"
+                       ng-model="challenge.startDate"
+                       required/>
 
                 <div ng-messages="createChallengeForm.ChallengeStartDate.$error"
                      ng-show="createChallengeForm.ChallengeStartDate.$touched && createChallengeForm.ChallengeStartDate.$invalid">
@@ -74,13 +87,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="ChallengeEndDate">Challenge End Date</label><br/><input id="ChallengeEndDate"
-                                                                                    name="ChallengeEndDate"
-                                                                                    type="date"
-                                                                                    class="form-control"
-                                                                                    placeholder="Challenge End Date"
-                                                                                    ng-model="challenge.endDate"
-                                                                                    required/>
+                <label for="ChallengeEndDate">Challenge End Date</label><br/>
+                <input id="ChallengeEndDate"
+                       name="ChallengeEndDate"
+                       type="date"
+                       class="form-control"
+                       placeholder="Challenge End Date"
+                       ng-model="challenge.endDate"
+                       required/>
 
                 <div ng-messages="createChallengeForm.ChallengeEndDate.$error"
                      ng-show="createChallengeForm.ChallengeEndDate.$touched && createChallengeForm.ChallengeEndDate.$invalid">
