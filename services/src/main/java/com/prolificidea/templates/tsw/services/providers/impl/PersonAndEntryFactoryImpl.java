@@ -183,7 +183,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
     private JSONArray getJSONFromURL(String URL) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Basic c3R1YXJ0LmNhbGxlbkBlbnRlbGVjdC5jby56YTo4OTBpb3Bqa2xibm0=");
+        headers.set("Authorization","Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
         HttpEntity<String> entity = new HttpEntity<String>("parameters",headers);
 
         ResponseEntity<String> results = restCall.exchange(
