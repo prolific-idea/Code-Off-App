@@ -41,6 +41,7 @@ public class ScoreServiceTest {
         System.out.println(p.getFirstName() + ": " + p.getScore());
         System.out.println("Adding score.......");
         scoreService.addScore(e);
+<<<<<<< HEAD
 
         System.out.println("New score: " + personService.findPerson(2).getScore());
 
@@ -53,6 +54,11 @@ public class ScoreServiceTest {
         for (PersonDTO p : persons) {
             System.out.println(p.getFirstName() + ":  SCORE: " + p.getScore());
         }
+=======
+        System.out.println("New score: " + personService.findPerson(2).getScore());
+        System.out.println("New score: " + p.getScore());*/
+
+>>>>>>> 299dc355d0c49958ffaa9fc9744359ec99158351
     }
 
     @Test

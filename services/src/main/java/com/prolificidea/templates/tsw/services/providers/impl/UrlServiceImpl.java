@@ -61,7 +61,7 @@ public class UrlServiceImpl implements UrlService {
         }
         catch (HttpClientErrorException e)
         {
-            e.printStackTrace();
+           // e.printStackTrace();
             return "";
         }
     }
