@@ -51,11 +51,16 @@ public class SolutionRepoPollServiceImpl {
 
     private String time;
 
-    @Scheduled(fixedRate = 60000 * 30)//Should be 60000*30
+    @Scheduled(fixedRate = 60000 * 5)//Should be 60000*30
     public void reportCurrentTime() {
         time = "The time is now " + dateFormat.format(new Date());
         // TODO: 2016/03/02  implmnet polling of entries already created;
         // TODO: 2016/03/02  look to see if something is forked and create a new entry;
+        try {
+            personAndEnt.getEntryRepo(101);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
    /* private void addEntry(JSONObject fork , int personID,String branch) throws JSONException {

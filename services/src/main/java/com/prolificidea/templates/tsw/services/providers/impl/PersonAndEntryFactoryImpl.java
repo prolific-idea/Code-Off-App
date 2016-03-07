@@ -62,7 +62,7 @@ public class PersonAndEntryFactoryImpl {
         return userRepoURL ;
     }
 
-    public void CreatePeopleAndEntries(JSONObject fork) throws JSONException {
+    private void CreatePeopleAndEntries(JSONObject fork) throws JSONException {
         PersonDTO person = new PersonDTO();
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
         buildPerson(person,entries,fork);
@@ -187,7 +187,7 @@ public class PersonAndEntryFactoryImpl {
     }
 
 
-    public JSONArray getJSONFromURL(String URL) {
+    private JSONArray getJSONFromURL(String URL) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization","Basic c3R1YXJ0LmNhbGxlbkBlbnRlbGVjdC5jby56YTo4OTBpb3Bqa2xibm0=");
         HttpEntity<String> entity = new HttpEntity<String>("parameters",headers);
