@@ -1,5 +1,6 @@
 var codeOffApp = angular.module("codeOffApp", [
     "codeOffNavigation",
     "codeOffFooter",
-    "ngResource"
+    "ngResource",
+	"ui.bootstrap"
 ]);

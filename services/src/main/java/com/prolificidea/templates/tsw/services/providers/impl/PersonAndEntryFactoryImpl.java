@@ -1,13 +1,9 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
-import com.prolificidea.templates.tsw.domain.entities.Entry;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
-import com.prolificidea.templates.tsw.services.providers.ChallengeService;
-import com.prolificidea.templates.tsw.services.providers.EntryService;
-import com.prolificidea.templates.tsw.services.providers.PersonService;
+import com.prolificidea.templates.tsw.services.providers.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,11 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by stuart.callen on 2016/03/03.
- */
 @Service
-public class PersonAndEntryFactoryImpl {
+public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
 
     @Autowired
@@ -42,11 +35,14 @@ public class PersonAndEntryFactoryImpl {
     @Autowired
     UrlServiceImpl urlService;
 
-    public ChallengeDTO challenge;
+    @Autowired
+    ScoreService scoreService;
+
+    private ChallengeDTO challenge;
 
     private RestTemplate restCall = new RestTemplate();
 
-    public String getEntryRepo( int challengeId) throws JSONException {
+    public String markSolutionsOfUserIfTheyExsistForAChallenge(int challengeId) throws JSONException {
 
         challenge= challengeService.findChallenge(challengeId);
         String URLForks = "https://api.github.com/repos"+ challenge.getUrl() +"/forks";
@@ -55,14 +51,11 @@ public class PersonAndEntryFactoryImpl {
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
             CreatePeopleAndEntries(fork);
- /*           userRepoURL = buildRepoURL(fork);
-            JSONArray userRepoBranches = getJSONFromURL(userRepoURL+"/branches");
-            checkBranches(userRepoBranches,fork,userRepoURL+"/branches");*/
         }
         return userRepoURL ;
     }
 
-    public void CreatePeopleAndEntries(JSONObject fork) throws JSONException {
+    private void CreatePeopleAndEntries(JSONObject fork) throws JSONException {
         PersonDTO person = new PersonDTO();
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
         buildPerson(person,entries,fork);
@@ -151,7 +144,8 @@ public class PersonAndEntryFactoryImpl {
                 return;
             }
             entry.setPersonId(newPersonID);
-            entryService.createEntry(entry);
+            EntryDTO createdEntry =entryService.createEntry(entry);
+            scoreService.addScore(createdEntry);
         }
 
     }
@@ -187,7 +181,7 @@ public class PersonAndEntryFactoryImpl {
     }
 
 
-    public JSONArray getJSONFromURL(String URL) {
+    private JSONArray getJSONFromURL(String URL) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization","Basic c3R1YXJ0LmNhbGxlbkBlbnRlbGVjdC5jby56YTo4OTBpb3Bqa2xibm0=");
         HttpEntity<String> entity = new HttpEntity<String>("parameters",headers);
