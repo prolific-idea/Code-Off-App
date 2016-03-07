@@ -22,4 +22,6 @@ public interface PersonService {
     PersonDTO updatePerson(PersonDTO t);
     List<PersonDTO> getScoresByChallenge(int id);
     List<PersonDTO> getScoresByTech(int id);
-}
+    int getNoCodeOffs(int id);
+
+    }

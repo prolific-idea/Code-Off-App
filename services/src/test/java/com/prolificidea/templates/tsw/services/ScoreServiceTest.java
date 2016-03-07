@@ -68,6 +68,13 @@ public class ScoreServiceTest {
     }
 
     @Test
+    public void testGetNoCodeOffs() {
+
+        int i = personService.getNoCodeOffs(2);
+        System.out.println(i);
+    }
+
+    @Test
     public void testRecalcScore() {
         assert (true);
         /*PersonDTO p  = personService.findPerson(2);

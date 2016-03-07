@@ -101,6 +101,11 @@ public class PersonServiceImpl implements PersonService{
         return convertDomainListToDtoList(personDao.getScoresByTech(technology));
     }
 
+    public int getNoCodeOffs(int id) {
+        Person person = personDao.find(id);
+        return personDao.getNoCodeOffs(person);
+    }
+
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
         for (Person p : persons)

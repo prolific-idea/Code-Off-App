@@ -44,4 +44,11 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
         return  peoples;
     }
 
+    public int getNoCodeOffs(Person person) {
+        Query query = this.entityManager.createQuery("select count(distinct e.challengeId)" +
+                " from Person p, Entry e where p.personId = e.personId and p = :per " +
+                "group by p.personId").setParameter("per", person);
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
+
 }
