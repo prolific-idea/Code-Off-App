@@ -24,7 +24,7 @@ public interface PersonService {
     PersonDTO updatePerson(PersonDTO t);
     List<PersonDTO> getScoresByChallenge(int id);
     List<PersonDTO> getScoresByTech(int id);
-    int getNoCodeOffs(int id);
+    int getNoCodeOffs(PersonDTO person);
     List<TechnologyDTO> getListOfTechsByPerson(int id);
     List<LeaderboardDTO> getLeaderboard();
     List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum);

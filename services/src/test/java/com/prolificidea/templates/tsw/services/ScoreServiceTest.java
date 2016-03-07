@@ -67,13 +67,13 @@ public class ScoreServiceTest {
         }
 
     }
-
-    @Test
-    public void testGetNoCodeOffs() {
-
-        int i = personService.getNoCodeOffs(3);
-        System.out.println(i);
-    }
+//
+//    @Test
+//    public void testGetNoCodeOffs() {
+//
+//        int i = personService.getNoCodeOffs(3);
+//        System.out.println(i);
+//    }
 
 
     @Test

@@ -33,7 +33,7 @@ public class LeaderboardRestController {
     public
     @ResponseBody
     List<LeaderboardDTO> getLeaderboards(@RequestParam(required = false, defaultValue = "0") int pageSize,
-                                         @RequestParam(required = false, defaultValue = "0") int pageNum
+                                         @RequestParam(required = false, defaultValue = "0") int pageNum)
     {
         if (pageNum == 0 && pageSize == 0) {
             return personService.getLeaderboard();
@@ -44,4 +44,4 @@ public class LeaderboardRestController {
     }
 
 }
- 
+
