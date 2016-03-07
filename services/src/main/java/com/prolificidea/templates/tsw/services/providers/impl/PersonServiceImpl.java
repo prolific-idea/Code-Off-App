@@ -1,6 +1,8 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
@@ -19,6 +21,10 @@ public class PersonServiceImpl implements PersonService{
 
     @Autowired
     PersonDao personDao;
+
+    @Autowired
+    ChallengeDao challengeDao;
+
 
     public PersonDTO findPerson(Object id) {
         return new PersonDTO(personDao.find(id));
@@ -80,6 +86,11 @@ public class PersonServiceImpl implements PersonService{
         return convertDomainListToDtoList(personDao.findAllPersonsDesc());
     }
 
+    public List<PersonDTO> getScoresByChallenge(int id) {
+        Challenge challenge = challengeDao.find(id);
+        return convertDomainListToDtoList(personDao.getScoresByChallenge(challenge));
+    }
+
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
         for (Person p : persons)
@@ -88,6 +99,6 @@ public class PersonServiceImpl implements PersonService{
 
         }
         return personDTOs;
-    }
+        }
 
-}
+        }

@@ -20,4 +20,5 @@ public interface PersonService {
     void deletePerson(Object id);
     PersonDTO createPerson(PersonDTO t);
     PersonDTO updatePerson(PersonDTO t);
+    List<PersonDTO> getScoresByChallenge(int id);
 }

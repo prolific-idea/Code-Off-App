@@ -1,8 +1,10 @@
 package com.prolificidea.templates.tsw.persistence.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
 import com.prolificidea.templates.tsw.persistence.generic.GenericDaoImpl;
+import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -23,6 +25,14 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
     public List<Person> findAllPersonsDesc() {
         Query query = this.entityManager.createQuery("SELECT x from Person x ORDER BY x.score DESC");
         return query.getResultList();
+    }
+
+    public List<Person> getScoresByChallenge(Challenge challenge) {
+        Query query = this.entityManager.createQuery("Select distinct p " +
+                "from Entry e, Person p where p.personId = e.personId and e.challengeId = :chal" +
+                " order by p.score desc").setParameter("chal", challenge);
+        List<Person> peoples = query.getResultList();
+        return  peoples;
     }
 
 }
