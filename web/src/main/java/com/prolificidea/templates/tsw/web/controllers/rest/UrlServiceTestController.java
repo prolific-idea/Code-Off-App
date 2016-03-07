@@ -4,18 +4,11 @@ import com.prolificidea.templates.tsw.services.providers.UrlService;
 import com.prolificidea.templates.tsw.services.providers.impl.PersonAndEntryFactoryImpl;
 import com.prolificidea.templates.tsw.services.providers.impl.SolutionRepoPollServiceImpl;
 import com.prolificidea.templates.tsw.services.providers.impl.UrlServiceImpl;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
 
 @RestController
 public class UrlServiceTestController {
@@ -56,7 +49,7 @@ public class UrlServiceTestController {
     public String UrlJson() {
         String temp ="Null";
         try {
-           temp= personAndEntryFactory.getEntryRepo(101);
+           temp= personAndEntryFactory.markSolutionsOfUserIfTheyExsistForAChallenge(101);
         } catch (JSONException e) {
             e.printStackTrace();
         }

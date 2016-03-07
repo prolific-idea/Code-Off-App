@@ -8,6 +8,7 @@ import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
+import com.prolificidea.templates.tsw.services.providers.ScoreService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,11 +43,14 @@ public class PersonAndEntryFactoryImpl {
     @Autowired
     UrlServiceImpl urlService;
 
+    @Autowired
+    ScoreService scoreService;
+
     public ChallengeDTO challenge;
 
     private RestTemplate restCall = new RestTemplate();
 
-    public String getEntryRepo( int challengeId) throws JSONException {
+    public String markSolutionsOfUserIfTheyExsistForAChallenge(int challengeId) throws JSONException {
 
         challenge= challengeService.findChallenge(challengeId);
         String URLForks = "https://api.github.com/repos"+ challenge.getUrl() +"/forks";
@@ -55,9 +59,6 @@ public class PersonAndEntryFactoryImpl {
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
             CreatePeopleAndEntries(fork);
- /*           userRepoURL = buildRepoURL(fork);
-            JSONArray userRepoBranches = getJSONFromURL(userRepoURL+"/branches");
-            checkBranches(userRepoBranches,fork,userRepoURL+"/branches");*/
         }
         return userRepoURL ;
     }
@@ -151,7 +152,8 @@ public class PersonAndEntryFactoryImpl {
                 return;
             }
             entry.setPersonId(newPersonID);
-            entryService.createEntry(entry);
+            EntryDTO createdEntry =entryService.createEntry(entry);
+            scoreService.addScore(createdEntry);
         }
 
     }
