@@ -31,12 +31,16 @@
     <script src="assets/js/bootstrap.min.js"></script>
 
     <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-messages.js"></script>
+    <script src="assets/js/angular-resource.min.js"></script>
 
     <script src="assets/js/angular/app.module.js"></script>
     <script src="assets/js/angular/core/codeoff-navigation.js"></script>
     <script src="assets/js/angular/core/directives/codeoff-navbar.js"></script>
     <script src="assets/js/angular/core/codeoff-footer.js"></script>
     <script src="assets/js/angular/core/directives/codeoff-footerbar.js"></script>
+    <script src="assets/js/angular/leaderboard/resources/leaderboard.resources.js"></script>
+    <script src="assets/js/angular/leaderboard/controllers/leaderboard.controller.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -100,15 +104,28 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="leaderboard in ctrl.leaderboard">
-                            <td></td>
+                        <tr ng-repeat="person in ctrl.persons">
+                            <td>
+                                <a href="https://github.com/{{person.username}}">{{person.firstName}}
+                                    {{person.lastName}}</a>
+                            </td>
+                            <td class="code-off-tech" ng-repeat="tech in person.technology">
+                                <i ng-class="icon-{{tech | lowercase}}"></i>
+                                <!--<p style="display: none" ng-model="tech-used">icon-{{person.technology | lowercase}}</p>-->
+                            </td>
+                            <td class="code-off-points">
+                                {{person.noCodeOffs}}
+                            </td>
+                            <td class="code-off-points">
+                                {{person.score}}
+                            </td>
                         </tr>
                         <tr>
                             <td>
                                 <a href="https://github.com/Stuart-Callen">Stuart Callen</a>
                             </td>
                             <td class="code-off-tech">
-                                <i class="icon-java-bold"></i>
+                                <i class="icon-java"></i>
                                 <i class="icon-erlang"></i>
                             </td>
                             <td class="code-off-points">

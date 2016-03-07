@@ -1,12 +1,18 @@
 (function() {
     'use strict';
 
-    angular.module("codeOffLeaderboard")
-        .factory("Coders", function($resource) {
-            return $resource("/api/person/:id", null, {
+    angular.module("codeOffApp")
+        .factory("Leaderboards", function($resource) {
+            return $resource("/api/leaderboard", null, {
                 getPersons: {
+					method: "GET",
+					isArray: true
+                },
+                getPageOfLeaderboard: {
                     method: "GET",
-                    isArray: true
+                    params: {
+                        page: "@page"
+                    }
                 }
             });
         });

@@ -1,4 +1,5 @@
-angular.module("codeOffLeaderboard", [
-    "codeOffNavigation",
-    "codeOffFooter"
-]);
+//angular.module("codeOffLeaderboard", [
+//    "codeOffNavigation",
+//    "codeOffFooter",
+//    "ui.bootstrap"
+//]);
