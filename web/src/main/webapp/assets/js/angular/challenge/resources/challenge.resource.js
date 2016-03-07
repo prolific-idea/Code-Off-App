@@ -13,8 +13,8 @@
                 getAllWithPage: {
                     method: "GET",
                     params: {
-                        page: "@page",
-                        size: "@size"
+                        pageNum: "@page",
+                        pageSize: "@size"
                     },
                     isArray: true
                 },
