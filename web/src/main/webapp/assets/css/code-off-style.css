@@ -2,7 +2,7 @@ body {
     font-family: Montserrat, sans-serif !important;
     background-color: #F7F7F7;
     width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     background-image: url('images/blocks.png');
     background-repeat: repeat;
 }
