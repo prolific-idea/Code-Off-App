@@ -107,7 +107,7 @@
                         <tbody>
                         <tr ng-repeat="person in ctrl.persons">
                             <td>
-                                <a href="https://github.com/{{person.username}}">{{person.firstName}}
+                                <a href="{{person.url}}">{{person.firstName}}
                                     {{person.lastName}}</a>
                             </td>
                             <td class="code-off-tech" ng-repeat="tech in person.technology">
