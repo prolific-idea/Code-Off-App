@@ -1,6 +1,8 @@
 package com.prolificidea.templates.tsw.services.providers;
 
+import com.prolificidea.templates.tsw.services.DTOs.LeaderboardDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 
 import java.util.List;
 
@@ -23,5 +25,8 @@ public interface PersonService {
     List<PersonDTO> getScoresByChallenge(int id);
     List<PersonDTO> getScoresByTech(int id);
     int getNoCodeOffs(int id);
+    List<TechnologyDTO> getListOfTechsByPerson(int id);
+    List<LeaderboardDTO> getLeaderboard();
+    List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum);
 
     }

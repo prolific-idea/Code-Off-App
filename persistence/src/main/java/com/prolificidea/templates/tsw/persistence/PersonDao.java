@@ -17,6 +17,7 @@ public interface PersonDao extends GenericDao<Person> {
     List<Person> getScoresByChallenge(Challenge challenge);
     List<Person> getScoresByTech(Technology technology);
     int getNoCodeOffs(Person person);
+    List<Technology> getListOfTechs(Person person);
 
 
     }

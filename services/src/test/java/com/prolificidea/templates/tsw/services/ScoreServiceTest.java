@@ -1,6 +1,7 @@
 package com.prolificidea.templates.tsw.services;
 
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.EntryService;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
@@ -70,8 +71,18 @@ public class ScoreServiceTest {
     @Test
     public void testGetNoCodeOffs() {
 
-        int i = personService.getNoCodeOffs(2);
+        int i = personService.getNoCodeOffs(3);
         System.out.println(i);
+    }
+
+
+    @Test
+    public void testGetListOfTechsByPerson() {
+
+        List<TechnologyDTO> techs = personService.getListOfTechsByPerson(2);
+        for (TechnologyDTO t : techs) {
+            System.out.println(t.getDescription());
+        }
     }
 
     @Test

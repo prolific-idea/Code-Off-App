@@ -51,4 +51,13 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
         return Integer.parseInt(query.getSingleResult().toString());
     }
 
+    public List<Technology> getListOfTechs(Person person) {
+        Query query = this.entityManager.createQuery(
+                "select distinct t from Person p, Entry e, Technology t " +
+                "where p.personId = e.personId and t.techId = e.techId " +
+                "and p = :per"
+        ).setParameter("per",person);
+        return query.getResultList();
+    }
+
 }

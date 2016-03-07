@@ -6,7 +6,9 @@ import com.prolificidea.templates.tsw.domain.entities.Technology;
 import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
 import com.prolificidea.templates.tsw.persistence.TechnologyDao;
+import com.prolificidea.templates.tsw.services.DTOs.LeaderboardDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,6 +108,35 @@ public class PersonServiceImpl implements PersonService{
         return personDao.getNoCodeOffs(person);
     }
 
+    public List<TechnologyDTO> getListOfTechsByPerson(int id) {
+        Person person = personDao.find(id);
+        List<Technology> techs = personDao.getListOfTechs(person);
+        List<TechnologyDTO> techDtos = new ArrayList<TechnologyDTO>();
+        for (Technology t: techs) {
+            techDtos.add(new TechnologyDTO(t));
+        }
+        return techDtos;
+    }
+
+    public List<LeaderboardDTO> getLeaderboard() {
+       List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc());
+       List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
+        for (PersonDTO p : personDTOs) {
+
+            leaderboard.add(new LeaderboardDTO(p,getNoCodeOffs(p.getPersonId()),getListOfTechsByPerson(p.getPersonId())));
+        }
+        return leaderboard;
+    }
+
+    public List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum) {
+        List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize,pageNum));
+        List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
+        for (PersonDTO p : personDTOs) {
+
+            leaderboard.add(new LeaderboardDTO(p,getNoCodeOffs(p.getPersonId()),getListOfTechsByPerson(p.getPersonId())));
+        }
+        return leaderboard;
+    }
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
         for (Person p : persons)
