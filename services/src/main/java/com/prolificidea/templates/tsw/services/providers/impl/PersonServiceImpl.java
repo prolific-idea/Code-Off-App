@@ -1,7 +1,11 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.domain.entities.Person;
+import com.prolificidea.templates.tsw.domain.entities.Technology;
+import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.persistence.PersonDao;
+import com.prolificidea.templates.tsw.persistence.TechnologyDao;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,13 @@ public class PersonServiceImpl implements PersonService{
 
     @Autowired
     PersonDao personDao;
+
+    @Autowired
+    ChallengeDao challengeDao;
+
+    @Autowired
+    TechnologyDao technologyDao;
+
 
     public PersonDTO findPerson(Object id) {
         return new PersonDTO(personDao.find(id));
@@ -72,6 +83,24 @@ public class PersonServiceImpl implements PersonService{
     }
 
 
+    public List<PersonDTO> findAllPersonsDesc(int pageSize, int pageNumber) {
+        return convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize, pageNumber));
+    }
+
+    public List<PersonDTO> findAllPersonsDesc() {
+        return convertDomainListToDtoList(personDao.findAllPersonsDesc());
+    }
+
+    public List<PersonDTO> getScoresByChallenge(int id) {
+        Challenge challenge = challengeDao.find(id);
+        return convertDomainListToDtoList(personDao.getScoresByChallenge(challenge));
+    }
+
+    public List<PersonDTO> getScoresByTech(int id) {
+        Technology technology = technologyDao.find(id);
+        return convertDomainListToDtoList(personDao.getScoresByTech(technology));
+    }
+
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
         for (Person p : persons)
@@ -80,5 +109,6 @@ public class PersonServiceImpl implements PersonService{
 
         }
         return personDTOs;
-    }
-}
+        }
+
+        }
