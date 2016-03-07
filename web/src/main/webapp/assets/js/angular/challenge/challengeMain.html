@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>CodeOff</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../../css/logo-nav.css" rel="stylesheet">
+
+    <link href="../../../images/favicon.ico" rel="shortcut icon">
+
+    <link href="../../../css/code-off-style.css" rel="stylesheet">
+
+    <link href="../../../fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../fonts/font-mfizz-2.2/font-mfizz.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="../../../js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../../js/bootstrap.min.js"></script>
+
+    <script src="../../../js/angular.min.js"></script>
+    <script src="../../../js/angular-messages.js"></script>
+    <script src="../../../js/angular-resource.min.js"></script>
+
+    <script src="challenge.module.js"></script>
+    <script src="resources/challenge.resource.js"></script>
+    <script src="directives/create-Challenge-Container.js"></script>
+    <script src="directives/view-challenges-Container.js"></script>
+    <script src="controllers/create.challenge.controller.js"></script>
+    <script src="controllers/view.challenges.controller.js"></script>
+    <script src="directives/customNgChange.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="codeOffChallengeAdmin">
+<hr class="line-nav">
+
+<section class="wrapper">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="sidebar" style="width: 300px; height: 100%;" role="container">
+                <create-challenge></create-challenge>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div style="margin-left: 10px; margin-right: 3px; z-index: 0;">
+                <view-challenges></view-challenges>
+            </div>
+        </div>
+    </div>
+</section>
+
+<code-off-foot></code-off-foot>
+
+</div>
+
+</body>
