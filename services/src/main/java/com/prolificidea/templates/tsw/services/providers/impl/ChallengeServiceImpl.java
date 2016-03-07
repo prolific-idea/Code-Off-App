@@ -4,6 +4,7 @@ import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.persistence.ChallengeDao;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
+import com.prolificidea.templates.tsw.services.providers.SolutionRepoPollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Autowired
     ChallengeDao challengeDao;
+
+    @Autowired
+    SolutionRepoPollService solutionRepoPollService;
 
     public ChallengeDTO findChallenge(Object id) {
         return new ChallengeDTO(challengeDao.find(id));
@@ -59,7 +63,9 @@ public class ChallengeServiceImpl implements ChallengeService {
         c.setSolutionFilePath(t.getSolutionFilePath());
         c.setStartDate(t.getStartDate());
 
-        return new ChallengeDTO(challengeDao.create(c));
+        ChallengeDTO newChallenge= new ChallengeDTO(challengeDao.create(c));
+        solutionRepoPollService.setChallengeID(newChallenge.getChallengeId());
+        return newChallenge;
     }
 
     @Transactional
