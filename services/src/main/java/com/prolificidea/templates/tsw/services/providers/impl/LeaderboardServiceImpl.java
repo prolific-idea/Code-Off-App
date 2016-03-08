@@ -57,7 +57,7 @@ public class LeaderboardServiceImpl implements LeaderboardService {
     public LeaderboardDTO createLeaderboard(LeaderboardDTO t) {
         Leaderboard l = new Leaderboard();
         l.setNoCodeOffs(t.getNoCodeOffs());
-        l.setPerson(personDao.find(t.getPersonId()));
+        l.setPerson(personDao.find(t.getPersonDTO()));
         l.setPoints(t.getPoints());
 
         return new LeaderboardDTO(leaderboardDao.create(l));
@@ -67,7 +67,7 @@ public class LeaderboardServiceImpl implements LeaderboardService {
     public LeaderboardDTO updateLeaderboard(LeaderboardDTO t) {
         Leaderboard l = leaderboardDao.find(t.getLeaderboardId());
         l.setNoCodeOffs(t.getNoCodeOffs());
-        l.setPerson(personDao.find(t.getPersonId()));
+        l.setPerson(personDao.find(t.getPersonDTO()));
         l.setPoints(t.getPoints());
         return new LeaderboardDTO(leaderboardDao.update(l));
     }
