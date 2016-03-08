@@ -18,7 +18,7 @@ public class ExtensionExtractorImpl implements ExtensionExtractor {
         String[] splicedFilename = filename.split("\\.");
         int extensionIndex = splicedFilename.length - 1;
         String language = getLanguage(splicedFilename[extensionIndex]);
-        techs = technologyService.searchTechnologysExactMatch("description", language);
+        techs = technologyService.searchTechnologys("description", language);
 
         if (techs == null)
             return null;
