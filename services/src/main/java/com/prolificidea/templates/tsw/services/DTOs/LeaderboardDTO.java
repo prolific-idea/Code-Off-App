@@ -10,7 +10,7 @@ import java.util.List;
 public class LeaderboardDTO {
 
     private int leaderboardId;
-    private int personId;
+    private PersonDTO personDTO;
     private int noCodeOffs;
     private int points;
     private List<TechnologyDTO> techs;
@@ -19,17 +19,15 @@ public class LeaderboardDTO {
     }
 
     public LeaderboardDTO(Leaderboard leaderboard) {
-        this.leaderboardId = leaderboard.getLeaderboardId();
-        this.personId = leaderboard.getPerson().getPersonId();
         this.noCodeOffs = leaderboard.getNoCodeOffs();
+        this.personDTO = new PersonDTO(leaderboard.getPerson());
         this.points = leaderboard.getPoints();
-        this.techs = null;
+        this.leaderboardId = leaderboard.getLeaderboardId();
     }
 
 
-
     public LeaderboardDTO(PersonDTO person, int noCodeOffs, List<TechnologyDTO> techs) {
-        this.personId = person.getPersonId();
+        this.personDTO = person;
         this.points = person.getScore();
         this.noCodeOffs = noCodeOffs;
         this.techs = techs;
@@ -43,12 +41,12 @@ public class LeaderboardDTO {
         this.leaderboardId = leaderboardId;
     }
 
-    public int getPersonId() {
-        return personId;
+    public PersonDTO getPersonDTO() {
+        return personDTO;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
     }
 
     public int getNoCodeOffs() {
