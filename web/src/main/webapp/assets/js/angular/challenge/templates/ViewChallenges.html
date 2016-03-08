@@ -1,0 +1,38 @@
+<div class="col-lg-12" ng-controller="viewChallengesController">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb">
+        <div class="code-off-leaderboard-border"  style="overflow-y: auto; max-height: 520px;">
+            <h2 class="h2" id="leaderboard-heading">Challenges View</h2>
+            <table class="table table-striped" id="challenges-table">
+                <thead>
+                <tr>
+                    <th>Code Off Number</th>
+                    <th>Url</th>
+                    <th>Solution Path</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Lines to Compare</th>
+                    <th>Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="challenge in challenges">
+                    <td>{{challenge.challengeId}}</td>
+                    <td>{{challenge.url}}</td>
+                    <td>{{challenge.solutionFilePath}}</td>
+                    <td>{{challenge.startDate | date: "dd MMM yyyy hh:mm"}}</td>
+                    <td>{{challenge.endDate | date: "dd MMM yyyy hh:mm"}}</td>
+                    <td>{{challenge.numberOfLinesToCompare}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default" ng-click="Update($index)" data-toggle="tooltip" title="Update Issue"><i class="glyphicon glyphicon-edit"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <div>
+                <button type="button" class="btn btn-default" ng-disabled="page === 1" ng-click="ToPrevPage()" data-toggle="tooltip" title="To Next Page"><i class="glyphicon glyphicon-chevron-left"></i>To Prev Page </button>
+                <button type="button" style="float: right;" class="btn btn-default" ng-disabled="CanNotNext" ng-click="ToNextPage()" data-toggle="tooltip" title="To Next Page">To Next Page <i class="glyphicon glyphicon-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

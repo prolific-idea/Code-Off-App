@@ -1,0 +1,125 @@
+<div ng-controller="createChallengeController">
+    <div class="code-off-leaderboard-border" style="height: 500px;overflow-y: scroll;">
+        <div ng-if="DirtyForm">
+            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+                <div style="width: 40%; margin: 200px auto auto;" class="alert alert-success"
+                     align="center"
+                     role="alert" ng-if="createNotification == true">
+                    <h4 style="text-align: center;">Challenge has been created</h4>
+                    <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                            class="fa fa-thumbs-up">OK</span></button>
+                </div>
+            </div>
+            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+                <div style="width: 40%; margin: 200px auto auto;" class="alert alert-danger"
+                     align="center"
+                     role="alert" ng-if="errorNotification == true">
+                    <h4 style="text-align: center;">Error occurred please look at the console for more information.</h4>
+                    <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                            class="fa fa-thumbs-up">OK</span></button>
+                </div>
+            </div>
+        </div>
+        <ng-form name="createChallengeForm">
+            <h2 class="h2" style="color: #797979; font-weight: 700;">Create challenge</h2>
+
+            <div class="form-group">
+                <label for="ChallengeUrl">Challenge Url: https://github.com/prolific-idea/</label><br/>
+                <input
+                        id="ChallengeUrl"
+                        name="ChallengeUrl"
+                        class="form-control"
+                        placeholder="Challenge Url"
+                        ng-model="challenge.url"
+                        required/>
+
+                <div ng-messages="createChallengeForm.ChallengeUrl.$error"
+                     ng-show="createChallengeForm.ChallengeUrl.$touched && createChallengeForm.ChallengeUrl.$invalid">
+                    <div class="error" style="color:red;" ng-message="required">Please complete the url.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ChallengeSolution">Select solution file</label><br/>
+                <input
+                        id="ChallengeSolution"
+                        name="ChallengeSolution"
+                        type="file"
+                        class="form-control"
+                        value="{{challenge.solution}}"
+                        placeholder="Challenge Solution"
+                        custom-ng-change="getTheFiles"
+                        required/>
+
+                <div ng-messages="createChallengeForm.ChallengeSolution.$error"
+                     ng-show="createChallengeForm.ChallengeSolution.$touched && createChallengeForm.ChallengeSolution.$invalid">
+                    <div class="error" style="color:red;" ng-message="required">Please select a file.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ChallengeSolutionFilePath">Solution File Path: </label><br/>
+                <input
+                        id="ChallengeSolutionFilePath"
+                        name="ChallengeSolutionFilePath"
+                        class="form-control"
+                        placeholder="Challenge Solution File Path"
+                        ng-model="challenge.solutionFilePath"
+                        required/>
+
+                <div ng-messages="createChallengeForm.ChallengeSolutionFilePath.$error"
+                     ng-show="createChallengeForm.ChallengeSolutionFilePath.$touched && createChallengeForm.ChallengeSolutionFilePath.$invalid">
+                    <div class="error" style="color:red;" ng-message="required">Please provide the solution file path.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ChallengeStartDate">Challenge Start Date</label><br/>
+                <input id="ChallengeStartDate"
+                       name="ChallengeStartDate"
+                       type="date"
+                       class="form-control"
+                       placeholder="Challenge Start Date"
+                       ng-model="challenge.startDate"
+                       required/>
+
+                <div ng-messages="createChallengeForm.ChallengeStartDate.$error"
+                     ng-show="createChallengeForm.ChallengeStartDate.$touched && createChallengeForm.ChallengeStartDate.$invalid">
+                    <div style="color:red;" ng-message="required">Please provide a start date.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ChallengeEndDate">Challenge End Date</label><br/>
+                <input id="ChallengeEndDate"
+                       name="ChallengeEndDate"
+                       type="date"
+                       class="form-control"
+                       placeholder="Challenge End Date"
+                       ng-model="challenge.endDate"
+                       required/>
+
+                <div ng-messages="createChallengeForm.ChallengeEndDate.$error"
+                     ng-show="createChallengeForm.ChallengeEndDate.$touched && createChallengeForm.ChallengeEndDate.$invalid">
+                    <div style="color:red;" ng-message="required">Please provide an end date.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="numberOfLinesToCompare">Number of lines to compare: </label><br/><input
+                    id="numberOfLinesToCompare" type="number"
+                    name="numberOfLinesToCompare" min="0" class="form-control"
+                    placeholder="Number of lines to compare"
+                    ng-model="challenge.numberOfLinesToCompare"
+                    required/>
+
+                <div ng-messages="createChallengeForm.numberOfLinesToCompare.$error"
+                     ng-show="createChallengeForm.numberOfLinesToCompare.$touched && createChallengeForm.numberOfLinesToCompare.$invalid">
+                    <div style="color:red;" ng-message="required">Please provide the number of lines to
+                        compare.
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default"
+                    ng-disabled="createChallengeForm.$invalid || DirtyForm"
+                    ng-click="Create();">Create challenge
+            </button>
+        </ng-form>
+    </div>
+</div>

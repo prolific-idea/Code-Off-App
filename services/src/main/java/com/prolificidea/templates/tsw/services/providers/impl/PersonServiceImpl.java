@@ -21,7 +21,7 @@ import java.util.List;
  * Created by sahil.naran on 2016/02/29.
  */
 @Service
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     @Autowired
     PersonDao personDao;
@@ -103,48 +103,50 @@ public class PersonServiceImpl implements PersonService{
         return convertDomainListToDtoList(personDao.getScoresByTech(technology));
     }
 
-    public int getNoCodeOffs(int id) {
-        Person person = personDao.find(id);
-        return personDao.getNoCodeOffs(person);
+    public int getNoCodeOffs(PersonDTO person) {
+        return personDao.getNoCodeOffs(person.getPersonId());
     }
 
     public List<TechnologyDTO> getListOfTechsByPerson(int id) {
         Person person = personDao.find(id);
         List<Technology> techs = personDao.getListOfTechs(person);
         List<TechnologyDTO> techDtos = new ArrayList<TechnologyDTO>();
-        for (Technology t: techs) {
+        for (Technology t : techs) {
             techDtos.add(new TechnologyDTO(t));
         }
         return techDtos;
     }
 
     public List<LeaderboardDTO> getLeaderboard() {
-       List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc());
-       List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
+        List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc());
+        List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
         for (PersonDTO p : personDTOs) {
-
-            leaderboard.add(new LeaderboardDTO(p,getNoCodeOffs(p.getPersonId()),getListOfTechsByPerson(p.getPersonId())));
+            try {
+                leaderboard.add(new LeaderboardDTO(p, getNoCodeOffs(p), getListOfTechsByPerson(p.getPersonId())));
+            } catch (Exception e) {
+                System.out.println(p.getFirstName() + " " + p.getScore());
+            }
         }
         return leaderboard;
     }
 
     public List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum) {
-        List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize,pageNum));
+        List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize, pageNum));
         List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
         for (PersonDTO p : personDTOs) {
 
-            leaderboard.add(new LeaderboardDTO(p,getNoCodeOffs(p.getPersonId()),getListOfTechsByPerson(p.getPersonId())));
+            leaderboard.add(new LeaderboardDTO(p, getNoCodeOffs(p), getListOfTechsByPerson(p.getPersonId())));
         }
         return leaderboard;
     }
+
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
         List<PersonDTO> personDTOs = new ArrayList<PersonDTO>();
-        for (Person p : persons)
-        {
+        for (Person p : persons) {
             personDTOs.add(new PersonDTO(p));
 
         }
         return personDTOs;
-        }
+    }
 
-        }
+}

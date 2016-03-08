@@ -1,21 +1,21 @@
 (function () {
 	'use strict';
 
-	angular.module("codeOffApp")
-		.factory("Leaderboards", function ($resource) {
-			return $resource("/api/leaderboard", null, {
-				getPersons: {
-					method:  "GET",
-					isArray: true
-				},
-
-				getPageOfLeaderboard: {
-					method: "GET",
-					params: {
-						pageSize: "@pageSize",
-						pageNum:  "@pageNum"
-					}
-				}
-			});
-		});
+    angular.module("codeOffLeaderboard", [])
+        .factory("Coders", function($resource) {
+            return $resource("/api/leaderboard/le", null, {
+                getLeaderboard: {
+                    method: "GET",
+                    isArray: true
+                },
+                getPagedLeaderboard: {
+                    method: "GET",
+                    params: {
+                        pageNum: "@page",
+                        pageSize: "@size"
+                    },
+                    isArray: true
+                }
+            });
+        });
 }());
