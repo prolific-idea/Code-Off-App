@@ -18,6 +18,8 @@
 
         ctrl.Create = function () {
             ctrl.DirtyForm = true;
+            ctrl.challenge.startDate.setTime(ctrl.startTime);
+            ctrl.challenge.endDate.setTime(ctrl.endTime);
             if (ctrl.challenge.startDate > ctrl.challenge.endDate) {
                 ctrl.errorNotification = true;
                 $log.error("Start date should be before end date.");
