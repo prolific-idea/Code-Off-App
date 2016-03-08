@@ -29,5 +29,11 @@
                     method: "POST"
                 }
             });
-        });
+        }).factory("challengeCount", function ($resource) {
+        return $resource("/api/challenges/count", null, {
+            count: {
+                method: "GET"
+            }
+        })
+    });
 })();

@@ -2,10 +2,8 @@ package com.prolificidea.templates.tsw.services;
 
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
-import com.prolificidea.templates.tsw.services.providers.ChallengeService;
-import com.prolificidea.templates.tsw.services.providers.EntryService;
-import com.prolificidea.templates.tsw.services.providers.PersonService;
-import com.prolificidea.templates.tsw.services.providers.ScoreService;
+import com.prolificidea.templates.tsw.services.providers.*;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ public class ScoreServiceTest {
 
     @Autowired
     EntryService entryService;
+
+    @Autowired
+    ExtensionExtractor exctrator;
 
     @Test
     public void testAddScore() {
@@ -92,5 +93,12 @@ public class ScoreServiceTest {
         assert (true);
         /*PersonDTO p  = personService.findPerson(2);
         scoreService.recalculateScores(p);*/
+    }
+
+    @Test
+    public void testFindByDescription(){
+        TechnologyDTO technologyDTO = exctrator.extractExtension("heloWorl.java");
+
+        Assert.assertEquals("Description should be ","Java", technologyDTO.getDescription());
     }
 }

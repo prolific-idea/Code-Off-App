@@ -1,6 +1,6 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
-    app.controller("viewChallengesController", function ($scope, $http, $log, Challenges, SharedUpdateChallenge) {
+    app.controller("viewChallengesController", function ($scope, $http, $log, Challenges,challengeCount, SharedUpdateChallenge) {
         var ctrl = $scope;
         var pageSize = 6;
         ctrl.page = 1;
@@ -8,8 +8,16 @@
         ctrl.challengesTemp = Challenges.getAllWithPage({ pageNum: ctrl.page, pageSize: pageSize });
         ctrl.challengesTemp.$promise.then(function () {
             ctrl.challenges = ctrl.challengesTemp;
-            if (ctrl.challenges.length < pageSize)
+            var lastElement = (ctrl.page+1) * pageSize;
+            if (lastElement > ctrl.challengeCount.countOfChallenges)
                 ctrl.CanNotNext = true;
+            else
+                ctrl.CanNotNext = false;
+        }, $log.error);
+
+        ctrl.challengeCountTemp = challengeCount.count();
+        ctrl.challengeCountTemp.$promise.then(function () {
+            ctrl.challengeCount = ctrl.challengeCountTemp;
         }, $log.error);
 
         ctrl.Update = function (index) {
@@ -24,8 +32,11 @@
             ctrl.challengesTemp = Challenges.getAllWithPage({ pageNum: ctrl.page, pageSize: pageSize });
             ctrl.challengesTemp.$promise.then(function () {
                 ctrl.challenges = ctrl.challengesTemp;
-                if (ctrl.challenges.length < pageSize)
+                var lastElement = (ctrl.page+1) * pageSize;
+                if (lastElement > ctrl.challengeCount.countOfChallenges)
                     ctrl.CanNotNext = true;
+                else
+                    ctrl.CanNotNext = false;
             }, $log.error);
         };
 
@@ -34,8 +45,11 @@
             ctrl.challengesTemp = Challenges.getAllWithPage({ pageNum: ctrl.page, pageSize: pageSize });
             ctrl.challengesTemp.$promise.then(function () {
                 ctrl.challenges = ctrl.challengesTemp;
-                if (ctrl.challenges.length < pageSize)
+                var lastElement = (ctrl.page+1) * pageSize;
+                if (lastElement > ctrl.challengeCount.countOfChallenges)
                     ctrl.CanNotNext = true;
+                else
+                    ctrl.CanNotNext = false;
             }, $log.error);
         };
 
@@ -45,8 +59,11 @@
                 ctrl.challengesTemp = Challenges.getAllWithPage({ pageNum: ctrl.page, pageSize: pageSize });
                 ctrl.challengesTemp.$promise.then(function () {
                     ctrl.challenges = ctrl.challengesTemp;
-                    if (ctrl.challenges.length <= pageSize)
+                    var lastElement = (ctrl.page+1) * pageSize;
+                    if (lastElement > ctrl.challengeCount.countOfChallenges)
                         ctrl.CanNotNext = true;
+                    else
+                        ctrl.CanNotNext = false;
                 }, $log.error);
             }
         };
