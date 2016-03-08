@@ -6,7 +6,6 @@
         ctrl.$watch(function () {
             return SharedUpdateChallenge.challengeToBeUpdated;
         }, function () {
-            console.log("Hello world!");
             ctrl.challenge = SharedUpdateChallenge.getChallengeData();
         });
 
@@ -26,6 +25,11 @@
         };
 
         ctrl.Update = function () {
+            if (ctrl.challenge.startDate > ctrl.challenge.endDate) {
+                ctrl.errorNotification = true;
+                $log.error("Start date should be before end date.");
+                return;
+            }
             Challenges
                 .update(ctrl.challenge)
                 .$promise
@@ -48,7 +52,14 @@
             ctrl.updateNotification = false;
             ctrl.DirtyForm = false;
             ctrl.Cancel();
-        }
+        };
+
+        ctrl.OKError = function () {
+            ctrl.DirtyForm = false;
+            ctrl.createNotification = false;
+            ctrl.errorNotification = false;
+        };
+
         ctrl.updateNotification = false;
     });
 })();

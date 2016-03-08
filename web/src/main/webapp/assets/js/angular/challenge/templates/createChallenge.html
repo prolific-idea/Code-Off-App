@@ -1,7 +1,7 @@
 <div ng-controller="createChallengeController">
-    <div class="code-off-leaderboard-border" style="height: 500px;overflow-y: scroll;">
+    <div class="code-off-leaderboard-border" style="height: 550px;overflow-y: scroll;">
         <div ng-if="DirtyForm">
-            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 9000000;">
                 <div style="width: 40%; margin: 200px auto auto;" class="alert alert-success"
                      align="center"
                      role="alert" ng-if="createNotification == true">
@@ -9,13 +9,11 @@
                     <button class="btn btn-primary btn-lg" ng-click="OK()"><span
                             class="fa fa-thumbs-up">OK</span></button>
                 </div>
-            </div>
-            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
                 <div style="width: 40%; margin: 200px auto auto;" class="alert alert-danger"
                      align="center"
                      role="alert" ng-if="errorNotification == true">
                     <h4 style="text-align: center;">Error occurred please look at the console for more information.</h4>
-                    <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                    <button class="btn btn-primary btn-lg" ng-click="OKError()"><span
                             class="fa fa-thumbs-up">OK</span></button>
                 </div>
             </div>
