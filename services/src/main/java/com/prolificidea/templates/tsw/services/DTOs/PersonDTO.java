@@ -16,6 +16,16 @@ public class PersonDTO implements Serializable {
     private int score;
     private String url;
 
+    public String getRepoUrl() {
+        return repoUrl;
+    }
+
+    public void setRepoUrl(String repoUrl) {
+        this.repoUrl = repoUrl;
+    }
+
+    private String repoUrl;
+
     public PersonDTO() {
     }
 

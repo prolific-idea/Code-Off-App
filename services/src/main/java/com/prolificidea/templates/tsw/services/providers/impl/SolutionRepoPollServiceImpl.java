@@ -32,7 +32,7 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
 
     private final int ONE_MINUTE =60000;
 
-    private int challengeID =101; // needs to be removed when scheduling between dates
+    private int challengeID =0; // needs to be removed when scheduling between dates
 
     @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
     public void pollRepositoryForSolution() {

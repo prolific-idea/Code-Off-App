@@ -6,9 +6,13 @@ import com.prolificidea.templates.tsw.services.providers.impl.SolutionRepoPollSe
 import com.prolificidea.templates.tsw.services.providers.impl.UrlServiceImpl;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.ConfigurableMimeFileTypeMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
 
 @RestController
 public class UrlServiceTestController {
@@ -54,5 +58,12 @@ public class UrlServiceTestController {
             e.printStackTrace();
         }
         return temp;
+    }
+
+    @RequestMapping(value = "/api/ext", method = RequestMethod.GET)
+    public String ext() {
+
+        ConfigurableMimeFileTypeMap mimeMap = new ConfigurableMimeFileTypeMap();
+        return mimeMap.getContentType("C:\\Users\\stuart.callen\\Desktop\\rishal-pi-template-spring-web-b48fdbb337ab\\rishal-pi-template-spring-web-b48fdbb337ab\\domain\\src\\main\\java\\com\\prolificidea\\templates\\tsw\\domain\\AppUser.java");
     }
 }

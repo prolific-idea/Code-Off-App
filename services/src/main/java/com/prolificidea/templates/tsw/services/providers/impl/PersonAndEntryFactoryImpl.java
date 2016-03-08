@@ -3,6 +3,7 @@ package com.prolificidea.templates.tsw.services.providers.impl;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 import com.prolificidea.templates.tsw.services.providers.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,11 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     @Autowired
     ScoreService scoreService;
 
+    @Autowired
+    ExtensionExtractor extensionExtractor;
+
+    private final static String API_URL = "https://api.github.com/repos/";
+
     private ChallengeDTO challenge;
 
     private RestTemplate restCall = new RestTemplate();
@@ -45,7 +51,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     public String markSolutionsOfUserIfTheyExsistForAChallenge(int challengeId) throws JSONException {
 
         challenge= challengeService.findChallenge(challengeId);
-        String URLForks = "https://api.github.com/repos"+ challenge.getUrl() +"/forks";
+        String URLForks =  API_URL+ challenge.getUrl() +"/forks";
         JSONArray forks = getJSONFromURL(URLForks);
         String userRepoURL = "End";
         for (int forkNumber = 0; forkNumber  < forks.length(); forkNumber ++) {
@@ -69,7 +75,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     }
 
     private void buildEntries(PersonDTO person, List<EntryDTO> entries, JSONObject fork) throws JSONException {
-        String branchesUrl = person.getUrl()+"/branches";
+        String branchesUrl = person.getRepoUrl()+"/branches";
         JSONArray branches = getJSONFromURL(branchesUrl);
         for (int branchNumber = 0; branchNumber < branches.length(); branchNumber ++)
         {
@@ -77,12 +83,14 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             EntryDTO  entry = new EntryDTO();
             entry.setBranch(branch.getString("name"));
             entry.setFullName(fork.getString("full_name"));
-            entry.setUrl(person.getUrl()+"/branches/"+ entry.getBranch());
+            entry.setUrl(person.getRepoUrl()+"/branches/"+ entry.getBranch());
 
             EntryDTO validEntry = createAndCheckEntry(entry);
 
-            if (validEntry!=null)
+            TechnologyDTO tech =  setTech(entry.getBranch(),person.getRepoUrl());
+            if (validEntry!=null & tech !=null )
             {
+                entry.setTechId(tech.getTechId());
                 entries.add(validEntry);
             }
         }
@@ -127,6 +135,32 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         entry.setTechId(1);// TODO: 2016/03/03 set when fixing tech
     }
 
+    private TechnologyDTO setTech(String branch, String URL ) throws JSONException {
+        String path = getPath();
+        URL = URL +"/contents/" + path+"?ref="+branch ;
+        TechnologyDTO technology = null;
+        JSONArray contents = getJSONFromURL(URL);
+        for (int contentNumber= 0; contentNumber < contents.length();contentNumber ++)
+        {
+            JSONObject content = contents.getJSONObject(contentNumber);
+           technology =extensionExtractor.extractExtension(content.getString("name"));
+        }
+        return  technology;
+
+    }
+
+    private String getPath() {
+        String solutionPath = challenge.getSolutionFilePath();
+        String[] splicedSolutionPath = solutionPath.split("/");
+        StringBuilder builder = new StringBuilder();
+        for (int numberOfString= 0;numberOfString< splicedSolutionPath.length -1; numberOfString++)
+        {
+            builder.append(splicedSolutionPath[numberOfString]);
+        }
+        return builder.toString();
+    }
+
+
     private void createEntries(List<EntryDTO> entries, int newPersonID) {
         EntryDTO store;
         for(EntryDTO entry:entries)
@@ -138,7 +172,6 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
                 {
                     oldEntry.setResult(entry.getResult());
                     store= entryService.updateEntry(oldEntry);
-                    //store.getResult();
                 }
 
                 return;
@@ -164,9 +197,10 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
         person.setScore(0);
         person.setUsername(getUsername(fork));
-        person.setUrl(buildRepoURL(fork));
-        // TODO: 2016/03/03 fetch user names
+        person.setUrl("https://github.com/"+person.getUsername());
+        person.setRepoUrl(buildRepoURL(fork));
 
+        // TODO: 2016/03/03 fetch user names
     }
 
     private String buildRepoURL(JSONObject fork) throws JSONException {
