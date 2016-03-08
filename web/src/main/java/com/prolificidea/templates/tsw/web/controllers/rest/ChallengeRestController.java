@@ -1,5 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeCountDTO;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class ChallengeRestController {
         }
 
         return new ResponseEntity<ChallengeDTO>(challenge, HttpStatus.FOUND);
+    }
+
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getChallengeCount() {
+        ChallengeCountDTO count = new ChallengeCountDTO();
+        long numberOfChallenges = challengeService.countChallenges();
+        count.setCountOfChallenges(numberOfChallenges);
+        return count;
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
