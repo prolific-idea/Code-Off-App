@@ -16,9 +16,18 @@
                     <td>
                         <a href="https://github.com/Stuart-Callen">{{coder.personId}}</a>
                     </td>
-                    <td class="code-off-tech">
-                        <i class="icon-java-bold"></i>
-                        <i class="icon-erlang"></i>
+                    <td class="code-off-tech" ng-repeat="tech in coder.techs">
+                        <div ng-switch on="{{tech}}">
+                            <div ng-switch-when="{{tech}} == C# || {{tech}} == c#">
+                                <i class="icon-csharp"></i>
+                            </div>
+                            <div ng-switch-when="{{tech}} == C++ || {{tech}} == c++">
+                                <i class="icon-cplusplus"></i>
+                            </div>
+                            <div ng-switch-default>
+                                <i ng-class="icon-{{tech | lowercase}}"></i>
+                            </div>
+                        </div>
                     </td>
                     <td class="code-off-points">
                         {{coder.noCodeOffs}}
