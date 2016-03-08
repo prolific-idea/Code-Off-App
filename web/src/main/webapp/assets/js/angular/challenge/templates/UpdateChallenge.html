@@ -1,0 +1,138 @@
+<div ng-controller="updateChallengeController" ng-show="challenge != null || challenge != undefined">
+    <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+        <div class="code-off-leaderboard-border"
+             style="height: 500px; width: 300px; margin-left: auto; overflow-y: scroll; margin-right: auto; margin-top: 60px;">
+            <div ng-if="DirtyForm">
+                <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 900000;">
+                    <div style="width: 40%; margin: 200px auto auto;" class="alert alert-success"
+                         align="center"
+                         role="alert" ng-if="updateNotification == true">
+                        <h4 style="text-align: center;">Challenge has been update</h4>
+                        <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                                class="fa fa-thumbs-up">OK</span></button>
+                    </div>
+                </div>
+                <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 1000;">
+                    <div style="width: 40%; margin: 200px auto auto;" class="alert alert-danger"
+                         align="center"
+                         role="alert" ng-if="errorNotification == true">
+                        <h4 style="text-align: center;">Error occurred please look at the console for more
+                            information.</h4>
+                        <button class="btn btn-primary btn-lg" ng-click="OK()"><span
+                                class="fa fa-thumbs-up">OK</span></button>
+                    </div>
+                </div>
+            </div>
+            <ng-form name="updateChallengeForm">
+                <h2 class="h2" style="color: #797979; font-weight: 700;">Update challenge</h2>
+
+                <div class="form-group">
+                    <label for="ChallengeUrl">Challenge Url: https://github.com/prolific-idea/</label><br/>
+                    <input
+                            id="ChallengeUrl"
+                            name="ChallengeUrl"
+                            class="form-control"
+                            placeholder="Challenge Url"
+                            ng-model="challenge.url"
+                            required/>
+
+                    <div ng-messages="updateChallengeForm.ChallengeUrl.$error"
+                         ng-show="updateChallengeForm.ChallengeUrl.$touched && updateChallengeForm.ChallengeUrl.$invalid">
+                        <div class="error" style="color:red;" ng-message="required">Please complete the url.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ChallengeSolution">Select solution file</label><br/>
+                    <input
+                            id="ChallengeSolution"
+                            name="ChallengeSolution"
+                            type="file"
+                            class="form-control"
+                            value="{{challenge.solution}}"
+                            placeholder="Challenge Solution"
+                            custom-ng-change="getTheFiles"
+                            />
+
+                    <!--<div ng-messages="updateChallengeForm.ChallengeSolution.$error"
+                         ng-show="updateChallengeForm.ChallengeSolution.$touched && updateChallengeForm.ChallengeSolution.$invalid">
+                        <div class="error" style="color:red;" ng-message="required">Please select a file.</div>
+                    </div>-->
+                </div>
+                <div class="form-group">
+                    <label for="ChallengeSolutionFilePath">Solution File Path: </label><br/>
+                    <input
+                            id="ChallengeSolutionFilePath"
+                            name="ChallengeSolutionFilePath"
+                            class="form-control"
+                            placeholder="Challenge Solution File Path"
+                            ng-model="challenge.solutionFilePath"
+                            required/>
+
+                    <div ng-messages="updateChallengeForm.ChallengeSolutionFilePath.$error"
+                         ng-show="updateChallengeForm.ChallengeSolutionFilePath.$touched && updateChallengeForm.ChallengeSolutionFilePath.$invalid">
+                        <div class="error" style="color:red;" ng-message="required">Please provide the solution file
+                            path.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ChallengeStartDate">Challenge Start Date</label><br/>
+                    <input id="ChallengeStartDate"
+                           name="ChallengeStartDate"
+                           type="date"
+                           value="{{challenge.startDate|date:'yyyy-MM-dd'}}"
+                           class="form-control"
+                           placeholder="Challenge Start Date"
+                           ng-model="challenge.startDate"
+                           required/>
+
+                    <div ng-messages="updateChallengeForm.ChallengeStartDate.$error"
+                         ng-show="updateChallengeForm.ChallengeStartDate.$touched && updateChallengeForm.ChallengeStartDate.$invalid">
+                        <div style="color:red;" ng-message="required">Please provide a start date.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ChallengeEndDate">Challenge End Date</label><br/>
+                    <input id="ChallengeEndDate"
+                           name="ChallengeEndDate"
+                           type="date"
+                           class="form-control"
+                           value="{{challenge.endDate|date:'yyyy-MM-dd'}}"
+                           placeholder="Challenge End Date"
+                           ng-model="challenge.endDate"
+                           required/>
+
+                    <div ng-messages="updateChallengeForm.ChallengeEndDate.$error"
+                         ng-show="updateChallengeForm.ChallengeEndDate.$touched && updateChallengeForm.ChallengeEndDate.$invalid">
+                        <div style="color:red;" ng-message="required">Please provide an end date.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="numberOfLinesToCompare">Number of lines to compare: </label><br/><input
+                        id="numberOfLinesToCompare" type="number"
+                        name="numberOfLinesToCompare" min="0" class="form-control"
+                        placeholder="Number of lines to compare"
+                        ng-model="challenge.numberOfLinesToCompare"
+                        required/>
+
+                    <div ng-messages="updateChallengeForm.numberOfLinesToCompare.$error"
+                         ng-show="updateChallengeForm.numberOfLinesToCompare.$touched && updateChallengeForm.numberOfLinesToCompare.$invalid">
+                        <div style="color:red;" ng-message="required">Please provide the number of lines to
+                            compare.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-default"
+                        ng-disabled="updateChallengeForm.$invalid || DirtyForm"
+                        ng-click="Update();">
+                    Update challenge
+                </button>
+                <button type="submit" class="btn btn-default" ng-click="Cancel();">
+                    Cancel
+                </button>
+            </ng-form>
+        </div>
+    </div>
+</div>
+
+<!---->

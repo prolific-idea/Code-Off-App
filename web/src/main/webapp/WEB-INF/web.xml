@@ -17,8 +17,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
             /WEB-INF/application/root-context.xml,
-            /WEB-INF/application/application-security-context.xml,
-            /WEB-INF/application/application-security-rules.xml
+            /WEB-INF/application/application-context.xml
         </param-value>
 	</context-param>
 
@@ -29,8 +28,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-                /WEB-INF/application/application-context.xml,
-                /WEB-INF/application/application-security-context.xml
+                /WEB-INF/application/application-context.xml
             </param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -52,14 +50,15 @@
         <url-pattern>*.ttf</url-pattern>
         <url-pattern>*.woff</url-pattern>
         <url-pattern>*.ico</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
     <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- Spring Security -->
-	<filter>
+	<!--<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -71,10 +70,10 @@
 
 	<welcome-file-list>
 		<welcome-file>/</welcome-file>
-	</welcome-file-list>
+	</welcome-file-list>-->
 	
 	<!-- Head and Footer -->
-	<jsp-config>
+	<!--<jsp-config>
         <jsp-property-group>
             <url-pattern>/WEB-INF/jsp/test/*</url-pattern>
             <url-pattern>/WEB-INF/jsp/appuser/*</url-pattern>
@@ -82,7 +81,7 @@
             <include-prelude>/WEB-INF/jsp-master/header.jsp</include-prelude>
             <include-coda>/WEB-INF/jsp-master/footer.jsp</include-coda>
         </jsp-property-group>
-    </jsp-config>
+    </jsp-config>-->
 	
 	<!-- Open Entity Manager in View  -->
 	<filter>
