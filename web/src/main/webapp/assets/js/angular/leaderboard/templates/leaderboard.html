@@ -14,19 +14,35 @@
                 <tbody>
                 <tr ng-repeat="coder in coders">
                     <td>
-                        <a href="https://github.com/Stuart-Callen">{{coder.personId}}</a>
+                        <a href="http://github.com/{{coder.personDTO.username}}">
+                            <div ng-if="!coder.personDTO.firstName || !coder.personDTO.lastName">
+                                {{coder.personDTO.username}}
+                            </div>
+                            <div ng-if="coder.personDTO.firstName || coder.personDTO.lastName">
+                                {{coder.personDTO.firstName}} {{coder.personDTO.lastName}}
+                            </div>
+                        </a>
                     </td>
-                    <td class="code-off-tech" ng-repeat="tech in coder.techs">
-                        <div ng-switch on="{{tech}}">
-                            <div ng-switch-when="{{tech}} == C# || {{tech}} == c#">
-                                <i class="icon-csharp"></i>
-                            </div>
-                            <div ng-switch-when="{{tech}} == C++ || {{tech}} == c++">
-                                <i class="icon-cplusplus"></i>
-                            </div>
-                            <div ng-switch-default>
-                                <i ng-class="icon-{{tech | lowercase}}"></i>
-                            </div>
+                    <td class="code-off-tech" style="display: inline-flex">
+                        <div ng-repeat="tech in coder.techs">
+                            <i class="ng-bind: icon-{{tech.description}}" style="padding-left: 3px;"></i>
+                            <!--<div ng-if="{{tech.description}}=='C#'">-->
+                                <!--<i class="icon-csharp"></i>-->
+                            <!--</div>-->
+                            <!--<div ng-if="!{{tech.description}}=='C#'">-->
+                                <!--<i class="ng-bind: icon-{{tech.description | lowercase}}"></i>-->
+                            <!--</div>-->
+                            <!--<div ng-switch on="({{tech.description}}=='C#')">-->
+                                <!--<div ng-switch-when="true">-->
+                                    <!--<i class="icon-csharp"></i>-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash;<div ng-switch-when="{{tech.description}}==='C++'">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<i class="icon-cplusplus"></i>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--<div ng-switch-default>-->
+                                    <!--<i class="ng-bind: icon-{{tech.description | lowercase}}"></i>-->
+                                <!--</div>-->
+                            <!--</div>-->
                         </div>
                     </td>
                     <td class="code-off-points">

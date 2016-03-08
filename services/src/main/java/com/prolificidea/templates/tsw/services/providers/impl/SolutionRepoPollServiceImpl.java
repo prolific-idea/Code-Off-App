@@ -1,6 +1,5 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonAndEntryFactory;
 import com.prolificidea.templates.tsw.services.providers.SolutionRepoPollService;
 import org.json.JSONException;
@@ -9,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +30,7 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
 
     private final int ONE_MINUTE =60000;
 
-    private int challengeID =101; // needs to be removed when scheduling between dates
+    private int challengeID =0; // needs to be removed when scheduling between dates
 
     @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
     public void pollRepositoryForSolution() {

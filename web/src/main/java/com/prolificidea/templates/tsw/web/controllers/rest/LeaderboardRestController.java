@@ -29,7 +29,7 @@ public class LeaderboardRestController {
     }
 
 
-    @RequestMapping(value = "/le", method = RequestMethod.GET)
+    @RequestMapping(value = "/board", method = RequestMethod.GET)
     public
     @ResponseBody
     List<LeaderboardDTO> getLeaderboards(@RequestParam(required = false, defaultValue = "0") int pageSize,
