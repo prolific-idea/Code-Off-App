@@ -2,6 +2,7 @@
     "use strict";
 
     var codeOffApp = angular.module("codeOffApp", [
+        "ui.bootstrap",
         "ngResource",
         "codeOffNavigation",
         "codeOffFooter",
