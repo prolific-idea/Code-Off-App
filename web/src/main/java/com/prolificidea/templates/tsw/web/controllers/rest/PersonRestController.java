@@ -1,5 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
+import com.prolificidea.templates.tsw.services.DTOs.PersonCountDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.providers.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,14 @@ public class PersonRestController {
             return personService.findAllPersons(pageSize, pageNum);
         }
 
+    }
+
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public @ResponseBody PersonCountDTO getNumberOfPeople(){
+        PersonCountDTO count = new PersonCountDTO();
+        count.setCountOfPerson(personService.countPersons());
+        return count;
     }
 
     @RequestMapping(value = "/desc", method = RequestMethod.GET)
