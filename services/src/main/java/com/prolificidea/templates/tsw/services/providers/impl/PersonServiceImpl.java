@@ -103,6 +103,16 @@ public class PersonServiceImpl implements PersonService {
         return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology)));
     }
 
+    public List<LeaderboardDTO> getScoresByChallenge(int id, int pageSize, int pageNum) {
+        Challenge challenge = challengeDao.find(id);
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByChallenge(challenge,pageSize,pageNum)));
+    }
+
+    public List<LeaderboardDTO> getScoresByTech(int id, int pageSize, int pageNum) {
+        Technology technology = technologyDao.find(id);
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology,pageSize,pageNum)));
+    }
+
     public int getNoCodeOffs(PersonDTO person) {
         return personDao.getNoCodeOffs(person.getPersonId());
     }

@@ -44,6 +44,24 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
         return  peoples;
     }
 
+    public List<Person> getScoresByChallenge(Challenge challenge, int pageSize, int pageNum) {
+        Query query = this.entityManager.createQuery("Select distinct p " +
+                "from Entry e, Person p where p.personId = e.personId and e.challengeId = :chal" +
+                " order by p.score desc").setParameter("chal", challenge);
+        query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
+        List<Person> peoples = query.getResultList();
+        return  peoples;
+    }
+
+    public List<Person> getScoresByTech(Technology technology, int pageSize, int pageNum) {
+        Query query = this.entityManager.createQuery("Select distinct p " +
+                "from Entry e, Person p where p.personId = e.personId and e.techId = :tech" +
+                " order by p.score desc").setParameter("tech", technology);
+        query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
+        List<Person> peoples = query.getResultList();
+        return  peoples;
+    }
+
     public int getNoCodeOffs(Integer personId) {
         Query query = this.entityManager.createQuery("select count(distinct e.challengeId)" +
                 " from Entry e where e.personId.personId = :per ").setParameter("per", personId);
