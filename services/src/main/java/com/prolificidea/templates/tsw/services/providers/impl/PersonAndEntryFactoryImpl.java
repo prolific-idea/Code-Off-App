@@ -69,6 +69,8 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
         if (entries.size() > 0) {
             int newPersonID = createPerson(person);
+            if (person.getUsername().equals("Stuart-Callen"))
+            {String Store = person.getUsername();}
             createEntries(entries, newPersonID);
         }
 
@@ -161,14 +163,14 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
 
     private void createEntries(List<EntryDTO> entries, int newPersonID) {
-        EntryDTO store;
         for (EntryDTO entry : entries) {
             List<EntryDTO> entryExsists = entryService.searchEntrys("url", entry.getUrl());
             if (entryExsists.size() > 0) {
                 EntryDTO oldEntry = entryExsists.get(0);
                 if (oldEntry.getResult() != entry.getResult()) {
                     oldEntry.setResult(entry.getResult());
-                    store = entryService.updateEntry(oldEntry);
+                     EntryDTO storeEntry =entryService.updateEntry(oldEntry);
+                    scoreService.addScore(storeEntry);
                 }
 
             } else {
@@ -193,9 +195,38 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         person.setScore(0);
         person.setUsername(getUsername(fork));
         person.setUrl("https://github.com/" + person.getUsername());
+        //person.setUrl(getUserURLFromFork(fork));
         person.setRepoUrl(buildRepoURL(fork));
-
+        setFirstAndLastNames(person);
         // TODO: 2016/03/03 fetch user names
+    }
+
+    private void setFirstAndLastNames(PersonDTO person) throws JSONException {
+        String URL = "https://api.github.com/users/" + person.getUsername();
+        JSONObject user = getJSONObjectFromURL(URL);
+        if (user == null)
+            return;
+        String firstAndSecondName = user.getString("name");
+        if (firstAndSecondName == null)
+            return;
+
+        String[] firstAndSecondNameSeperated = firstAndSecondName.split(" ");
+
+        if (firstAndSecondNameSeperated.length > 0 && !(firstAndSecondNameSeperated[0].equals("null"))) {
+            person.setFirstName(firstAndSecondNameSeperated[0]);
+            if (firstAndSecondNameSeperated.length > 1) {
+                String surname = "";
+                for (int namePosition = 1; namePosition < firstAndSecondNameSeperated.length; namePosition++) {
+                    surname += firstAndSecondNameSeperated[namePosition] + " ";
+                }
+                person.setLastName(surname.trim());
+            }
+        }
+    }
+
+    private String getUserURLFromFork(JSONObject fork) throws JSONException {
+        JSONObject owner = fork.getJSONObject("owner");
+        return owner.getString("url");
     }
 
     private String buildRepoURL(JSONObject fork) throws JSONException {
@@ -221,6 +252,23 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
         try {
             JSONArray jsonResults = new JSONArray(results.getBody());
+            return jsonResults;
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    private JSONObject getJSONObjectFromURL(String URL) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+        ResponseEntity<String> results = restCall.exchange(
+                URL,
+                HttpMethod.GET, entity, String.class);
+
+        try {
+            JSONObject jsonResults = new JSONObject(results.getBody());
             return jsonResults;
         } catch (JSONException e) {
             return null;
