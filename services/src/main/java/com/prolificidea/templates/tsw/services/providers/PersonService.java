@@ -22,8 +22,8 @@ public interface PersonService {
     void deletePerson(Object id);
     PersonDTO createPerson(PersonDTO t);
     PersonDTO updatePerson(PersonDTO t);
-    List<PersonDTO> getScoresByChallenge(int id);
-    List<PersonDTO> getScoresByTech(int id);
+    List<LeaderboardDTO> getScoresByChallenge(int id);
+    List<LeaderboardDTO> getScoresByTech(int id);
     int getNoCodeOffs(PersonDTO person);
     List<TechnologyDTO> getListOfTechsByPerson(int id);
     List<LeaderboardDTO> getLeaderboard();
