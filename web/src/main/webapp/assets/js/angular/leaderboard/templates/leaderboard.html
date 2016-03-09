@@ -6,18 +6,24 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="pull-right form-group" style="display: inline-flex;">
                         <div class="btn-group" style="display: inline-flex; margin-top: 12px;">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" ng-click="searchFor()">
+                            <form name="searchForm">
+                                <input type="text" placeholder="search..." class="form-control" ng-model="searchTerm"
+                                       ng-pattern="^[0-9]+$" min="1">
+                            </form>
+                            <button type="button" class="btn btn-default" ng-click="searchFor({{selectedSearch.id}})"
+                                    ng-disabled="searchForm.$invalid || searchForm.$pristine || searchForm.$dirty">
                                 {{selectedSearch.name}}
+                            </button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="float: right;">
                                 <li ng-repeat="action in searchActions">
                                     <a href="#" ng-click="setSearchAction(action)">{{action.name}}</a>
                                 </li>
                             </ul>
-                            <input type="text" placeholder="search..." class="form-control" ng-model="searchTerm">
                         </div>
                     </div>
                 </div>

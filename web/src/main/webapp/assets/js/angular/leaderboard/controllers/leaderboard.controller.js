@@ -63,10 +63,11 @@
 	var app = angular.module("codeOffLeaderboard");
 
 	app.controller("viewLeaderboardController",
-		function ($scope, $http, $log, Coders, PersonCount) {
+		function ($scope, $http, $log, Coders, PersonCount, Challenges) {
 			var ctrl = $scope;
 			var pageSize = 6;
 			ctrl.pageNum = 1;
+			ctrl.coders = [];
 
 			ctrl.searchTerm = "";
 			ctrl.searchActions = [
@@ -77,12 +78,40 @@
 			];
 			ctrl.selectedSearch = ctrl.searchActions[0];
 
-			ctrl.setSearchAction = function(action) {
+			ctrl.setSearchAction = function (action) {
+				console.log(action);
 				ctrl.selectedSearch = action;
+				ctrl.searchFor(action);
 			}
 
-			ctrl.searchFor = function() {
+			ctrl.searchFor = function (actionId) {
 				console.log(ctrl.selectedSearch.id);
+				console.log("Searching for: " + actionId.id + " and search term: " + ctrl.searchTerm);
+				if (actionId.id === "filter") {
+					console.log(actionId.id);
+				}
+				else if (actionId.id === "all") {
+					console.log(actionId.id + "not supported");
+				}
+				else if (actionId.id === "challenge") {
+					console.log(actionId.id + " found");
+					ctrl.codersTemp = Challenges.getChallenges({id: ctrl.searchTerm, pageNum: ctrl.pageNum, pageSize: pageSize});
+					ctrl.personCountTemp = PersonCount.count();
+					ctrl.personCountTemp.$promise.then(function () {
+						ctrl.countOfCoders = ctrl.personCountTemp;
+						ctrl.countOfCoders = ctrl.countOfCoders.countOfPerson;
+					}, $log.error);
+					ctrl.codersTemp.$promise.then(function () {
+						ctrl.coders = ctrl.codersTemp;
+						ctrl.ChangeTechDescription();
+						console.log(ctrl.coders);
+						var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
+						if (lastPage === ctrl.pageNum)
+							ctrl.CanNotNext = true;
+					}, $log.error);
+				} else {
+					console.log(actionId + " unknown");
+				}
 			}
 
 			ctrl.codersTemp = Coders.getPagedLeaderboard({pageNum: ctrl.pageNum, pageSize: pageSize});
@@ -99,7 +128,6 @@
 				if (lastPage === ctrl.pageNum)
 					ctrl.CanNotNext = true;
 			}, $log.error);
-
 
 			ctrl.ToNextPage = function () {
 				ctrl.pageNum += 1;
