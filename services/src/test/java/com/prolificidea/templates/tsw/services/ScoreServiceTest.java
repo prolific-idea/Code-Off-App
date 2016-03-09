@@ -66,6 +66,7 @@ public class ScoreServiceTest {
     public void testFilterByTech() {
 
         List<PersonDTO> persons = personService.getScoresByTech(2);
+
         for (PersonDTO p : persons) {
             System.out.println(p.getFirstName() + ":  SCORE: " + p.getScore());
         }
