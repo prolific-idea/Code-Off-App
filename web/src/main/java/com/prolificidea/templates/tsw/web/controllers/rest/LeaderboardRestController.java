@@ -43,5 +43,21 @@ public class LeaderboardRestController {
 
     }
 
+    @RequestMapping(value = "/challenges", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<LeaderboardDTO> getLeaderboardByChallenge(@RequestParam int id)
+    {
+        return personService.getScoresByChallenge(id);
+    }
+
+    @RequestMapping(value = "/tech", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<LeaderboardDTO> getLeaderboardByTech(@RequestParam int id)
+    {
+        return personService.getScoresByTech(id);
+    }
+
 }
 

@@ -93,14 +93,14 @@ public class PersonServiceImpl implements PersonService {
         return convertDomainListToDtoList(personDao.findAllPersonsDesc());
     }
 
-    public List<PersonDTO> getScoresByChallenge(int id) {
+    public List<LeaderboardDTO> getScoresByChallenge(int id) {
         Challenge challenge = challengeDao.find(id);
-        return convertDomainListToDtoList(personDao.getScoresByChallenge(challenge));
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByChallenge(challenge)));
     }
 
-    public List<PersonDTO> getScoresByTech(int id) {
+    public List<LeaderboardDTO> getScoresByTech(int id) {
         Technology technology = technologyDao.find(id);
-        return convertDomainListToDtoList(personDao.getScoresByTech(technology));
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology)));
     }
 
     public int getNoCodeOffs(PersonDTO person) {
@@ -119,25 +119,20 @@ public class PersonServiceImpl implements PersonService {
 
     public List<LeaderboardDTO> getLeaderboard() {
         List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc());
-        List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
-        for (PersonDTO p : personDTOs) {
-            try {
-                leaderboard.add(new LeaderboardDTO(p, getNoCodeOffs(p), getListOfTechsByPerson(p.getPersonId())));
-            } catch (Exception e) {
-                System.out.println(p.getFirstName() + " " + p.getScore());
-            }
-        }
-        return leaderboard;
+        return convertPersonListToLeaderboardList(personDTOs);
     }
 
     public List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum) {
         List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize, pageNum));
-        List<LeaderboardDTO> leaderboard = new ArrayList<LeaderboardDTO>();
-        for (PersonDTO p : personDTOs) {
+        return convertPersonListToLeaderboardList(personDTOs);
+    }
 
-            leaderboard.add(new LeaderboardDTO(p, getNoCodeOffs(p), getListOfTechsByPerson(p.getPersonId())));
+    private List<LeaderboardDTO> convertPersonListToLeaderboardList(List<PersonDTO> persons) {
+        List<LeaderboardDTO> leaders = new ArrayList<LeaderboardDTO>();
+        for (PersonDTO p : persons) {
+            leaders.add(new LeaderboardDTO(p, getNoCodeOffs(p), getListOfTechsByPerson(p.getPersonId())));
         }
-        return leaderboard;
+        return leaders;
     }
 
     private List<PersonDTO> convertDomainListToDtoList(List<Person> persons) {
