@@ -34,10 +34,13 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
 
     @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
     public void pollRepositoryForSolution() {
-        time = "The time is now " + dateFormat.format(new Date());
+        time = "Last Polled: " + dateFormat.format(new Date()) ;
+        String temp = time;
         try {
+            time = temp +" CurrentlyPolling!";
             if (challengeID != 0)
             personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(challengeID);
+            time = temp +" Finished Polling At: " + dateFormat.format(new Date());
         } catch (JSONException e) {
             e.printStackTrace();
         }

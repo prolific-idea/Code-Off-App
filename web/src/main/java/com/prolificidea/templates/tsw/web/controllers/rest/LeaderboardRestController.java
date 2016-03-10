@@ -43,5 +43,35 @@ public class LeaderboardRestController {
 
     }
 
+    @RequestMapping(value = "/challenges", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<LeaderboardDTO> getLeaderboardByChallenge(@RequestParam int id,
+                                                   @RequestParam(required = false, defaultValue = "0") int pageSize,
+                                                   @RequestParam(required = false, defaultValue = "0") int pageNum)
+    {
+        if (pageNum == 0 && pageSize == 0) {
+            return personService.getScoresByChallenge(id);
+        } else {
+            return personService.getScoresByChallenge(id, pageSize, pageNum);
+        }
+
+    }
+
+    @RequestMapping(value = "/tech", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<LeaderboardDTO> getLeaderboardByTech(@RequestParam int id,
+                                              @RequestParam(required = false, defaultValue = "0") int pageSize,
+                                              @RequestParam(required = false, defaultValue = "0") int pageNum)
+    {
+        if (pageNum == 0 && pageSize == 0) {
+            return personService.getScoresByTech(id);
+        } else {
+            return personService.getScoresByTech(id, pageSize, pageNum);
+        }
+
+    }
+
 }
 
