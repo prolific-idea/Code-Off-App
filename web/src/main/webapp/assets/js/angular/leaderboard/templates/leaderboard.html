@@ -7,11 +7,13 @@
                     <div class="pull-right form-group" style="display: inline-flex;">
                         <div class="btn-group" style="display: inline-flex; margin-top: 12px;">
                             <form name="searchForm">
-                                <input type="text" placeholder="search..." class="form-control" ng-model="searchTerm"
-                                       ng-pattern="^[0-9]+$" min="1">
+                                <input type="number" name="search" placeholder="search..." class="form-control"
+                                       ng-model="searchTerm"
+                                       ng-pattern="^[0-9]+$" ng-min="1" required>
                             </form>
                             <button type="button" class="btn btn-default" ng-click="searchFor({{selectedSearch.id}})"
-                                    ng-disabled="searchForm.$invalid || searchForm.$pristine || searchForm.$dirty">
+                                    ng-disabled="searchForm.search.$invalid || searchForm.search.$error.pattern ||
+                                    searchForm.search.$error.required">
                                 {{selectedSearch.name}}
                             </button>
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -40,7 +42,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="coder in coders">
-                    <td>
+                    <td class="col-lg-6 col-md-5">
                         <a href="http://github.com/{{coder.personDTO.username}}">
                             <div ng-if="!coder.personDTO.firstName || !coder.personDTO.lastName">
                                 {{coder.personDTO.username}}
@@ -50,15 +52,15 @@
                             </div>
                         </a>
                     </td>
-                    <td class="code-off-tech" style="display: inline-flex">
+                    <td class="code-off-tech col-lg-4 col-md-5" style="display: inline-flex">
                         <div ng-repeat="tech in coder.techs">
                             <i class="ng-bind: icon-{{tech.description}}" style="padding-left: 3px;"></i>
                         </div>
                     </td>
-                    <td class="code-off-points">
+                    <td class="code-off-points col-lg-1 col-md-1">
                         {{coder.noCodeOffs}}
                     </td>
-                    <td class="code-off-points">
+                    <td class="code-off-points col-lg-1 col-md-1">
                         {{coder.points}}
                     </td>
                 </tr>
