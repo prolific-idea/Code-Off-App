@@ -28,13 +28,13 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service id="userService">
-				<security:user name="matt" password="123" authorities="SIMPLE" />
+				<security:user name="matt" password="0123" authorities="SIMPLE" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
 
 	<security:http create-session="stateless" use-expressions="true">
-	<security:intercept-url pattern="/**" access="hasAnyRole('SIMPLE')" />
+	<security:intercept-url pattern="**/**" access="hasAnyRole('SIMPLE')" />
 	<security:http-basic />
 	</security:http>
 
