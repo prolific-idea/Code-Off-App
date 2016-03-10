@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,4 +91,40 @@ public class ChallengeServiceImpl implements ChallengeService {
         }
         return challengeDTOs;
     }
+
+    public List<ChallengeDTO> getChallengesThatAreOnGoing(){
+        LocalDateTime now = LocalDateTime.now();
+        List<ChallengeDTO> challenges = findAllChallenges();
+        List<ChallengeDTO> challengesAfterDate = getCurrentOngoingChallenges(challenges,now);
+        return challengesAfterDate;
+    }
+
+    private List<ChallengeDTO> getCurrentOngoingChallenges(List<ChallengeDTO> challenges,LocalDateTime time){
+        List<ChallengeDTO> challengesAfterDate = new ArrayList<ChallengeDTO>();
+        for (ChallengeDTO challenge : challenges)
+        {
+            Date dateTimeNow = convertLocalDateTimeToDate(time);
+            removePastAndFutureDates(challengesAfterDate,challenge,dateTimeNow);
+        }
+        return challengesAfterDate;
+    }
+
+    private void removePastAndFutureDates(List<ChallengeDTO> challengesAfterDate,ChallengeDTO challenge,Date now){
+        Date endDate =challenge.getEndDate();
+        Date startDate =challenge.getStartDate();
+        if (endDate.after(now)&& isChallengeEnd(startDate,now))
+        {
+            challengesAfterDate.add(challenge);
+        }
+    }
+
+    private boolean isChallengeEnd(Date startDate,Date now) {
+        return startDate.before(now);
+    }
+
+    private Date convertLocalDateTimeToDate(LocalDateTime dateTime)
+    {Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);}
+
+
 }

@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers;
 
-import com.prolificidea.templates.tsw.domain.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 
 import java.util.List;
 
@@ -14,5 +14,6 @@ public interface AppUserService {
     long countAppUser();
     AppUser createAppUser(AppUser object);
     AppUser updateAppUser(AppUser object);
+    AppUser getAppUserByUsername(String username);
 
 }

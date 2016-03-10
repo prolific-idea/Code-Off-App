@@ -1,17 +1,17 @@
 package com.prolificidea.templates.tsw.web.controllers.web;
 
-import org.springframework.security.authentication.encoding.BasePasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import com.prolificidea.templates.tsw.domain.AppUser;
 import com.prolificidea.templates.tsw.domain.AppUserDetails;
 import com.prolificidea.templates.tsw.domain.AppUserRole;
 import com.prolificidea.templates.tsw.domain.Role;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.services.providers.AppUserDetailsService;
 import com.prolificidea.templates.tsw.services.providers.AppUserRoleService;
 import com.prolificidea.templates.tsw.services.providers.AppUserService;
 import com.prolificidea.templates.tsw.services.providers.RoleService;
 import com.prolificidea.templates.tsw.web.models.test.TestAppUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.BasePasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;

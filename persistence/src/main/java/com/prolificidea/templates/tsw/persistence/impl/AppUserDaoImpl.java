@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.persistence.impl;
 
-import com.prolificidea.templates.tsw.domain.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.persistence.generic.GenericDaoImpl;
 import com.prolificidea.templates.tsw.persistence.AppUserDao;
 import org.springframework.stereotype.Repository;

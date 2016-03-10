@@ -27,7 +27,7 @@ public class Appuserrole implements Serializable {
     private Integer appUserRoleId;
     @JoinColumn(name = "appUserId", referencedColumnName = "appUserId")
     @ManyToOne(optional = false)
-    private Appuser appUserId;
+    private AppUser appUserId;
     @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     @ManyToOne(optional = false)
     private Role roleId;
@@ -47,11 +47,11 @@ public class Appuserrole implements Serializable {
         this.appUserRoleId = appUserRoleId;
     }
 
-    public Appuser getAppUserId() {
+    public AppUser getAppUserId() {
         return appUserId;
     }
 
-    public void setAppUserId(Appuser appUserId) {
+    public void setAppUserId(AppUser appUserId) {
         this.appUserId = appUserId;
     }
 

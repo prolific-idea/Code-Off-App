@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.persistence.AppUserDao;
 import com.prolificidea.templates.tsw.services.providers.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +49,7 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserDao.update(object);
     }
 
+    public AppUser getAppUserByUsername(String username) {
+        return appUserDao.getAppUserByUsername(username);
+    }
 }
