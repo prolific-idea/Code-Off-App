@@ -43,14 +43,9 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
         String temp = time;
         try {
             time = temp +" CurrentlyPolling!";
-           /* if (challengeID != 0)
-            {
-                ChallengeDTO challenge = challengeService.findChallenge(challengeID);
-                personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(challenge);
-            }*/
 
             List<ChallengeDTO> challenges = currentlyRunningChallenges();
-            if (challenges.size() >0){
+            if (challenges.size() >1000000000){
                 pollMultipleChallenges(challenges);
             }
 
