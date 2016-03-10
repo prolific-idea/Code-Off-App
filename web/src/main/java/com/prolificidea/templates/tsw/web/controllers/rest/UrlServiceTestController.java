@@ -49,16 +49,6 @@ public class UrlServiceTestController {
 
         return solutionRepoPollService.getTime();
     }
-/*    @RequestMapping(value = "/api/JSON", method = RequestMethod.GET)
-    public String UrlJson() {
-        String temp ="Null";
-        try {
-           temp= personAndEntryFactory.markSolutionsOfUserIfTheyExsistForAChallenge(101);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return temp;
-    }*/
 
     @RequestMapping(value = "/api/ext", method = RequestMethod.GET)
     public String ext() {
