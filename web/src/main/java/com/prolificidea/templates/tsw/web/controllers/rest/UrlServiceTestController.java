@@ -49,7 +49,7 @@ public class UrlServiceTestController {
 
         return solutionRepoPollService.getTime();
     }
-    @RequestMapping(value = "/api/JSON", method = RequestMethod.GET)
+/*    @RequestMapping(value = "/api/JSON", method = RequestMethod.GET)
     public String UrlJson() {
         String temp ="Null";
         try {
@@ -58,7 +58,7 @@ public class UrlServiceTestController {
             e.printStackTrace();
         }
         return temp;
-    }
+    }*/
 
     @RequestMapping(value = "/api/ext", method = RequestMethod.GET)
     public String ext() {

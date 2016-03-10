@@ -19,4 +19,5 @@ public interface ChallengeService {
     void deleteChallenge(Object id);
     ChallengeDTO createChallenge(ChallengeDTO t);
     ChallengeDTO updateChallenge(ChallengeDTO t);
+    List<ChallengeDTO> getChallengesThatAreOnGoing();
 }

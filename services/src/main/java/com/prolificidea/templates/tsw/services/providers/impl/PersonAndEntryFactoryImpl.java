@@ -48,9 +48,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
     private RestTemplate restCall = new RestTemplate();
 
-    public String markSolutionsOfUserIfTheyExsistForAChallenge(int challengeId) throws JSONException {
+    public String markSolutionsOfUserIfTheyExsistForAChallenge(ChallengeDTO pollingChallenge) throws JSONException {
 
-        challenge = challengeService.findChallenge(challengeId);
+        challenge = pollingChallenge;
         String URLForks = API_URL + challenge.getUrl() + "/forks";
         JSONArray forks = getJSONFromURL(URLForks);
         String userRepoURL = "End";
