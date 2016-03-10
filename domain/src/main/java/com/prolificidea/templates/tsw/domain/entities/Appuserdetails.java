@@ -5,11 +5,11 @@
  */
 package com.prolificidea.templates.tsw.domain.entities;
 
-import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -18,12 +18,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "appuserdetails")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Appuserdetails.findAll", query = "SELECT a FROM Appuserdetails a"),
-    @NamedQuery(name = "Appuserdetails.findByAppUserDetailsId", query = "SELECT a FROM Appuserdetails a WHERE a.appUserDetailsId = :appUserDetailsId"),
-    @NamedQuery(name = "Appuserdetails.findByFirstName", query = "SELECT a FROM Appuserdetails a WHERE a.firstName = :firstName"),
-    @NamedQuery(name = "Appuserdetails.findByLastName", query = "SELECT a FROM Appuserdetails a WHERE a.lastName = :lastName"),
-    @NamedQuery(name = "Appuserdetails.findByEmailAddress", query = "SELECT a FROM Appuserdetails a WHERE a.emailAddress = :emailAddress")})
 public class Appuserdetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +32,7 @@ public class Appuserdetails implements Serializable {
     @Column(name = "emailAddress")
     private String emailAddress;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUserDetailsId")
-    private List<Appuser> appuserList;
+    private List<AppUser> appuserList;
 
     public Appuserdetails() {
     }
@@ -80,11 +74,11 @@ public class Appuserdetails implements Serializable {
     }
 
     @XmlTransient
-    public List<Appuser> getAppuserList() {
+    public List<AppUser> getAppuserList() {
         return appuserList;
     }
 
-    public void setAppuserList(List<Appuser> appuserList) {
+    public void setAppuserList(List<AppUser> appuserList) {
         this.appuserList = appuserList;
     }
 
