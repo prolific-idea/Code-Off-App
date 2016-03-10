@@ -65,11 +65,11 @@
                 </tbody>
             </table>
             <br>
-            <div>
-                <button type="button" class="btn btn-default" ng-disabled="pageNum === 1" ng-click="ToPrevPage()"
+            <div class="row">
+                <button type="button" class="btn btn-default" ng-hide="pageNum === 1" ng-click="ToPrevPage()"
                         data-toggle="tooltip" title="To Next Page"><i class="glyphicon glyphicon-chevron-left"></i>Prev
                 </button>
-                <button type="button" style="float: right;" class="btn btn-default" ng-disabled="CanNotNext"
+                <button type="button" class="btn btn-default pull-right" ng-hide="CanNotNext"
                         ng-click="ToNextPage()" data-toggle="tooltip" title="To Next Page">Next <i
                         class="glyphicon glyphicon-chevron-right"></i></button>
             </div>
