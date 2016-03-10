@@ -34,9 +34,18 @@
             return SharedUpdateChallenge.challengeToBeUpdated;
         }, function () {
             if (SharedUpdateChallenge.getChallengeData() != null) {
-                ctrl.challenge = SharedUpdateChallenge.getChallengeData();
-                ctrl.startTime = ctrl.challenge.startDate.getTime();
-                ctrl.endTime = ctrl.challenge.endDate.getTime();
+                var challengeTemp = SharedUpdateChallenge.getChallengeData();
+                ctrl.challenge = {
+                    challengeId: challengeTemp.challengeId,
+                    endDate: new Date(challengeTemp.endDate),
+                    numberOfLinesToCompare: challengeTemp.numberOfLinesToCompare,
+                    solution: challengeTemp.solution,
+                    solutionFilePath: challengeTemp.solutionFilePath,
+                    startDate: new Date(challengeTemp.startDate),
+                    url: challengeTemp.url
+                };
+                ctrl.startTime = ctrl.challenge.startDate;
+                ctrl.endTime = ctrl.challenge.endDate;
             }
         });
 
