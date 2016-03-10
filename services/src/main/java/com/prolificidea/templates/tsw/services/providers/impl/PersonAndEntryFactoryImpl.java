@@ -114,9 +114,11 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     private boolean checkSolutionExists(EntryDTO entry) {
         urlService.setOwnerRepoBranchFile(entry.getFullName(), entry.getBranch(), challenge.getSolutionFilePath());
         String fileSolution = urlService.getContent();
-        if (fileSolution.equals(""))
+        if (fileSolution.equals(""))// nothing is returned if there was a n error in that function
             return false;
-        // TODO: 2016/03/04 set solution file of entry
+
+        updateEntrySolution(entry,fileSolution);
+
         boolean isCorrect = urlService.compareSolution(fileSolution, challenge.getChallengeId());
         if (isCorrect) {
             entry.setResult(2);
@@ -126,11 +128,14 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return true;
     }
 
+    private void updateEntrySolution(EntryDTO entry, String fileSolution) {
+        byte[] solutionInBytes = fileSolution.getBytes();
+        entry.setSolution(solutionInBytes);
+    }
+
     private void setEntry(EntryDTO entry) {
         entry.setChallengeId(challenge.getChallengeId());
         entry.setDate(new Date());
-        entry.setSolution(new byte[]{1, 123, 123, 124, 34, 12});// TODO: 2016/03/03 set this in check solution
-        // entry.setTechId(1);// TODO: 2016/03/03 set when fixing tech
     }
 
     private TechnologyDTO setTech(String branch, String URL) throws JSONException {
@@ -198,7 +203,6 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         //person.setUrl(getUserURLFromFork(fork));
         person.setRepoUrl(buildRepoURL(fork));
         setFirstAndLastNames(person);
-        // TODO: 2016/03/03 fetch user names
     }
 
     private void setFirstAndLastNames(PersonDTO person) throws JSONException {
