@@ -42,11 +42,11 @@ public class Challenge implements Serializable {
     @Column(name = "solutionFilePath")
     private String solutionFilePath;
     @Column(name = "startDate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     @Basic(optional = false)
     @Column(name = "endDate", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @Column(name = "numberOfLinesToCompare")
     private Integer numberOfLinesToCompare;
