@@ -1,5 +1,10 @@
 package com.prolificidea.templates.tsw.web.security;
 
+import com.prolificidea.templates.tsw.services.security.CustomUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -9,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.*;
 
 /**
@@ -30,11 +34,11 @@ public class TokenAuthenticationService {
 
     public String getToken(CustomUser user) {
 
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<String, Object>();
         claims.put(CLAIM_USERNAME, user.getUsername());
         claims.put(CLAIM_AUTHORITIES, user.getAuthorities());
 
-        String jwtToken = Jwts.builder().setIssuer("http://misana.com").setClaims(claims).signWith(SignatureAlgorithm.HS512, secretKey).compact();
+        String jwtToken = Jwts.builder().setIssuer("http://codeoff.com").setClaims(claims).signWith(SignatureAlgorithm.HS512, secretKey).compact();
 
         return jwtToken;
     }
@@ -52,7 +56,7 @@ public class TokenAuthenticationService {
     }
 
     private CustomUser getUserFromToken(String token) {
-        try {
+//        try {
 
             final Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
@@ -61,10 +65,10 @@ public class TokenAuthenticationService {
             final CustomUser customUser = new CustomUser((String) claims.get(CLAIM_USERNAME), actualAuthorities);
             return customUser;
             // TODO: Verify user in DB????
-        } catch (SignatureException e) {
-            LOGGER.info(e.getMessage(), e);
-            return null;
-        }
+//        } catch (SignatureException e) {
+//            LOGGER.info(e.getMessage(), e);
+//            return null;
+//        }
     }
 
     /**
@@ -72,7 +76,7 @@ public class TokenAuthenticationService {
      * This method is a workaround for that
      */
     private List<GrantedAuthority> getActualAuthorities(Object claim) {
-        List<GrantedAuthority> actualAuthorities = new ArrayList<>();
+        List<GrantedAuthority> actualAuthorities = new ArrayList<GrantedAuthority>();
 
 
         List<LinkedHashMap> authorities = (ArrayList<LinkedHashMap>) claim;

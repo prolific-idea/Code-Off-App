@@ -1,5 +1,7 @@
 package com.prolificidea.templates.tsw.domain;
 
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
+
 import javax.persistence.*;
 
 @Entity

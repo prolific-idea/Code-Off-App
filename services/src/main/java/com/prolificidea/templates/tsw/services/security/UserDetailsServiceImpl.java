@@ -1,10 +1,7 @@
 package com.prolificidea.templates.tsw.services.security;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.prolificidea.templates.tsw.domain.AppUser;
 import com.prolificidea.templates.tsw.domain.AppUserRole;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.persistence.AppUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.naming.NamingException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service ("userDetailsService")

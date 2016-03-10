@@ -1,5 +1,5 @@
 import com.prolificidea.templates.tsw.services.providers.AppUserDetailsService;
-import com.prolificidea.templates.tsw.services.providers.AppUserRoleService;
+import com.prolificidea.templates.tsw.web.security.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

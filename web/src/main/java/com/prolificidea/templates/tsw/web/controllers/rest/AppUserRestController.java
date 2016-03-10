@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
-import com.prolificidea.templates.tsw.domain.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.services.providers.AppUserService;
 import com.prolificidea.templates.tsw.web.helpers.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,8 @@ public class AppUserRestController {
     }
 
     @RequestMapping(value = "/update/{object}", method = RequestMethod.POST)
-    public @ResponseBody AppUser update(@PathVariable AppUser object) {
+    public @ResponseBody
+    AppUser update(@PathVariable AppUser object) {
         return appUserService.updateAppUser(object);
     }
 
