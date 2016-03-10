@@ -1,7 +1,7 @@
 package com.prolificidea.templates.tsw.services.security;
 
-import com.prolificidea.templates.tsw.domain.AppUserRole;
 import com.prolificidea.templates.tsw.domain.entities.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUserRole;
 import com.prolificidea.templates.tsw.persistence.AppUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service ("userDetailsService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         for(AppUserRole appUserRole: appUser.getAppUserRoles()) {
-            authorities.add(new SimpleGrantedAuthority(appUserRole.getRole().getDescription()));
+            authorities.add(new SimpleGrantedAuthority(appUserRole.getRoleId().getDescription()));
         }
 
         UserDetails currentUser = new User(username, password, authorities);

@@ -1,9 +1,9 @@
 package com.prolificidea.templates.tsw.web.controllers.web;
 
-import com.prolificidea.templates.tsw.domain.AppUserDetails;
-import com.prolificidea.templates.tsw.domain.AppUserRole;
-import com.prolificidea.templates.tsw.domain.Role;
 import com.prolificidea.templates.tsw.domain.entities.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUserDetails;
+import com.prolificidea.templates.tsw.domain.entities.AppUserRole;
+import com.prolificidea.templates.tsw.domain.entities.Role;
 import com.prolificidea.templates.tsw.services.providers.AppUserDetailsService;
 import com.prolificidea.templates.tsw.services.providers.AppUserRoleService;
 import com.prolificidea.templates.tsw.services.providers.AppUserService;
@@ -73,8 +73,8 @@ public class TestController {
         Role role = new Role();
         role.setDescription("SIMPLE");
         role = roleService.createRole(role);
-        appUserRole.setAppUser(appUser);
-        appUserRole.setRole(role);
+        appUserRole.setAppUserId(appUser);
+        appUserRole.setRoleId(role);
 
         appUserRoleService.createAppUserRole(appUserRole);
 
@@ -93,7 +93,7 @@ public class TestController {
             System.out.println(appUser.getUsername());
             System.out.println(appUser.getPassword());
             for(AppUserRole appUserRole :appUser.getAppUserRoles()) {
-                System.out.println("ROLE: " + appUserRole.getRole().getDescription());
+                System.out.println("ROLE: " + appUserRole.getRoleId().getDescription());
             }
         }
 

@@ -1,15 +1,21 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
 import com.prolificidea.templates.tsw.domain.entities.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUserRole;
 import com.prolificidea.templates.tsw.services.providers.AppUserService;
+import com.prolificidea.templates.tsw.services.providers.LoginService;
 import com.prolificidea.templates.tsw.web.helpers.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,6 +24,9 @@ public class AppUserRestController {
 
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody AppUser get(@PathVariable int id) {
@@ -64,6 +73,18 @@ public class AppUserRestController {
     public @ResponseBody
     AppUser update(@PathVariable AppUser object) {
         return appUserService.updateAppUser(object);
+    }
+
+    @RequestMapping(value = "/api/users/{userId}/grant/role/{role}", method = RequestMethod.POST)
+    public ResponseEntity<String> grantPermission(Authentication authentication, @PathVariable int userId, @PathVariable String role) throws Exception {
+
+
+        List<AppUserRole> roles = new ArrayList<AppUserRole>();
+        final AppUser user = appUserService.getAppUserByAppUserId(userId);
+        user.setAppUserRoles(roles);
+        appUserService.updateAppUser(user);
+
+        return new ResponseEntity<String>("Permissions granted", HttpStatus.OK);
     }
 
 }
