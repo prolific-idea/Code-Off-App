@@ -8,6 +8,29 @@
 			ctrl.pageNum = 1;
 			ctrl.coders = [];
 
+			ctrl.getLeaderboard = function () {
+				ctrl.codersTemp = Coders.getPagedLeaderboard({
+					pageNum:  ctrl.pageNum,
+					pageSize: pageSize
+				});
+
+				ctrl.personCountTemp = PersonCount.count();
+				ctrl.personCountTemp.$promise.then(function () {
+					ctrl.countOfCoders = ctrl.personCountTemp;
+					ctrl.countOfCoders = ctrl.countOfCoders.countOfPerson;
+				}, $log.error);
+
+				ctrl.codersTemp.$promise.then(function () {
+					ctrl.coders = ctrl.codersTemp;
+					ctrl.ChangeTechDescription();
+					console.log(ctrl.coders);
+					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
+					if (lastPage === ctrl.pageNum)
+						ctrl.CanNotNext = true;
+				}, $log.error);
+			};
+			ctrl.getLeaderboard();
+
 			ctrl.searchTerm = "";
 			ctrl.searchActions = [
 				{id: 'filter', name: 'Filter'},
@@ -33,8 +56,9 @@
 				console.log(ctrl.selectedSearch.id);
 				console.log("Searching for: " + action.name + " and search term: " + ctrl.searchTerm);
 				if (action.name === "Filter") {
+					ctrl.searchTerm = null;
 					console.log(action.name);
-					ctrl.refresh();
+					ctrl.getLeaderboard();
 				}
 				else if (action.name === "Challenge") {
 					console.log(action.name + " found");
@@ -45,7 +69,6 @@
 						pageSize: pageSize
 					});
 
-					console.log("Getting persons");
 					ctrl.personCountTemp = PersonCount.count();
 					ctrl.personCountTemp.$promise.then(function () {
 						ctrl.countOfCoders = ctrl.personCountTemp;
@@ -89,25 +112,6 @@
 				}
 			};
 
-			ctrl.codersTemp = Coders.getPagedLeaderboard({
-				pageNum:  ctrl.pageNum,
-				pageSize: pageSize
-			});
-
-			ctrl.personCountTemp = PersonCount.count();
-			ctrl.personCountTemp.$promise.then(function () {
-				ctrl.countOfCoders = ctrl.personCountTemp;
-				ctrl.countOfCoders = ctrl.countOfCoders.countOfPerson;
-			}, $log.error);
-
-			ctrl.codersTemp.$promise.then(function () {
-				ctrl.coders = ctrl.codersTemp;
-				ctrl.ChangeTechDescription();
-				console.log(ctrl.coders);
-				var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
-				if (lastPage === ctrl.pageNum)
-					ctrl.CanNotNext = true;
-			}, $log.error);
 
 			ctrl.ToNextPage = function () {
 				ctrl.pageNum += 1;
