@@ -6,10 +6,15 @@
         ctrl.user = {
             username:"",
             password: ""
-        }
+        };
+
         ctrl.login = function () {
-            console.log(user);
-            LoginResource.login(user);
+            console.log(ctrl.user);
+            LoginResource.login(ctrl.user)
+                .$promise.then(function(response){
+                console.log(response);
+                console.log(response.headers["x-auth-token"]);
+            },$log.error);
         }
     })
 })();

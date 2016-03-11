@@ -4,8 +4,8 @@
         "ngMessages",
         "ui.bootstrap",
         "codeOffLogin.loginView",
-        "codeOffLogin.controllers",
-        "codeOffLogin.resources"
+        "codeOffLogin.resources",
+        "codeOffLogin.controllers"
     ]);
 
     angular.module("codeOffLogin.controllers", [

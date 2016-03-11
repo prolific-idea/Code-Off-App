@@ -1,9 +1,15 @@
 (function () {
     angular.module("codeOffLogin.resources", [])
-        .factory("challengeCount", function ($resource) {
+        .factory("LoginResource", function ($resource) {
         return $resource("/api/user/login", null, {
             login: {
-                method: "POST"
+                method: "POST",
+                transformResponse: function(data, headers){
+                    response = {};
+                    response.data = data;
+                    response.headers = headers();
+                    return response;
+                }
             }
         })
     });

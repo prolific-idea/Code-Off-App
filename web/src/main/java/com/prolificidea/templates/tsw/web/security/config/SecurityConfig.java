@@ -88,10 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      * @param web The {@code WebSecurity} object that will be used to build up the Security Filter.
      * @throws Exception If any of the builder methods throws an {@code Exception}
      */
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/assets/**");
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/assets/**");
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
