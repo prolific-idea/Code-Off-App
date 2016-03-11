@@ -35,7 +35,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-
+        System.out.println(request.getInputStream());
         final CustomUser user = new ObjectMapper().readValue(request.getInputStream(), CustomUser.class);
         final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
                 user.getUsername(), user.getPassword());
@@ -51,7 +51,6 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 
         // Add the custom token as HTTP header to the response
         response.addHeader(TokenAuthenticationService.AUTH_HEADER_NAME, tokenAuthenticationService.getToken(user));
-
         // Add the authentication to the Security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

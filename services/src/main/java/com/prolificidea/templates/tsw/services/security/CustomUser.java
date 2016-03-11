@@ -30,6 +30,9 @@ public class CustomUser implements UserDetails{
         return appUser;
     }
 
+    public CustomUser() {
+    }
+
     public CustomUser(String username, String password, List<GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;

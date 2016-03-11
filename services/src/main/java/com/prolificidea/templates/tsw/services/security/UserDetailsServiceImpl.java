@@ -4,8 +4,8 @@ import com.prolificidea.templates.tsw.domain.entities.AppUser;
 import com.prolificidea.templates.tsw.domain.entities.AppUserRole;
 import com.prolificidea.templates.tsw.persistence.AppUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,18 +36,37 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         return null;
 	}
 	
-	public UserDetails buildSpringUserFromAppUser(AppUser appUser) throws NamingException {
+	public CustomUser buildSpringUserFromAppUser(AppUser appUser) throws NamingException {
         String username = appUser.getUsername();
 		String password = appUser.getPassword();
 
-		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-        for(AppUserRole appUserRole: appUser.getAppUserRoles()) {
-            authorities.add(new SimpleGrantedAuthority(appUserRole.getRoleId().getDescription()));
+//		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//        for(AppUserRole appUserRole: appUser.getAppUserRoles()) {
+//            authorities.add(new SimpleGrantedAuthority(appUserRole.getRoleId().getDescription()));
+//        }
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        for (AppUserRole role : appUser.getAppUserRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleId().getDescription()));
         }
-
-        UserDetails currentUser = new User(username, password, authorities);
+        final CustomUser currentUser = new CustomUser(username, password, authorities);
 
 		return currentUser;
 	}
+
+
+//    public UserDetails buildSpringUserFromAppUser(AppUser appUser) throws NamingException {
+//        String username = appUser.getUsername();
+//        String password = appUser.getPassword();
+//
+//        List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+//        for(AppUserRole appUserRole: appUser.getAppUserRoles()) {
+//            authorities.add(new SimpleGrantedAuthority(appUserRole.getRoleId().getDescription()));
+//        }
+//
+//        UserDetails currentUser = new User(username, password, authorities);
+//
+//        return currentUser;
+//    }
+
 
 }

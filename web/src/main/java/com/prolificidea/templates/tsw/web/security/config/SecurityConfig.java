@@ -57,20 +57,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
          http.authorizeRequests()
                 //allow anonymous resource requests
-//                .antMatchers("/").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/appUserDetails/grant/**").permitAll()
-//
+                .antMatchers("/","/index.html").permitAll()
+                .antMatchers("/api/appUserDetails/grant/**").permitAll()
+                .antMatchers("/api/leaderboard/**").permitAll()
 //                //allow anonymous POSTs to register and login
-//                .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                .anyRequest().denyAll();
+                .antMatchers("api/user/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                .antMatchers("api/challenges/**").hasRole("SIMPLE")
+////                //all other request need to be authenticated
+                .anyRequest().hasRole("SIMPLE").and()
 //
-//                //all other request need to be authenticated
-//                .anyRequest().hasRole("AWESOME").and()
-//
-//                .addFilterBefore(new StatelessLoginFilter("/api/user/login", userDetailsService, tokenAuthenticationService, authenticationManager), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
-//                .csrf().disable();
+                .addFilterBefore(new StatelessLoginFilter("/api/user/login", userDetailsService, tokenAuthenticationService, authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable();
     }
 
 
@@ -88,10 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      * @param web The {@code WebSecurity} object that will be used to build up the Security Filter.
      * @throws Exception If any of the builder methods throws an {@code Exception}
      */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/assets/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/assets/**");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

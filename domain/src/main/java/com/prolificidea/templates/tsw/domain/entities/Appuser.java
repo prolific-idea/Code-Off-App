@@ -48,7 +48,7 @@ public class AppUser implements java.io.Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "AppUserId", unique = true, nullable = false)
+    @Column(name = "appUserId", unique = true, nullable = false)
     public int getAppUserId() {
         return this.appUserId;
     }
@@ -58,7 +58,7 @@ public class AppUser implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "AppUserDetailsId", nullable = false)
+    @JoinColumn(name = "appUserDetailsId", nullable = false)
     public AppUserDetails getAppUserDetails() {
         return this.appUserDetails;
     }
@@ -67,7 +67,7 @@ public class AppUser implements java.io.Serializable {
         this.appUserDetails = appUserDetails;
     }
 
-    @Column(name = "Username", nullable = false, length = 50)
+    @Column(name = "username", nullable = false, length = 50)
     public String getUsername() {
         return this.username;
     }
@@ -76,7 +76,7 @@ public class AppUser implements java.io.Serializable {
         this.username = username;
     }
 
-    @Column(name = "Password", nullable = false, length = 100)
+    @Column(name = "password", nullable = false, length = 100)
     public String getPassword() {
         return this.password;
     }
@@ -85,7 +85,7 @@ public class AppUser implements java.io.Serializable {
         this.password = password;
     }
 
-    @Column(name = "Enabled", nullable = false)
+    @Column(name = "enabled", nullable = false)
     public boolean getEnabled() {
         return enabled;
     }
