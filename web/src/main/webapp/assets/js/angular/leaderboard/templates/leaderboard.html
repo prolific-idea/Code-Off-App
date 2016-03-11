@@ -9,7 +9,7 @@
                             <form name="searchForm">
                                 <input type="number" name="search" placeholder="search..." class="form-control"
                                        ng-model="searchTerm"
-                                       ng-pattern="^[0-9]+$" ng-min="1" required>
+                                       ng-pattern="^[0-9]+$" min="1" required>
                             </form>
                             <button type="button" class="btn btn-default" ng-click="searchFor()"
                                     ng-disabled="searchForm.search.$invalid || searchForm.search.$error.pattern ||
