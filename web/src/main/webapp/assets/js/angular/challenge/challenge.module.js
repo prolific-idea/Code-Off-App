@@ -2,6 +2,7 @@
     angular.module("codeOffChallengeAdmin", [
         "ngResource",
         "ngMessages",
+        "ui.bootstrap",
         "codeOffChallengeAdmin.navBar",
         "codeOffChallengeAdmin.resources",
         "codeOffChallengeAdmin.updateFactory",
@@ -14,6 +15,7 @@
 
     angular.module("codeOffChallengeAdmin.challenge", [
         "codeOffChallengeAdmin.resources",
-        "codeOffChallengeAdmin.updateFactory"
+        "codeOffChallengeAdmin.updateFactory",
+        "ui.bootstrap"
     ]);
 })();
