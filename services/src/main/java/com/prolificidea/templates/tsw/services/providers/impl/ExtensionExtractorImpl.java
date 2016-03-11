@@ -16,6 +16,12 @@ public class ExtensionExtractorImpl implements ExtensionExtractor {
     public TechnologyDTO extractExtension(String filename) {
         List<TechnologyDTO> techs;
         String[] splicedFilename = filename.split("\\.");
+        if(splicedFilename.length < 2)
+        {
+            TechnologyDTO tech = new TechnologyDTO();
+            tech.setDescription("Directory");
+            return tech;
+        }
         int extensionIndex = splicedFilename.length - 1;
         String language = getLanguage(splicedFilename[extensionIndex]);
         techs = technologyService.searchTechnologys("description", language);
