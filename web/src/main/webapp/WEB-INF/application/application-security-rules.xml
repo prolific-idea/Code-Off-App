@@ -7,6 +7,9 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+
+	<beans:bean id="securityConfig"
+				 class="com.prolificidea.templates.tsw.web.security.config.SecurityConfig"/>
     <!--<http pattern="/assets/**" security="none"/>-->
     <!--<http pattern="/login*" security="none"/>-->
     <!--<http pattern="/register*" security="none"/>-->
@@ -25,17 +28,17 @@
 		<!--<logout logout-url="/j_spring_security_logout.htm" logout-success-url="/login" />-->
 	<!--</http>-->
 
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service id="userService">
-				<security:user name="matt" password="0123" authorities="SIMPLE" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
+	<!--<security:authentication-manager>-->
+		<!--<security:authentication-provider>-->
+			<!--<security:user-service id="userService">-->
+				<!--<security:user name="matt" password="0123" authorities="SIMPLE" />-->
+			<!--</security:user-service>-->
+		<!--</security:authentication-provider>-->
+	<!--</security:authentication-manager>-->
 
-	<security:http create-session="stateless" use-expressions="true">
-	<security:intercept-url pattern="**/**" access="hasAnyRole('SIMPLE')" />
-	<security:http-basic />
-	</security:http>
+	<!--<security:http create-session="stateless" use-expressions="true">-->
+	<!--<security:intercept-url pattern="**/**" access="hasAnyRole('SIMPLE')" />-->
+	<!--<security:http-basic />-->
+	<!--</security:http>-->
 
 </beans:beans>

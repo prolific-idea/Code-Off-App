@@ -27,7 +27,7 @@ public class Role implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
-    private List<Appuserrole> appuserroleList;
+    private List<AppUserRole> appUserRoleList;
 
     public Role() {
     }
@@ -53,12 +53,12 @@ public class Role implements Serializable {
     }
 
     @XmlTransient
-    public List<Appuserrole> getAppuserroleList() {
-        return appuserroleList;
+    public List<AppUserRole> getAppUserRoleList() {
+        return appUserRoleList;
     }
 
-    public void setAppuserroleList(List<Appuserrole> appuserroleList) {
-        this.appuserroleList = appuserroleList;
+    public void setAppUserRoleList(List<AppUserRole> appUserRoleList) {
+        this.appUserRoleList = appUserRoleList;
     }
 
     @Override
