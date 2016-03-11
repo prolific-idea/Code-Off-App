@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="col-md-6 col-md-offset-3 code-off-leaderboard-border">
+        {{user}}
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-5 col-xs-12">
+                <label for="username">Username:</label><input class="form-control" type="text" name="username"
+                                                              ng-model="user.username" id="username"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label for="username">Password:</label><input class="form-control" type="password" name="username"
+                                                              ng-model="user.password" id="password"/>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-default center-block" ng-click="login()">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
