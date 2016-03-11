@@ -29,9 +29,22 @@
 			return $resource("/api/leaderboard/challenges", null, {
 				getChallenges: {
 					method:  "GET",
-					params: {
-						id: "@id",
-						pageNum: "@page",
+					params:  {
+						id:       "@id",
+						pageNum:  "@page",
+						pageSize: "@size"
+					},
+					isArray: true
+				}
+			});
+		})
+		.factory("Technologies", function ($resource) {
+			return $resource("/api/leaderboard/tech", null, {
+				getTechnologies: {
+					method:  "GET",
+					params:  {
+						id:       "@id",
+						pageNum:  "@page",
 						pageSize: "@size"
 					},
 					isArray: true

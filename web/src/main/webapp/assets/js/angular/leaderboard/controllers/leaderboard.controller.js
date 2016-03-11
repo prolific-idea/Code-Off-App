@@ -1,69 +1,8 @@
-//(function () {
-//	'use strict';
-//
-//	angular.module("codeOffApp").controller("leaderboardController", leaderboardCtrl);
-//
-//	leaderboardCtrl.$inject = ["$http", "$log", "Leaderboards", "Leaderboard"];
-//
-//	function leaderboardCtrl($http, $log, Leaderboards, Leaderboard) {
-//		var ctrl = this;
-//
-//		ctrl.maxSize = 10; //links in pagination shown
-//		ctrl.bigTotalItems = 35; //total number of items
-//		ctrl.bigCurrentPage = 1;
-//		ctrl.leaderboard = [];
-//		ctrl.persons = [];
-//
-//		ctrl.refresh = function() {
-//			Leaderboards.getPersons().$promise.then(
-//				function getPersonsArray(response) {
-//					var responseData = response;
-//					console.log(responseData);
-//
-//					ctrl.persons = [];
-//					for (var i = 0; i < responseData.length; i++) {
-//						ctrl.persons.push(responseData[i]);
-//					}
-//				}, $log.error
-//			);
-//
-//			Leaderboard.getLeaderboard().$promise.then(
-//				function getLeaderboardArray(response) {
-//					var responseData = response;
-//					console.log(responseData);
-//
-//					ctrl.leaderboard = [];
-//					for (var i = 0; i < responseData.length; i++) {
-//						ctrl.leaderboard.push(responseData[i]);
-//					}
-//				}, $log.error
-//			);
-//
-//			//Leaderboards.getPageOfLeaderboard({pageSize: ctrl.bigTotalItems, pageNum: ctrl.bigCurrentPage}).$promise.then(
-//			//	function resetLeaderboard(response) {
-//			//		var responseData = response;
-//			//		console.log(responseData);
-//			//
-//			//		ctrl.bigTotalItems = responseData.Total / 2;
-//			//		ctrl.bigCurrentPage = responseData.Page;
-//			//		ctrl.leaderboard = [];
-//			//
-//			//		for (var i = 0; i < responseData.length; i++) {
-//			//			ctrl.leaderboard.push(responseData[i]);
-//			//		}
-//			//	}, $log.error
-//			//);
-//		}
-//
-//		ctrl.refresh();
-//	}
-//}());
-
 (function () {
 	var app = angular.module("codeOffLeaderboard");
 
 	app.controller("viewLeaderboardController",
-		function ($scope, $http, $log, Coders, PersonCount, Challenges) {
+		function ($scope, $http, $log, Coders, PersonCount, Challenges, Technologies) {
 			var ctrl = $scope;
 			var pageSize = 10;
 			ctrl.pageNum = 1;
@@ -81,25 +20,32 @@
 				console.log(action);
 				ctrl.selectedSearch = action;
 				ctrl.searchFor(action);
-			}
+			};
 
-			ctrl.searchFor = function (actionId) {
+			ctrl.searchFor = function (action) {
+				if (action == null) {
+					console.log("action is null");
+					action = ctrl.selectedSearch;
+					console.log("searching for: " + action.name + "with search id: " + ctrl.searchTerm);
+				}
+				console.log("searching for: " + action.name + "with id: " + ctrl.searchTerm);
+
 				console.log(ctrl.selectedSearch.id);
-				console.log("Searching for: " + actionId.id + " and search term: " + ctrl.searchTerm);
-				if (actionId.id === "filter") {
-					console.log(actionId.id);
+				console.log("Searching for: " + action.name + " and search term: " + ctrl.searchTerm);
+				if (action.name === "Filter") {
+					console.log(action.name);
+					ctrl.refresh();
 				}
-				else if (actionId.id === "all") {
-					console.log(actionId.id + "not supported");
-				}
-				else if (actionId.id === "challenge") {
-					console.log(actionId.id + " found");
+				else if (action.name === "Challenge") {
+					console.log(action.name + " found");
+					console.log("Getting challenges");
 					ctrl.codersTemp = Challenges.getChallenges({
 						id:       ctrl.searchTerm,
 						pageNum:  ctrl.pageNum,
-						pageSize: ctrl.pageSize
+						pageSize: pageSize
 					});
 
+					console.log("Getting persons");
 					ctrl.personCountTemp = PersonCount.count();
 					ctrl.personCountTemp.$promise.then(function () {
 						ctrl.countOfCoders = ctrl.personCountTemp;
@@ -115,12 +61,12 @@
 						if (lastPage === ctrl.pageNum)
 							ctrl.CanNotNext = true;
 					}, $log.error);
-				} else if (actionId.id === "technology") {
-					console.log(actionId.id + " found");
-					ctrl.codersTemp = Challenges.getChallenges({
+				} else if (action.name === "Technology") {
+					console.log(action.name + " found");
+					ctrl.codersTemp = Technologies.getTechnologies({
 						id:       ctrl.searchTerm,
 						pageNum:  ctrl.pageNum,
-						pageSize: ctrl.pageSize
+						pageSize: pageSize
 					});
 
 					ctrl.personCountTemp = PersonCount.count();
@@ -141,17 +87,19 @@
 				} else {
 					console.log(actionId + " unknown");
 				}
-			}
+			};
 
 			ctrl.codersTemp = Coders.getPagedLeaderboard({
-				pageNum: ctrl.pageNum,
+				pageNum:  ctrl.pageNum,
 				pageSize: pageSize
 			});
+
 			ctrl.personCountTemp = PersonCount.count();
 			ctrl.personCountTemp.$promise.then(function () {
 				ctrl.countOfCoders = ctrl.personCountTemp;
 				ctrl.countOfCoders = ctrl.countOfCoders.countOfPerson;
 			}, $log.error);
+
 			ctrl.codersTemp.$promise.then(function () {
 				ctrl.coders = ctrl.codersTemp;
 				ctrl.ChangeTechDescription();
@@ -164,8 +112,8 @@
 			ctrl.ToNextPage = function () {
 				ctrl.pageNum += 1;
 				ctrl.codersTemp = Coders.getPagedLeaderboard({
-					pageNum: ctrl.pageNum,
-					pageSize: ctrl.pageSize
+					pageNum:  ctrl.pageNum,
+					pageSize: pageSize
 				});
 				ctrl.codersTemp.$promise.then(function () {
 					ctrl.coders = ctrl.codersTemp;
