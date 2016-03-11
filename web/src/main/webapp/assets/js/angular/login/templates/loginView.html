@@ -1,6 +1,17 @@
 <div class="container-fluid" ng-controller="loginController">
     <div class="col-md-6 col-md-offset-3 code-off-leaderboard-border">
-        {{user}}
+        <div ng-if="errorNotification == true">
+            <div style="position: fixed; width: 100%; height: 110%; top: 0px; left: 0px; background-color: rgba(0,0,0,0.4); z-index: 9000000;">
+                <div style="width: 40%; margin: 200px auto auto;" class="alert alert-danger"
+                     align="center"
+                     role="alert" >
+                    <h4 style="text-align: center;">Username or password incorrect try again.</h4>
+                    <button class="btn btn-primary btn-lg" ng-click="OKError()"><span
+                            class="fa fa-thumbs-up"></span>&nbsp;OK
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-5 col-xs-12">
                 <label for="username">Username:</label><input class="form-control" type="text" name="username"

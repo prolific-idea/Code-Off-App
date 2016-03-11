@@ -12,5 +12,6 @@
         "ngResource",
         "ngMessages",
         "ui.bootstrap",
+        "ngCookies"
     ]);
 })();
