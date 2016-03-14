@@ -4,6 +4,7 @@
     var codeOffApp = angular.module("codeOffApp", [
         "ui.bootstrap",
         "ngResource",
+        "ngSanitize",
         "codeOffNavigation",
         "codeOffFooter",
         "codeOffApp.leaderboard",
@@ -11,6 +12,7 @@
     ]);
 
     angular.module("codeOffLeaderboard", [
-        "ngResource"
+        "ngResource",
+		"ngSanitize"
     ]);
 })();

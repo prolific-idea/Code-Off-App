@@ -2,7 +2,7 @@
 	var app = angular.module("codeOffLeaderboard");
 
 	app.controller("viewLeaderboardController",
-		function ($scope, $http, $log, Coders, PersonCount, Challenges, Technologies) {
+		function ($scope, $http, $log, $sce, $window, Coders, PersonCount, Challenges, Technologies) {
 			var ctrl = $scope;
 			var pageSize = 5;
 			ctrl.pageNum = 1;
@@ -132,6 +132,25 @@
 						ctrl.coders[i].techs[j].description = ctrl.coders[i].techs[j].description.toLowerCase();
 					}
 				}
-			}
+			};
+
+			$(window).resize(function(){
+				console.log(window.innerWidth);
+
+				$scope.$apply(function(){
+					//do something to update current scope based on the new innerWidth and let angular update the view.
+				});
+			});
+
+			ctrl.iconDisplay = function (techs) {
+				var html = "";
+				var techLength = techs.length;
+
+				for (var i = 0; i < techLength; i++) {
+					html += '<i class="icon-' + techs[i].description + '" style="padding: 0px 3px 0px 4px;"></i>';
+				}
+
+				return $sce.trustAsHtml(html);
+			};
 		});
 })();
