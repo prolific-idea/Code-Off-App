@@ -45,7 +45,7 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
             time = temp +" CurrentlyPolling!";
 
             List<ChallengeDTO> challenges = currentlyRunningChallenges();
-            if (challenges.size() >0){
+            if (challenges.size() >1000000){
                 pollMultipleChallenges(challenges);
             }
 

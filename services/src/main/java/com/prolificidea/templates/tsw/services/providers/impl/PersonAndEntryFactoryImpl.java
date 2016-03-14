@@ -89,11 +89,11 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             EntryDTO validEntry = createAndCheckEntry(entry);
 
             if (validEntry != null) {
-            /*    TechnologyDTO tech = setTech(entry.getBranch(), person.getRepoUrl(),entry);
+                TechnologyDTO tech = setTech(entry.getBranch(), person.getRepoUrl(),entry);
                 if (tech != null) {
                     entry.setTechId(tech.getTechId());
                     entries.add(validEntry);
-                }*/
+                }
             }
         }
     }
@@ -137,11 +137,11 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         entry.setDate(new Date());
     }
 
-    private EntryDTO setTech(String branch, String URL, EntryDTO entry) throws JSONException {
+    private TechnologyDTO setTech(String branch, String URL, EntryDTO entry) throws JSONException {
         String path = getPath();
         URL = URL + "/contents/" + path + "?ref=" + branch;
 
-        return TraverseFileDirectory(URL,entry);
+        return TraverseFileDirectory(URL);
         /*TechnologyDTO technology = null;
         JSONArray contents = getJSONFromURL(URL);
         if (contents == null) {
@@ -245,7 +245,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return userName;
     }
 
- /*   private TechnologyDTO TraverseFileDirectory(String URL,PersonDTO person) throws JSONException {
+   private TechnologyDTO TraverseFileDirectory(String URL) throws JSONException {
         JSONArray directoryContent = getJSONFromURL(URL);
 
         if (directoryContent == null)
@@ -259,7 +259,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             if (technology != null) {
                 if (technology.getDescription().equals("Directory")) {
                     String directory = content.getString("url");
-                    TechnologyDTO returnTech = TraverseFileDirectory(directory,person);
+                    TechnologyDTO returnTech = TraverseFileDirectory(directory);
                     if (returnTech != null)
                     {
                         return returnTech;
@@ -272,9 +272,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             }
         }
         return null;
-    }*/
+    }
 
-    private EntryDTO TraverseFileDirectory(String URL, EntryDTO entry) throws JSONException {
+/*    private EntryDTO TraverseFileDirectory(String URL, EntryDTO entry) throws JSONException {
         JSONArray directoryContent = getJSONFromURL(URL);
 
         if (directoryContent == null)
@@ -301,7 +301,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             }
         }
         return null;
-    }
+    }*/
 
     private JSONArray getJSONFromURL(String URL) {
         URL = URL.replace("%20"," ");
