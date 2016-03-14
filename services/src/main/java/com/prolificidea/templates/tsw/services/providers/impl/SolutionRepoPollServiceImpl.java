@@ -35,23 +35,23 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
 
     private int challengeID =0; // needs to be removed when scheduling between dates
 
-//    @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
-//    public void pollRepositoryForSolution() {
-//        time = "Last Polled: " + dateFormat.format(new Date()) ;
-//        String temp = time;
-//        try {
-//            time = temp +" CurrentlyPolling!";
-//
-//            List<ChallengeDTO> challenges = currentlyRunningChallenges();
-//            if (challenges.size() >100000000){
-//                pollMultipleChallenges(challenges);
-//            }
-//
-//            time = temp +" Finished Polling At: " + dateFormat.format(new Date());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Scheduled(fixedRate = ONE_MINUTE  * 5)//Should be 60000*30
+    public void pollRepositoryForSolution() {
+        time = "Last Polled: " + dateFormat.format(new Date()) ;
+        String temp = time;
+        try {
+            time = temp +" CurrentlyPolling!";
+
+            List<ChallengeDTO> challenges = currentlyRunningChallenges();
+            if (challenges.size() >1000000){
+                pollMultipleChallenges(challenges);
+            }
+
+            time = temp +" Finished Polling At: " + dateFormat.format(new Date());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     private List<ChallengeDTO> currentlyRunningChallenges(){
         return challengeService.getChallengesThatAreOnGoing();
