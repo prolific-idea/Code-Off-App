@@ -18,7 +18,7 @@
 		<param-value>
             /WEB-INF/application/root-context.xml,
             /WEB-INF/application/application-context.xml,
-			/WEB-INF/application/application-security-rules.xml,
+			/WEB-INF/application/application-security-rules.xml
         </param-value>
 	</context-param>
 

@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("api/user/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                .antMatchers("api/challenges/**").hasRole("SIMPLE")
+                .antMatchers("api/challenges/**", "**/challengeMain.html").hasRole("SIMPLE")
 ////                //all other request need to be authenticated
                 .anyRequest().hasRole("SIMPLE").and()
 //
