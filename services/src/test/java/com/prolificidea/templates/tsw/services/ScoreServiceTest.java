@@ -1,6 +1,5 @@
 package com.prolificidea.templates.tsw.services;
 
-import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
 import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
 import com.prolificidea.templates.tsw.services.providers.*;
 import org.junit.Assert;
@@ -9,8 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * Created by matthew.jordaan on 2016/03/03.
@@ -85,10 +82,10 @@ public class ScoreServiceTest {
     @Test
     public void testGetListOfTechsByPerson() {
 
-        List<TechnologyDTO> techs = personService.getListOfTechsByPerson(2);
-        for (TechnologyDTO t : techs) {
-            System.out.println(t.getDescription());
-        }
+//        List<TechnologyDTO> techs = personService.getListOfTechsByPerson(2);
+//        for (TechnologyDTO t : techs) {
+//            System.out.println(t.getDescription());
+//        }
     }
 
     @Test
