@@ -2,7 +2,6 @@ package com.prolificidea.templates.tsw.services;
 
 import com.prolificidea.templates.tsw.services.providers.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * Created by matthew.jordaan on 2016/03/03.
  */
