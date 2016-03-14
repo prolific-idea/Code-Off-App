@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
          http.authorizeRequests()
                 //allow anonymous resource requests
                 .antMatchers("/","/index.html").permitAll()
+                 .antMatchers("/api/time").permitAll()
                 .antMatchers("/api/appUserDetails/grant/**").permitAll()
                 .antMatchers("/api/leaderboard/**").permitAll()
 //                //allow anonymous POSTs to register and login
