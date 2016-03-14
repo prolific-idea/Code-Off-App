@@ -1,7 +1,16 @@
 package com.prolificidea.templates.tsw.services;
 
+<<<<<<< HEAD
+=======
+import com.prolificidea.templates.tsw.services.DTOs.TechnologyDTO;
+>>>>>>> 77f249618be624b6874a54a7b0b73e7c3509b214
 import com.prolificidea.templates.tsw.services.providers.*;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+=======
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+>>>>>>> 77f249618be624b6874a54a7b0b73e7c3509b214
 
 /**
  * Created by matthew.jordaan on 2016/03/03.
@@ -73,13 +82,20 @@ public class ScoreServiceTest {
 //    }
 
 
+<<<<<<< HEAD
 //    @Test
 //    public void testGetListOfTechsByPerson() {
 //
+=======
+    @Test
+    public void testGetListOfTechsByPerson() {
+
+>>>>>>> 77f249618be624b6874a54a7b0b73e7c3509b214
 //        List<TechnologyDTO> techs = personService.getListOfTechsByPerson(2);
 //        for (TechnologyDTO t : techs) {
 //            System.out.println(t.getDescription());
 //        }
+<<<<<<< HEAD
 //    }
 //
 //    @Test
@@ -95,4 +111,21 @@ public class ScoreServiceTest {
 //
 //        Assert.assertEquals("Description should be ","Java", technologyDTO.getDescription());
 //    }
+=======
+    }
+
+    @Test
+    public void testRecalcScore() {
+        assert (true);
+        /*PersonDTO p  = personService.findPerson(2);
+        scoreService.recalculateScores(p);*/
+    }
+
+    @Test
+    public void testFindByDescription(){
+        TechnologyDTO technologyDTO = exctrator.extractExtension("heloWorl.java");
+
+        Assert.assertEquals("Description should be ","Java", technologyDTO.getDescription());
+    }
+>>>>>>> 77f249618be624b6874a54a7b0b73e7c3509b214
 }
