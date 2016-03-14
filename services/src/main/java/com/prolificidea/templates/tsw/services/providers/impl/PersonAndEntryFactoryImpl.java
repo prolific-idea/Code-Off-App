@@ -1,5 +1,7 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
@@ -66,11 +68,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
         buildPerson(person, entries, fork);
         buildEntries(person, entries, fork);
-
+        int newPersonID = createPerson(person);
         if (entries.size() > 0) {
-            int newPersonID = createPerson(person);
-            if (person.getUsername().equals("Stuart-Callen"))
-            {String Store = person.getUsername();}
+
             createEntries(entries, newPersonID);
         }
 
@@ -88,13 +88,12 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
             EntryDTO validEntry = createAndCheckEntry(entry);
 
-
             if (validEntry != null) {
-                TechnologyDTO tech = setTech(entry.getBranch(), person.getRepoUrl());
+            /*    TechnologyDTO tech = setTech(entry.getBranch(), person.getRepoUrl(),entry);
                 if (tech != null) {
                     entry.setTechId(tech.getTechId());
                     entries.add(validEntry);
-                }
+                }*/
             }
         }
     }
@@ -117,7 +116,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         if (fileSolution.equals(""))// nothing is returned if there was a n error in that function
             return false;
 
-        updateEntrySolution(entry,fileSolution);
+        updateEntrySolution(entry, fileSolution);
 
         boolean isCorrect = urlService.compareSolution(fileSolution, challenge.getChallengeId());
         if (isCorrect) {
@@ -138,10 +137,12 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         entry.setDate(new Date());
     }
 
-    private TechnologyDTO setTech(String branch, String URL) throws JSONException {
+    private EntryDTO setTech(String branch, String URL, EntryDTO entry) throws JSONException {
         String path = getPath();
         URL = URL + "/contents/" + path + "?ref=" + branch;
-        TechnologyDTO technology = null;
+
+        return TraverseFileDirectory(URL,entry);
+        /*TechnologyDTO technology = null;
         JSONArray contents = getJSONFromURL(URL);
         if (contents == null) {
             return technology;
@@ -152,7 +153,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             if (technology != null)
                 return technology;
         }
-        return technology;
+        return technology;*/
 
     }
 
@@ -174,7 +175,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
                 EntryDTO oldEntry = entryExsists.get(0);
                 if (oldEntry.getResult() != entry.getResult()) {
                     oldEntry.setResult(entry.getResult());
-                     EntryDTO storeEntry =entryService.updateEntry(oldEntry);
+                    EntryDTO storeEntry = entryService.updateEntry(oldEntry);
                     scoreService.addScore(storeEntry);
                 }
 
@@ -244,8 +245,66 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return userName;
     }
 
+ /*   private TechnologyDTO TraverseFileDirectory(String URL,PersonDTO person) throws JSONException {
+        JSONArray directoryContent = getJSONFromURL(URL);
+
+        if (directoryContent == null)
+            return null;
+
+        for (int contentNumber = 0; contentNumber < directoryContent.length(); contentNumber++) {
+
+            JSONObject content = directoryContent.getJSONObject(contentNumber);
+            String name = content.getString("name");
+            TechnologyDTO technology = extensionExtractor.extractExtension(name);
+            if (technology != null) {
+                if (technology.getDescription().equals("Directory")) {
+                    String directory = content.getString("url");
+                    TechnologyDTO returnTech = TraverseFileDirectory(directory,person);
+                    if (returnTech != null)
+                    {
+                        return returnTech;
+                    }
+
+                } else {
+
+                    return technology;
+                }
+            }
+        }
+        return null;
+    }*/
+
+    private EntryDTO TraverseFileDirectory(String URL, EntryDTO entry) throws JSONException {
+        JSONArray directoryContent = getJSONFromURL(URL);
+
+        if (directoryContent == null)
+            return null;
+
+        for (int contentNumber = 0; contentNumber < directoryContent.length(); contentNumber++) {
+
+            JSONObject content = directoryContent.getJSONObject(contentNumber);
+            String name = content.getString("name");
+            TechnologyDTO technology = extensionExtractor.extractExtension(name);
+            if (technology != null) {
+                if (technology.getDescription().equals("Directory")) {
+                    String directory = content.getString("url");
+                    entry = TraverseFileDirectory(directory,entry);
+                    if (entry.getTechId() != 0)
+                    {
+                        return entry;
+                    }
+
+                } else {
+                    entry.setTechId(technology.getTechId());
+                    return entry;
+                }
+            }
+        }
+        return null;
+    }
 
     private JSONArray getJSONFromURL(String URL) {
+        URL = URL.replace("%20"," ");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
@@ -263,6 +322,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     }
 
     private JSONObject getJSONObjectFromURL(String URL) {
+        URL = URL.replace("%20"," ");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
