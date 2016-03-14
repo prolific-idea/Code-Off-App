@@ -21,16 +21,10 @@
 					ctrl.ChangeTechDescription();
 					console.log(ctrl.coders);
 					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
-					console.log(lastPage);
-					console.log("ctrl.coders.length < pageSize "+ (ctrl.coders.length < pageSize));
-					console.log("lastPage === ctrl.pageNum " + (lastPage === ctrl.pageNum));
-					console.log("ctrl.pageNum " + ctrl.pageNum);
 					if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
 						ctrl.CanNotNext = true;
-						console.log(ctrl.CanNotNext);
 					}
-					else
-					{
+					else {
 						ctrl.CanNotNext = false;
 					}
 				}, $log.error);
@@ -126,10 +120,10 @@
 				for (var i = 0; i < ctrl.coders.length; i++) {
 					for (var j = 0; j < ctrl.coders[i].techs.length; j++) {
 						if (ctrl.coders[i].techs[j].description === "C#") {
-							ctrl.coders[i].techs[j].description = "Csharp";
+							ctrl.coders[i].techs[j].description = "csharp";
 						}
 						if (ctrl.coders[i].techs[j].description === "C++") {
-							ctrl.coders[i].techs[j].description = "Cplusplus";
+							ctrl.coders[i].techs[j].description = "cplusplus";
 						}
 						if (ctrl.coders[i].techs[j].description === "Objective-C") {
 							ctrl.coders[i].techs[j].description = "objc";
