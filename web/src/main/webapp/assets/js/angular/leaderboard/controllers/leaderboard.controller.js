@@ -140,11 +140,24 @@
 				var numIcons = Math.floor(9 * (w / 17) / 100) - 1;
 				numIcons = clamp(numIcons, techs.length);
 				for (var i = 0; i < numIcons; i++) {
-					html += '<i class="icon-' + techs[i].description + '" style="padding: 0px 3px 0px 4px;"></i>';
+					html += '<i class=" icon-spacing icon-' + techs[i].description + '"></i>';
+				}
+				if (isEllipsesNeeded(numIcons, techs.length)) {
+					var diff = techs.length - numIcons;
+					html += '<i class="fa fa-ellipsis-h field-tip icon-spacing"><span class="tip-content" ' +
+						'style="font-family: Montserrat !important;">+' + diff
+						+ ' technologies</span></i>';
 				}
 
 				return $sce.trustAsHtml(html);
 			};
+
+			function isEllipsesNeeded(numIcons, nTechs) {
+				if (nTechs > numIcons) {
+					console.log("nTechs > numIcons true");
+					return true;
+				}
+			}
 
 			function clamp(numIcons, nTechs) {
 				if (numIcons > nTechs)
