@@ -27,21 +27,12 @@ public class UrlServiceTestController {
 
     @RequestMapping(value = "/api/test", method = RequestMethod.GET)
     public String test() {
-        urlService.setOwnerRepoBranchFile("prolific-idea/Code-Off-App", "master", "pom.xml");
-
-        String results = urlService.getContent();
-
-        return results;
+        return "Ah";
     }
 
     @RequestMapping(value = "/api/compare", method = RequestMethod.GET)
     public boolean compare() {
-
-        UrlService urlService = new UrlServiceImpl();
-        urlService.setOwnerRepoBranchFile("prolific-idea/Code-Off-App", "master", "pom.xml");
-
-        String solution = urlService.getContent();
-        return urlService.compareSolution(solution, 1);
+        return false;
     }
 
     @RequestMapping(value = "/api/time", method = RequestMethod.GET)
