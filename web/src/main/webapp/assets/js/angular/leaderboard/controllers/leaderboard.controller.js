@@ -134,23 +134,33 @@
 				}
 			};
 
-			$(window).resize(function(){
-				console.log(window.innerWidth);
-
-				$scope.$apply(function(){
-					//do something to update current scope based on the new innerWidth and let angular update the view.
-				});
-			});
-
 			ctrl.iconDisplay = function (techs) {
 				var html = "";
-				var techLength = techs.length;
-
-				for (var i = 0; i < techLength; i++) {
+				var w = window.innerWidth;
+				var numIcons = Math.floor(9 * (w / 17) / 100) - 1;
+				numIcons = clamp(numIcons, techs.length);
+				for (var i = 0; i < numIcons; i++) {
 					html += '<i class="icon-' + techs[i].description + '" style="padding: 0px 3px 0px 4px;"></i>';
 				}
 
 				return $sce.trustAsHtml(html);
 			};
+
+			function clamp(numIcons, nTechs) {
+				if (numIcons > nTechs)
+					return nTechs;
+				else if (numIcons < 1)
+					return 1;
+				else
+					return numIcons;
+			}
+
+			$(window).resize(function () {
+				console.log(window.innerWidth);
+
+				$scope.$apply(function () {
+
+				});
+			});
 		});
 })();
