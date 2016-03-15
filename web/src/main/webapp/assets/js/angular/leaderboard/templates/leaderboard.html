@@ -52,15 +52,21 @@
                             </div>
                         </a>
                     </td>
-                    <td class="code-off-tech col-lg-4 col-md-5">
-                        <div ng-repeat="tech in coder.techs">
-                            <i class="ng-bind: icon-{{tech.description}}" style="padding-left: 3px;"></i>
-                        </div>
+                    <td class="code-off-tech col-lg-4 col-md-5 col-sm-5 col-xs-5">
+                        <!--<div ng-repeat="tech in coder.techs">-->
+                            <!--<i class="ng-bind: icon-{{tech.description}}" style="padding-left: 3px;"></i>-->
+                        <!--</div>-->
+                        <!--{{iconDisplay(coder.techs)}}-->
+                        <!--<span ng-bind-html="iconDisplay(coder.techs)"></span>-->
+                        <!--<div ng-repeat="tech in coder.techs" class="col-lg-1 col-md-1 col-sm-1 col-xs-1">-->
+                            <!--<span ng-bind-html="iconDisplay(tech)"></span>-->
+                        <!--</div>-->
+                        <span ng-bind-html="iconDisplay(coder.techs)"></span>
                     </td>
-                    <td class="code-off-points col-lg-1 col-md-1">
+                    <td class="code-off-points col-lg-1 col-md-1 col-sm-1 col-xs-1">
                         {{coder.noCodeOffs}}
                     </td>
-                    <td class="code-off-points col-lg-1 col-md-1">
+                    <td class="code-off-points col-lg-1 col-md-1 col-sm-1 col-xs-1">
                         {{coder.points}}
                     </td>
                 </tr>
@@ -68,11 +74,11 @@
             </table>
             <br>
             <div class="row">
-                <button type="button" class="btn btn-default" ng-hide="pageNum === 1" ng-click="ToPrevPage()"
-                        data-toggle="tooltip" title="To Next Page"><i class="glyphicon glyphicon-chevron-left"></i>Prev
+                <button type="button" class="btn btn-default" ng-hide="pageNum === 1" ng-click="toPrevPage()"
+                        data-toggle="tooltip" title="Prev"><i class="glyphicon glyphicon-chevron-left"></i>Prev
                 </button>
                 <button type="button" class="btn btn-default pull-right" ng-hide="CanNotNext"
-                        ng-click="ToNextPage()" data-toggle="tooltip" title="To Next Page">Next <i
+                        ng-click="toNextPage()" data-toggle="tooltip" title="Next">Next <i
                         class="glyphicon glyphicon-chevron-right"></i></button>
             </div>
         </div>

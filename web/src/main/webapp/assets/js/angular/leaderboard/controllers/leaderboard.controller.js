@@ -2,7 +2,7 @@
 	var app = angular.module("codeOffLeaderboard");
 
 	app.controller("viewLeaderboardController",
-		function ($scope, $http, $log, Coders, PersonCount, Challenges, Technologies) {
+		function ($scope, $http, $log, $sce, $window, Coders, PersonCount, Challenges, Technologies) {
 			var ctrl = $scope;
 			var pageSize = 5;
 			ctrl.pageNum = 1;
@@ -21,16 +21,10 @@
 					ctrl.ChangeTechDescription();
 					console.log(ctrl.coders);
 					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
-					console.log(lastPage);
-					console.log("ctrl.coders.length < pageSize "+ (ctrl.coders.length < pageSize));
-					console.log("lastPage === ctrl.pageNum " + (lastPage === ctrl.pageNum));
-					console.log("ctrl.pageNum " + ctrl.pageNum);
 					if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
 						ctrl.CanNotNext = true;
-						console.log(ctrl.CanNotNext);
 					}
-					else
-					{
+					else {
 						ctrl.CanNotNext = false;
 					}
 				}, $log.error);
@@ -126,10 +120,10 @@
 				for (var i = 0; i < ctrl.coders.length; i++) {
 					for (var j = 0; j < ctrl.coders[i].techs.length; j++) {
 						if (ctrl.coders[i].techs[j].description === "C#") {
-							ctrl.coders[i].techs[j].description = "Csharp";
+							ctrl.coders[i].techs[j].description = "csharp";
 						}
 						if (ctrl.coders[i].techs[j].description === "C++") {
-							ctrl.coders[i].techs[j].description = "Cplusplus";
+							ctrl.coders[i].techs[j].description = "cplusplus";
 						}
 						if (ctrl.coders[i].techs[j].description === "Objective-C") {
 							ctrl.coders[i].techs[j].description = "objc";
@@ -138,6 +132,35 @@
 						ctrl.coders[i].techs[j].description = ctrl.coders[i].techs[j].description.toLowerCase();
 					}
 				}
+			};
+
+			ctrl.iconDisplay = function (techs) {
+				var html = "";
+				var w = window.innerWidth;
+				var numIcons = Math.floor(9 * (w / 17) / 100) - 1;
+				numIcons = clamp(numIcons, techs.length);
+				for (var i = 0; i < numIcons; i++) {
+					html += '<i class="icon-' + techs[i].description + '" style="padding: 0px 3px 0px 4px;"></i>';
+				}
+
+				return $sce.trustAsHtml(html);
+			};
+
+			function clamp(numIcons, nTechs) {
+				if (numIcons > nTechs)
+					return nTechs;
+				else if (numIcons < 1)
+					return 1;
+				else
+					return numIcons;
 			}
+
+			$(window).resize(function () {
+				console.log(window.innerWidth);
+
+				$scope.$apply(function () {
+
+				});
+			});
 		});
 })();
