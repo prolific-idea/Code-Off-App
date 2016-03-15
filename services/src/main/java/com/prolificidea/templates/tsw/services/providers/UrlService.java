@@ -1,12 +1,10 @@
 package com.prolificidea.templates.tsw.services.providers;
 
-import java.io.File;
+import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 
 public interface UrlService {
 
-    void setOwnerRepoBranchFile(String ownerRepo, String branch, String file);
+    String getContent(String downloadUrl);
 
-    String getContent();
-
-    boolean compareSolution(String solution, int challengeId);
+    boolean compareSolution(String solution, ChallengeDTO challenge);
 }

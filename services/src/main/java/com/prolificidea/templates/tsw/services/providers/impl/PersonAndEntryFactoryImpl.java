@@ -1,5 +1,7 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
+import com.prolificidea.templates.tsw.domain.entities.Entry;
+import com.prolificidea.templates.tsw.domain.entities.Person;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.DTOs.EntryDTO;
 import com.prolificidea.templates.tsw.services.DTOs.PersonDTO;
@@ -66,11 +68,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
         buildPerson(person, entries, fork);
         buildEntries(person, entries, fork);
-
+        int newPersonID = createPerson(person);
         if (entries.size() > 0) {
-            int newPersonID = createPerson(person);
-            if (person.getUsername().equals("Stuart-Callen"))
-            {String Store = person.getUsername();}
+
             createEntries(entries, newPersonID);
         }
 
@@ -86,46 +86,12 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             entry.setFullName(fork.getString("full_name"));
             entry.setUrl(person.getRepoUrl() + "/branches/" + entry.getBranch());
 
-            EntryDTO validEntry = createAndCheckEntry(entry);
-
-
-            if (validEntry != null) {
-                TechnologyDTO tech = setTech(entry.getBranch(), person.getRepoUrl());
-                if (tech != null) {
-                    entry.setTechId(tech.getTechId());
-                    entries.add(validEntry);
-                }
+            boolean tech = setTech(entry.getBranch(), person.getRepoUrl(), entry);
+            if (tech) {
+                setEntryChallenge(entry);
+                entries.add(entry);
             }
         }
-    }
-
-    private EntryDTO createAndCheckEntry(EntryDTO entry) {
-        boolean valid = checkSolutionExists(entry);
-        if (valid)// need validaty checker
-        {
-            setEntry(entry);
-        } else {
-            entry = null;
-        }
-
-        return entry;
-    }
-
-    private boolean checkSolutionExists(EntryDTO entry) {
-        urlService.setOwnerRepoBranchFile(entry.getFullName(), entry.getBranch(), challenge.getSolutionFilePath());
-        String fileSolution = urlService.getContent();
-        if (fileSolution.equals(""))// nothing is returned if there was a n error in that function
-            return false;
-
-        updateEntrySolution(entry,fileSolution);
-
-        boolean isCorrect = urlService.compareSolution(fileSolution, challenge.getChallengeId());
-        if (isCorrect) {
-            entry.setResult(2);
-        } else {
-            entry.setResult(1);
-        }
-        return true;
     }
 
     private void updateEntrySolution(EntryDTO entry, String fileSolution) {
@@ -133,27 +99,16 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         entry.setSolution(solutionInBytes);
     }
 
-    private void setEntry(EntryDTO entry) {
+    private void setEntryChallenge(EntryDTO entry) {
         entry.setChallengeId(challenge.getChallengeId());
         entry.setDate(new Date());
     }
 
-    private TechnologyDTO setTech(String branch, String URL) throws JSONException {
+    private boolean setTech(String branch, String URL, EntryDTO entry) throws JSONException {
         String path = getPath();
         URL = URL + "/contents/" + path + "?ref=" + branch;
-        TechnologyDTO technology = null;
-        JSONArray contents = getJSONFromURL(URL);
-        if (contents == null) {
-            return technology;
-        }
-        for (int contentNumber = 0; contentNumber < contents.length(); contentNumber++) {
-            JSONObject content = contents.getJSONObject(contentNumber);
-            technology = extensionExtractor.extractExtension(content.getString("name"));
-            if (technology != null)
-                return technology;
-        }
-        return technology;
 
+        return TraverseFileDirectory(entry, URL);
     }
 
     private String getPath() {
@@ -174,7 +129,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
                 EntryDTO oldEntry = entryExsists.get(0);
                 if (oldEntry.getResult() != entry.getResult()) {
                     oldEntry.setResult(entry.getResult());
-                     EntryDTO storeEntry =entryService.updateEntry(oldEntry);
+                    EntryDTO storeEntry = entryService.updateEntry(oldEntry);
                     scoreService.addScore(storeEntry);
                 }
 
@@ -228,14 +183,8 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         }
     }
 
-    private String getUserURLFromFork(JSONObject fork) throws JSONException {
-        JSONObject owner = fork.getJSONObject("owner");
-        return owner.getString("url");
-    }
-
     private String buildRepoURL(JSONObject fork) throws JSONException {
         return "https://api.github.com/repos/" + fork.get("full_name");
-        // https://api.github.com/repos/{full_name}/
     }
 
     private String getUsername(JSONObject fork) throws JSONException {
@@ -244,8 +193,92 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return userName;
     }
 
+    private boolean TraverseFileDirectory(EntryDTO entry, String URL) throws JSONException {
+        JSONArray directoryContent = getJSONFromURL(URL);
+
+        if (directoryContent == null)
+            return false;
+
+        for (int contentNumber = 0; contentNumber < directoryContent.length(); contentNumber++) {
+
+            JSONObject content = directoryContent.getJSONObject(contentNumber);
+            String name = content.getString("name");
+            TechnologyDTO technology = extensionExtractor.extractExtension(name);
+            if (technology != null) {
+                if (technology.getDescription().equals("Directory")) {
+                    String directory = content.getString("url");
+                    if (TraverseFileDirectory(entry, directory))
+                        return true;
+
+                    if (isCompletedEntry(entry))
+                        return true;
+
+                } else {
+                    entry.setTechId(technology.getTechId());
+                    if (isCompletedEntry(entry))
+                        return true;
+                }
+            } else {
+                if (extensionExtractor.isSolutionFile(name, challenge.getSolutionFilePath())) {
+                    String downloadUrl = content.getString("download_url");
+                    addSolutionToEntry(entry, downloadUrl);
+
+                    if (isCompletedEntry(entry))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void addSolutionToEntry(EntryDTO entry, String downloadUrl) {
+        String submittedSolutionContent = urlService.getContent(downloadUrl);
+
+        updateEntrySolution(entry, submittedSolutionContent);
+
+        boolean isCorrect = urlService.compareSolution(submittedSolutionContent, challenge);
+        if (isCorrect) {
+            entry.setResult(2);
+        } else {
+            entry.setResult(1);
+        }
+    }
+
+    private boolean isCompletedEntry(EntryDTO entry) {
+        return entry.getTechId() != 0 && entry.getSolution() != null;
+    }
+
+/*    private EntryDTO TraverseFileDirectory(String URL, EntryDTO entry) throws JSONException {
+        JSONArray directoryContent = getJSONFromURL(URL);
+
+        if (directoryContent == null)
+            return null;
+
+        for (int contentNumber = 0; contentNumber < directoryContent.length(); contentNumber++) {
+
+            JSONObject content = directoryContent.getJSONObject(contentNumber);
+            String name = content.getString("name");
+            TechnologyDTO technology = extensionExtractor.extractExtension(name);
+            if (technology != null) {
+                if (technology.getDescription().equals("Directory")) {
+                    String directory = content.getString("url");
+                    entry = TraverseFileDirectory(directory,entry);
+                    if (entry.getTechId() != 0)
+                    {
+                        return entry;
+                    }
+
+                } else {
+                    entry.setTechId(technology.getTechId());
+                    return entry;
+                }
+            }
+        }
+        return null;
+    }*/
 
     private JSONArray getJSONFromURL(String URL) {
+        URL = URL.replace("%20", " ");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
@@ -263,6 +296,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     }
 
     private JSONObject getJSONObjectFromURL(String URL) {
+        URL = URL.replace("%20", " ");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);

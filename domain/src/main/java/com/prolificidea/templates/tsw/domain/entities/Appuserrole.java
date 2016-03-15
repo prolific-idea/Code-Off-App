@@ -16,10 +16,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "appuserrole")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Appuserrole.findAll", query = "SELECT a FROM Appuserrole a"),
-    @NamedQuery(name = "Appuserrole.findByAppUserRoleId", query = "SELECT a FROM Appuserrole a WHERE a.appUserRoleId = :appUserRoleId")})
-public class Appuserrole implements Serializable {
+public class AppUserRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,10 +29,10 @@ public class Appuserrole implements Serializable {
     @ManyToOne(optional = false)
     private Role roleId;
 
-    public Appuserrole() {
+    public AppUserRole() {
     }
 
-    public Appuserrole(Integer appUserRoleId) {
+    public AppUserRole(Integer appUserRoleId) {
         this.appUserRoleId = appUserRoleId;
     }
 
@@ -73,10 +70,10 @@ public class Appuserrole implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Appuserrole)) {
+        if (!(object instanceof AppUserRole)) {
             return false;
         }
-        Appuserrole other = (Appuserrole) object;
+        AppUserRole other = (AppUserRole) object;
         if ((this.appUserRoleId == null && other.appUserRoleId != null) || (this.appUserRoleId != null && !this.appUserRoleId.equals(other.appUserRoleId))) {
             return false;
         }
@@ -85,7 +82,7 @@ public class Appuserrole implements Serializable {
 
     @Override
     public String toString() {
-        return "com.prolificidea.templates.tsw.domain.entities.Appuserrole[ appUserRoleId=" + appUserRoleId + " ]";
+        return "com.prolificidea.templates.tsw.domain.entities.AppUserRole[ appUserRoleId=" + appUserRoleId + " ]";
     }
     
 }

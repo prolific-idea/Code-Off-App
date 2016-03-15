@@ -1,6 +1,12 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
-    app.controller("createChallengeController", function ($scope, $log, Challenges, SharedUpdateChallenge) {
+    app.controller("createChallengeController", function ($scope, $cookies, $log, $window, Challenges, SharedUpdateChallenge) {
+        if ($cookies.get("prolific-login-token") === null || $cookies.get("prolific-login-token") === undefined) {
+            $window.location.href = "/assets/js/angular/login/login.html";
+        } else {
+            console.log("User logged in.");
+        }
+
         var ctrl = $scope;
 
         $scope.format = 'yyyy/MM/dd';

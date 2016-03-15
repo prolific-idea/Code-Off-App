@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.AppUserDetails;
+import com.prolificidea.templates.tsw.domain.entities.AppUserDetails;
 import com.prolificidea.templates.tsw.persistence.AppUserDetailsDao;
 import com.prolificidea.templates.tsw.services.providers.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.web.controllers.rest;
 
-import com.prolificidea.templates.tsw.domain.AppUserDetails;
+import com.prolificidea.templates.tsw.domain.entities.AppUserDetails;
 import com.prolificidea.templates.tsw.services.providers.AppUserDetailsService;
 import com.prolificidea.templates.tsw.web.helpers.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.List;
 
 @Controller

@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.Role;
+import com.prolificidea.templates.tsw.domain.entities.Role;
 import com.prolificidea.templates.tsw.persistence.RoleDao;
 import com.prolificidea.templates.tsw.services.providers.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

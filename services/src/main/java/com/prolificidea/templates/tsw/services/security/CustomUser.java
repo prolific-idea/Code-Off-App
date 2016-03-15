@@ -1,7 +1,7 @@
 package com.prolificidea.templates.tsw.services.security;
 
-import com.prolificidea.templates.tsw.domain.AppUserDetails;
 import com.prolificidea.templates.tsw.domain.entities.AppUser;
+import com.prolificidea.templates.tsw.domain.entities.AppUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,6 +28,9 @@ public class CustomUser implements UserDetails{
         appUserDetails.setLastName(this.surname);
         appUser.setAppUserDetails(appUserDetails);
         return appUser;
+    }
+
+    public CustomUser() {
     }
 
     public CustomUser(String username, String password, List<GrantedAuthority> authorities) {

@@ -24,35 +24,19 @@ public class UrlServiceImpl implements UrlService {
     @Autowired
     private RestOperations restCall;
 
-    private String branch;
-    private String file;
-    private String ownerRepo;
-
     public UrlServiceImpl() {
     }
 
-    public UrlServiceImpl(RestTemplate restCall, String ownerRepo, String branch, String file) {
-        this.ownerRepo = ownerRepo;
-        this.branch = branch;
-        this.file = file;
-        this.restCall = restCall;
-    }
-
-    public void setOwnerRepoBranchFile(String ownerRepo, String branch, String file) {
-        this.ownerRepo = ownerRepo;
-        this.branch = branch;
-        this.file = file;
-    }
-
-    public String getContent() {
+    public String getContent(String downloadUrl) {
         HttpHeaders headers = new HttpHeaders();
+        downloadUrl = downloadUrl.replace("%20", " ");
 
-        headers.set("Authorization", "Basic VGVzaGlrYWppbjpUZXNoaWthamluMzcyNDY2");
+        headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");
         HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters", headers);
         try {
             ResponseEntity<String> fileContentResults = restCall.exchange(
-                    "https://raw.githubusercontent.com/{ownerRepo}/{branch}/{file}",
-                    HttpMethod.GET, contentHttpEntity, String.class, ownerRepo, branch, file);
+                    downloadUrl,
+                    HttpMethod.GET, contentHttpEntity, String.class);
 
             if (fileContentResults.getStatusCode() != HttpStatus.OK)
                 return "";
@@ -66,8 +50,7 @@ public class UrlServiceImpl implements UrlService {
         }
     }
 
-    public boolean compareSolution(String submittedSolution, int challengeId) {
-        ChallengeDTO challenge = challengeService.findChallenge(challengeId);
+    public boolean compareSolution(String submittedSolution, ChallengeDTO challenge) {
         byte[] answerByte = challenge.getSolution();
         String challengeSolution = new String(answerByte, Charset.forName("UTF-8"));
 

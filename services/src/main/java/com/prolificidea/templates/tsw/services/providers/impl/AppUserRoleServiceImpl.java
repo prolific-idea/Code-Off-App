@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.AppUserRole;
+import com.prolificidea.templates.tsw.domain.entities.AppUserRole;
 import com.prolificidea.templates.tsw.persistence.AppUserRoleDao;
 import com.prolificidea.templates.tsw.services.providers.AppUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

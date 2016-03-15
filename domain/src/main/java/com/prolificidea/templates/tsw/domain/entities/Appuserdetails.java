@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "appuserdetails")
 @XmlRootElement
-public class Appuserdetails implements Serializable {
+public class AppUserDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,13 +31,13 @@ public class Appuserdetails implements Serializable {
     private String lastName;
     @Column(name = "emailAddress")
     private String emailAddress;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUserDetailsId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUserDetails")
     private List<AppUser> appuserList;
 
-    public Appuserdetails() {
+    public AppUserDetails() {
     }
 
-    public Appuserdetails(Integer appUserDetailsId) {
+    public AppUserDetails(Integer appUserDetailsId) {
         this.appUserDetailsId = appUserDetailsId;
     }
 
@@ -92,10 +92,10 @@ public class Appuserdetails implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Appuserdetails)) {
+        if (!(object instanceof AppUserDetails)) {
             return false;
         }
-        Appuserdetails other = (Appuserdetails) object;
+        AppUserDetails other = (AppUserDetails) object;
         if ((this.appUserDetailsId == null && other.appUserDetailsId != null) || (this.appUserDetailsId != null && !this.appUserDetailsId.equals(other.appUserDetailsId))) {
             return false;
         }
@@ -104,7 +104,7 @@ public class Appuserdetails implements Serializable {
 
     @Override
     public String toString() {
-        return "com.prolificidea.templates.tsw.domain.entities.Appuserdetails[ appUserDetailsId=" + appUserDetailsId + " ]";
+        return "com.prolificidea.templates.tsw.domain.entities.AppUserDetails[ appUserDetailsId=" + appUserDetailsId + " ]";
     }
     
 }

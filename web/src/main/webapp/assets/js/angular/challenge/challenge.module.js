@@ -1,4 +1,6 @@
 (function () {
+    "user strict";
+
     angular.module("codeOffChallengeAdmin", [
         "ngResource",
         "ngMessages",
@@ -10,12 +12,18 @@
         "codeOffChallengeAdmin.createChallenge",
         "codeOffChallengeAdmin.viewChallenges",
         "codeOffChallengeAdmin.customNgChange",
-        "codeOffChallengeAdmin.updateChallenge"
+        "codeOffChallengeAdmin.updateChallenge",
+        "ngCookies"
     ]);
+
+    /*
+     $cookies.put("token", response.headers["x-auth-token"]);
+     */
 
     angular.module("codeOffChallengeAdmin.challenge", [
         "codeOffChallengeAdmin.resources",
         "codeOffChallengeAdmin.updateFactory",
-        "ui.bootstrap"
+        "ui.bootstrap",
+        "ngCookies"
     ]);
 })();

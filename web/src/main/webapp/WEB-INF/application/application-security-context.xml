@@ -7,14 +7,14 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-    <global-method-security pre-post-annotations="enabled"/>
+    <!--<global-method-security pre-post-annotations="enabled"/>-->
 
-	<authentication-manager>
-		<authentication-provider user-service-ref = "userDetailsService">
-		    <password-encoder hash="sha-256">
-                <salt-source user-property="username"/>
-            </password-encoder>
-		</authentication-provider>
-	</authentication-manager>
+	<!--<authentication-manager>-->
+		<!--<authentication-provider user-service-ref = "userDetailsService">-->
+		    <!--<password-encoder hash="sha-256">-->
+                <!--<salt-source user-property="username"/>-->
+            <!--</password-encoder>-->
+		<!--</authentication-provider>-->
+	<!--</authentication-manager>-->
 
 </beans:beans>

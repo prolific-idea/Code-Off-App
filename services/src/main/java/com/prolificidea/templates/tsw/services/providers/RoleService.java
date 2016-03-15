@@ -1,6 +1,6 @@
 package com.prolificidea.templates.tsw.services.providers;
 
-import com.prolificidea.templates.tsw.domain.Role;
+import com.prolificidea.templates.tsw.domain.entities.Role;
 
 import java.util.List;
 

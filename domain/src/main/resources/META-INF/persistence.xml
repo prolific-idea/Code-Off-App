@@ -3,12 +3,12 @@
   <persistence-unit name="com.prolificidea.templates.template-spring-web_domain_jar_1.0.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.prolificidea.templates.tsw.domain.entities.Entry</class>
-    <class>com.prolificidea.templates.tsw.domain.entities.Appuserdetails</class>
+    <class>com.prolificidea.templates.tsw.domain.entities.AppUserDetails</class>
     <class>com.prolificidea.templates.tsw.domain.entities.Challenge</class>
     <class>com.prolificidea.templates.tsw.domain.entities.Appuser</class>
     <class>com.prolificidea.templates.tsw.domain.entities.Person</class>
     <class>com.prolificidea.templates.tsw.domain.entities.Role</class>
-    <class>com.prolificidea.templates.tsw.domain.entities.Appuserrole</class>
+    <class>com.prolificidea.templates.tsw.domain.entities.AppUserRole</class>
     <class>com.prolificidea.templates.tsw.domain.entities.Technology</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbo?zeroDateTimeBehavior=convertToNull"/>

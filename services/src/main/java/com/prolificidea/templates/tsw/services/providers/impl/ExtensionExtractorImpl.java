@@ -16,8 +16,7 @@ public class ExtensionExtractorImpl implements ExtensionExtractor {
     public TechnologyDTO extractExtension(String filename) {
         List<TechnologyDTO> techs;
         String[] splicedFilename = filename.split("\\.");
-        if(splicedFilename.length < 2)
-        {
+        if (splicedFilename.length < 2) {
             TechnologyDTO tech = new TechnologyDTO();
             tech.setDescription("Directory");
             return tech;
@@ -30,10 +29,23 @@ public class ExtensionExtractorImpl implements ExtensionExtractor {
             return null;
 
         for (TechnologyDTO tech : techs) {
-            if(tech.getDescription().equals(language))
+            if (tech.getDescription().equals(language))
                 return tech;
         }
         return null;
+    }
+
+    public boolean isSolutionFile(String givenSolutionFilePath, String databaseSolutionFilePath) {
+        String[] splicedGivenSolutionFilePath = givenSolutionFilePath.split("/");
+        String[] splicedDatabaseSolutionFilePath = databaseSolutionFilePath.split("/");
+
+        int indexOfGivenSolutionFilename = splicedGivenSolutionFilePath.length - 1;
+        int indexOfDatabaseSolutionFilename = splicedDatabaseSolutionFilePath.length - 1;
+
+        String givenFilename = splicedGivenSolutionFilePath[indexOfGivenSolutionFilename];
+        String databaseFilename = splicedDatabaseSolutionFilePath[indexOfDatabaseSolutionFilename];
+
+        return givenFilename.equals(databaseFilename);
     }
 
     private String getLanguage(String extension) {
