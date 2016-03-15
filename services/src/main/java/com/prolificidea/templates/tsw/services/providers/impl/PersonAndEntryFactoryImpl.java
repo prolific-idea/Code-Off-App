@@ -183,11 +183,6 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         }
     }
 
-    private String getUserURLFromFork(JSONObject fork) throws JSONException {
-        JSONObject owner = fork.getJSONObject("owner");
-        return owner.getString("url");
-    }
-
     private String buildRepoURL(JSONObject fork) throws JSONException {
         return "https://api.github.com/repos/" + fork.get("full_name");
     }
