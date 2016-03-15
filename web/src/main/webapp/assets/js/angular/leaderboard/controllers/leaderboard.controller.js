@@ -18,7 +18,7 @@
 			ctrl.getLeaderboard = function () {
 				ctrl.codersTemp.$promise.then(function () {
 					ctrl.coders = ctrl.codersTemp;
-					ctrl.ChangeTechDescription();
+					ctrl.changeTechDescription();
 					console.log(ctrl.coders);
 					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
 					if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
@@ -104,19 +104,19 @@
 					ctrl.getDefaultLeaderboard();
 			};
 
-			ctrl.ToNextPage = function () {
+			ctrl.toNextPage = function () {
 				ctrl.pageNum += 1;
 				ctrl.toPaginate();
 			};
 
-			ctrl.ToPrevPage = function () {
+			ctrl.toPrevPage = function () {
 				if (ctrl.pageNum != 1) {
 					ctrl.pageNum -= 1;
 					ctrl.toPaginate();
 				}
 			};
 
-			ctrl.ChangeTechDescription = function () {
+			ctrl.changeTechDescription = function () {
 				for (var i = 0; i < ctrl.coders.length; i++) {
 					for (var j = 0; j < ctrl.coders[i].techs.length; j++) {
 						if (ctrl.coders[i].techs[j].description === "C#") {
