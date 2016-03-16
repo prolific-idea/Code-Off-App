@@ -4,7 +4,7 @@
 	app.controller("viewLeaderboardController",
 		function ($scope, $http, $log, $sce, $window, Coders, PersonCount, Challenges, Technologies) {
 			var ctrl = $scope;
-			var pageSize = 5;
+			var pageSize = 10;
 			ctrl.pageNum = 1;
 			ctrl.coders = [];
 

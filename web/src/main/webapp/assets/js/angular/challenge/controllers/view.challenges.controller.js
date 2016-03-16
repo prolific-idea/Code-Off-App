@@ -1,14 +1,14 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
     app.controller("viewChallengesController", function ($scope, $http, $cookies, $log, $window, Challenges, challengeCount, SharedUpdateChallenge) {
-        if ($cookies.get("prolific-login-token") === null || $cookies.get("prolific-login-token") === undefined) {
+        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
             $window.location.href = "/assets/js/angular/login/login.html";
         } else {
             console.log("User logged in.");
         }
 
         var ctrl = $scope;
-        var pageSize = 6;
+        var pageSize = 10;
         ctrl.page = 1;
         ctrl.CanNotNext = false;
 

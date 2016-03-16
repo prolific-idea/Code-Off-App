@@ -4,17 +4,11 @@
             return $resource("/api/challenges/:id", null, {
                 getAll: {
                     method: "GET",
-                    isArray: true,
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    isArray: true
                 },
                 getById: {
                     method: "GET",
-                    params: {id: "@id"},
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    params: {id: "@id"}
                 },
                 getAllWithPage: {
                     method: "GET",
@@ -22,38 +16,23 @@
                         pageNum: "@page",
                         pageSize: "@size"
                     },
-                    isArray: true,
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    isArray: true
                 },
                 update: {
-                    method: "PUT",
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    method: "PUT"
                 },
                 remove: {
                     method: "DELETE",
-                    params: {id: "@id"},
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    params: {id: "@id"}
                 },
                 create: {
-                    method: "POST",
-                    headers: {
-                        'x-auth-token': $cookies.get("prolific-login-token")
-                    }
+                    method: "POST"
                 }
             });
         }).factory("challengeCount", function ($resource, $cookies) {
         return $resource("/api/challenges/count", null, {
             count: {
-                method: "GET",
-                headers: {
-                    'x-auth-token': $cookies.get("prolific-login-token")
-                }
+                method: "GET"
             }
         })
     });

@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
     app.controller("updateChallengeController", function ($scope, $http, $cookies, $log, $window, $uibModal, Challenges, SharedUpdateChallenge) {
-        if ($cookies.get("prolific-login-token") === null || $cookies.get("prolific-login-token") === undefined) {
+        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
             $window.location.href = "/assets/js/angular/login/login.html";
         } else {
             console.log("User logged in.");
