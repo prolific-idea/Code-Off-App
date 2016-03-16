@@ -31,6 +31,10 @@
                 </div>
             </div>
 
+            <span ng-model="codersIsNull" ng-show="codersIsNull"
+                  class="ng-hide">Leaderboard is currently empty.
+            </span>
+
             <table class="table table-striped" id="leaderboard-table">
                 <thead>
                 <tr>
@@ -53,14 +57,6 @@
                         </a>
                     </td>
                     <td class="code-off-tech col-lg-4 col-md-5 col-sm-5 col-xs-5">
-                        <!--<div ng-repeat="tech in coder.techs">-->
-                            <!--<i class="ng-bind: icon-{{tech.description}}" style="padding-left: 3px;"></i>-->
-                        <!--</div>-->
-                        <!--{{iconDisplay(coder.techs)}}-->
-                        <!--<span ng-bind-html="iconDisplay(coder.techs)"></span>-->
-                        <!--<div ng-repeat="tech in coder.techs" class="col-lg-1 col-md-1 col-sm-1 col-xs-1">-->
-                            <!--<span ng-bind-html="iconDisplay(tech)"></span>-->
-                        <!--</div>-->
                         <span ng-bind-html="iconDisplay(coder.techs)"></span>
                     </td>
                     <td class="code-off-points col-lg-1 col-md-1 col-sm-1 col-xs-1">

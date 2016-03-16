@@ -17,17 +17,23 @@
 			};
 			ctrl.getLeaderboard = function () {
 				ctrl.codersTemp.$promise.then(function () {
-					ctrl.coders = ctrl.codersTemp;
-					ctrl.changeTechDescription();
-					console.log(ctrl.coders);
-					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
-					if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
-						ctrl.CanNotNext = true;
-					}
-					else {
-						ctrl.CanNotNext = false;
-					}
-				}, $log.error);
+						ctrl.coders = ctrl.codersTemp;
+						if (ctrl.coders.length === 0)
+							ctrl.codersIsNull = true;
+						else
+							ctrl.codersIsNull = false;
+
+						ctrl.changeTechDescription();
+						console.log(ctrl.coders);
+						var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
+						if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
+							ctrl.CanNotNext = true;
+						}
+						else {
+							ctrl.CanNotNext = false;
+						}
+					}, $log.error
+				);
 			};
 			ctrl.getDefaultLeaderboard = function () {
 				ctrl.codersTemp = Coders.getPagedLeaderboard({
@@ -138,7 +144,15 @@
 				var html = "";
 				var w = window.innerWidth;
 				var numberOfTech = techs.length;
-				var numIcons = Math.floor(5 * ((w / 17) * Math.sqrt(3)) / 100) - 1;
+				var numIcons = 0;
+				if (w < 420) {
+					numIcons = Math.floor(w / (16 * 17)) - 1;
+				} else if (w >= 420 && w < 450) {
+					numIcons = Math.floor(w / (16 * 12)) - 1;
+				} else {
+					numIcons = Math.floor(w / (16 * 10));
+				}
+				console.log(numIcons);
 				numIcons = clamp(numIcons, numberOfTech);
 				for (var i = 0; i < numIcons; i++) {
 					html += '<i class=" icon-spacing icon-' + techs[i].description + '"></i>';
