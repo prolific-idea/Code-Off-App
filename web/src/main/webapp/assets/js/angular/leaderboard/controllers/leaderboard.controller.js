@@ -137,15 +137,22 @@
 			ctrl.iconDisplay = function (techs) {
 				var html = "";
 				var w = window.innerWidth;
-				var numIcons = Math.floor(9 * (w / 17) / 100) - 1;
-				numIcons = clamp(numIcons, techs.length);
+				var numberOfTech = techs.length;
+				var numIcons = Math.floor(5 * ((w / 17) * Math.sqrt(3)) / 100) - 1;
+				numIcons = clamp(numIcons, numberOfTech);
 				for (var i = 0; i < numIcons; i++) {
 					html += '<i class=" icon-spacing icon-' + techs[i].description + '"></i>';
 				}
-				if (isEllipsesNeeded(numIcons, techs.length)) {
+				if (isEllipsesNeeded(numIcons, numberOfTech)) {
 					var diff = techs.length - numIcons;
 					html += '<i class="fa fa-ellipsis-h field-tip icon-spacing"><span class="tip-content" ' +
 						'style="font-family: Montserrat !important;">+' + diff
+						+ ' technologies</span></i>';
+				}
+
+				if (hideAllTechnologies(numIcons)) {
+					html = '<i class="fa fa-ellipsis-h field-tip icon-spacing"><span class="tip-content" ' +
+						'style="font-family: Montserrat !important;">+' + numberOfTech
 						+ ' technologies</span></i>';
 				}
 
@@ -157,6 +164,11 @@
 					console.log("nTechs > numIcons true");
 					return true;
 				}
+			}
+
+			function hideAllTechnologies(numIcons) {
+				if (numIcons < 1)
+					return true;
 			}
 
 			function clamp(numIcons, nTechs) {
