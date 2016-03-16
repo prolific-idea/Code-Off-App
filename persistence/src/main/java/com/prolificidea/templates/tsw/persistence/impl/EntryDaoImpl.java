@@ -23,7 +23,7 @@ public class EntryDaoImpl extends GenericDaoImpl<Entry> implements EntryDao {
     }
 
     public List<Entry> findAllEntriesByPersonAndChallenge(Person p, Challenge c) {
-        Query q = this.entityManager.createQuery("SELECT x from Entry x where x.personId like :person AND x.challengeId like :challenge")
+        Query q = this.entityManager.createQuery("SELECT DISTINCT x from Entry x where x.personId like :person AND x.challengeId like :challenge")
                 .setParameter("person", p).setParameter("challenge", c);
         return q.getResultList();
     }
