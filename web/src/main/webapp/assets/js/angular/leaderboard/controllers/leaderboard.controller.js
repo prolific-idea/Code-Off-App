@@ -18,7 +18,7 @@
 			ctrl.getLeaderboard = function () {
 				ctrl.codersTemp.$promise.then(function () {
 					ctrl.coders = ctrl.codersTemp;
-					ctrl.ChangeTechDescription();
+					ctrl.changeTechDescription();
 					console.log(ctrl.coders);
 					var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
 					if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
@@ -104,19 +104,19 @@
 					ctrl.getDefaultLeaderboard();
 			};
 
-			ctrl.ToNextPage = function () {
+			ctrl.toNextPage = function () {
 				ctrl.pageNum += 1;
 				ctrl.toPaginate();
 			};
 
-			ctrl.ToPrevPage = function () {
+			ctrl.toPrevPage = function () {
 				if (ctrl.pageNum != 1) {
 					ctrl.pageNum -= 1;
 					ctrl.toPaginate();
 				}
 			};
 
-			ctrl.ChangeTechDescription = function () {
+			ctrl.changeTechDescription = function () {
 				for (var i = 0; i < ctrl.coders.length; i++) {
 					for (var j = 0; j < ctrl.coders[i].techs.length; j++) {
 						if (ctrl.coders[i].techs[j].description === "C#") {
@@ -140,11 +140,24 @@
 				var numIcons = Math.floor(9 * (w / 17) / 100) - 1;
 				numIcons = clamp(numIcons, techs.length);
 				for (var i = 0; i < numIcons; i++) {
-					html += '<i class="icon-' + techs[i].description + '" style="padding: 0px 3px 0px 4px;"></i>';
+					html += '<i class=" icon-spacing icon-' + techs[i].description + '"></i>';
+				}
+				if (isEllipsesNeeded(numIcons, techs.length)) {
+					var diff = techs.length - numIcons;
+					html += '<i class="fa fa-ellipsis-h field-tip icon-spacing"><span class="tip-content" ' +
+						'style="font-family: Montserrat !important;">+' + diff
+						+ ' technologies</span></i>';
 				}
 
 				return $sce.trustAsHtml(html);
 			};
+
+			function isEllipsesNeeded(numIcons, nTechs) {
+				if (nTechs > numIcons) {
+					console.log("nTechs > numIcons true");
+					return true;
+				}
+			}
 
 			function clamp(numIcons, nTechs) {
 				if (numIcons > nTechs)
