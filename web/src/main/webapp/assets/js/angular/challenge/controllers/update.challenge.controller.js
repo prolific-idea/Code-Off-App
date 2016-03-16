@@ -105,9 +105,13 @@
             ctrl.challenge = null;
             SharedUpdateChallenge.setChallengeData(null);
         };
-        ctrl.OK = function () {
+        ctrl.OK = function (form) {
             ctrl.updateNotification = false;
             ctrl.DirtyForm = false;
+            if (form) {
+                form.$setPristine();
+                form.$setUntouched();
+            }
             ctrl.Cancel();
         };
 

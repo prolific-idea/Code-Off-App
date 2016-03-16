@@ -101,18 +101,31 @@
             numberOfLinesToCompare: null
         };
 
-        ctrl.OK = function () {
+        ctrl.OK = function (form) {
             ctrl.DirtyForm = false;
             ctrl.createNotification = false;
             ctrl.errorNotification = false;
-            ctrl.challenge = null;
+            if (form) {
+                form.$setPristine();
+                form.$setUntouched();
+            }
+            ctrl.challenge = {
+                solution: null,
+                url: null,
+                solutionFilePath: null,
+                startDate: null,
+                endDate: null,
+                numberOfLinesToCompare: null
+            };
+            ctrl.startTime = null;
+            ctrl.endTime = null;
         };
 
         ctrl.OKError = function () {
             ctrl.DirtyForm = false;
             ctrl.createNotification = false;
             ctrl.errorNotification = false;
-        }
+        };
 
         ctrl.DirtyForm = false;
     });

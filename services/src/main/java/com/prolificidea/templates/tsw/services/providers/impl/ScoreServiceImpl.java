@@ -62,7 +62,7 @@ public class ScoreServiceImpl implements ScoreService {
 
             for (EntryDTO e : entries) {
                 System.out.println(e.getEntryId() + ": Res: " + e.getResult());
-                if (!e.getEntryId().equals(entry.getEntryId())) {
+                if (!e.getEntryId().equals(entry.getEntryId()) || !e.getUrl().equals(entry.getUrl())) {
                     if (e.getResult() > max) max = e.getResult();
                 }
             }

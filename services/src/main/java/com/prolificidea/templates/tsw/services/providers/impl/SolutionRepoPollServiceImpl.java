@@ -37,7 +37,7 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
 
     private int challengeID =0; // needs to be removed when scheduling between dates
 
-    @Scheduled(fixedRate = ONE_MINUTE  * 10)//Should be 60000*30
+    @Scheduled(fixedRate = ONE_MINUTE  * 6)//Should be 60000*30
     public void pollRepositoryForSolution() {
         time = "Last Polled: " + dateFormat.format(new Date()) ;
         String temp = time;
