@@ -174,7 +174,7 @@
 			function clamp(numIcons, nTechs) {
 				if (numIcons > nTechs)
 					return nTechs;
-				else if (numIcons < 1)
+				else if (numIcons < 1 && nTechs === 1)
 					return 1;
 				else
 					return numIcons;
@@ -182,6 +182,7 @@
 
 			$(window).resize(function () {
 				console.log(window.innerWidth);
+				var toDisplay = 0;
 
 				$scope.$apply(function () {
 
