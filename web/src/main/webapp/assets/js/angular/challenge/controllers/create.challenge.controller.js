@@ -1,4 +1,6 @@
 (function () {
+    "use strict";
+
     var app = angular.module("codeOffChallengeAdmin.challenge");
     app.controller("createChallengeController", function ($scope, $cookies, $log, $window, Challenges, SharedUpdateChallenge) {
         if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
@@ -119,6 +121,7 @@
             };
             ctrl.startTime = null;
             ctrl.endTime = null;
+            ctrl.SharedData.callGetChallenges = true;
         };
 
         ctrl.OKError = function () {

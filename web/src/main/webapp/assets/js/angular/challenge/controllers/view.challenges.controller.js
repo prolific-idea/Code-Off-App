@@ -17,15 +17,17 @@
             ctrl.challengeCount = ctrl.challengeCountTemp;
         }, $log.error);
 
-        ctrl.challengesTemp = Challenges.getAllWithPage({pageNum: ctrl.page, pageSize: pageSize});
-        ctrl.challengesTemp.$promise.then(function () {
-            ctrl.challenges = ctrl.challengesTemp;
-            var lastPage = Math.ceil(ctrl.challengeCount.countOfChallenges / pageSize);
-            if (lastPage === ctrl.page)
-                ctrl.CanNotNext = true;
-            else
-                ctrl.CanNotNext = false;
-        }, $log.error);
+        function GetChallenges() {
+            ctrl.challengesTemp = Challenges.getAllWithPage({pageNum: ctrl.page, pageSize: pageSize});
+            ctrl.challengesTemp.$promise.then(function () {
+                ctrl.challenges = ctrl.challengesTemp;
+                var lastPage = Math.ceil(ctrl.challengeCount.countOfChallenges / pageSize);
+                if (lastPage === ctrl.page)
+                    ctrl.CanNotNext = true;
+                else
+                    ctrl.CanNotNext = false;
+            }, $log.error);
+        }
 
         ctrl.Update = function (index) {
             SharedUpdateChallenge.setChallengeData(ctrl.challenges[index]);
@@ -49,30 +51,25 @@
 
         ctrl.ToNextPage = function () {
             ctrl.page += 1;
-            ctrl.challengesTemp = Challenges.getAllWithPage({pageNum: ctrl.page, pageSize: pageSize});
-            ctrl.challengesTemp.$promise.then(function () {
-                ctrl.challenges = ctrl.challengesTemp;
-                var lastPage = Math.ceil(ctrl.challengeCount.countOfChallenges / pageSize);
-                if (lastPage === ctrl.page)
-                    ctrl.CanNotNext = true;
-                else
-                    ctrl.CanNotNext = false;
-            }, $log.error);
+            GetChallenges();
         };
 
         ctrl.ToPrevPage = function () {
             if (ctrl.page != 1) {
                 ctrl.page -= 1;
-                ctrl.challengesTemp = Challenges.getAllWithPage({pageNum: ctrl.page, pageSize: pageSize});
-                ctrl.challengesTemp.$promise.then(function () {
-                    ctrl.challenges = ctrl.challengesTemp;
-                    var lastPage = Math.ceil(ctrl.challengeCount.countOfChallenges / pageSize);
-                    if (lastPage === ctrl.page)
-                        ctrl.CanNotNext = true;
-                    else
-                        ctrl.CanNotNext = false;
-                }, $log.error);
+                GetChallenges();
             }
         };
+
+        GetChallenges();
+
+        ctrl.$watch(function () {
+            return ctrl.SharedData.callGetChallenges;
+        }, function () {
+            if (ctrl.SharedData.callGetChallenges) {
+                GetChallenges();
+                ctrl.SharedData.callGetChallenges = false;
+            }
+        })
     });
 })();

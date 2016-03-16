@@ -43,6 +43,7 @@
     <script src="directives/create-Challenge-Container.js"></script>
     <script src="directives/view-challenges-Container.js"></script>
     <script src="directives/update-challenge-Container.js"></script>
+    <script src="controllers/container.controller.js"></script>
     <script src="controllers/create.challenge.controller.js"></script>
     <script src="controllers/view.challenges.controller.js"></script>
     <script src="controllers/update.challenge.controller.js"></script>
@@ -60,7 +61,7 @@
 <admin-nav-bar></admin-nav-bar>
 <hr class="line-nav">
 
-<section class="wrapper">
+<section class="wrapper" ng-controller="container">
     <div class="row">
         <div class="col-md-3">
             <div class="sidebar" style="width: 300px; height: 100%;" role="container">
