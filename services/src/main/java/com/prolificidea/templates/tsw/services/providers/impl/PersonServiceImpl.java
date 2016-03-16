@@ -93,24 +93,24 @@ public class PersonServiceImpl implements PersonService {
         return convertDomainListToDtoList(personDao.findAllPersonsDesc());
     }
 
-    public List<LeaderboardDTO> getScoresByChallenge(int id) {
-        Challenge challenge = challengeDao.find(id);
+    public List<LeaderboardDTO> getScoresByChallenge(int codeOffNumber) {
+        Challenge challenge = challengeDao.findByCodeOffNumber(codeOffNumber);
         return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByChallenge(challenge)));
     }
 
-    public List<LeaderboardDTO> getScoresByTech(int id) {
-        Technology technology = technologyDao.find(id);
+    public List<LeaderboardDTO> getScoresByTech(String techName) {
+        List<Technology> technology = technologyDao.search("description", techName);
         return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology)));
     }
 
-    public List<LeaderboardDTO> getScoresByChallenge(int id, int pageSize, int pageNum) {
-        Challenge challenge = challengeDao.find(id);
-        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByChallenge(challenge,pageSize,pageNum)));
+    public List<LeaderboardDTO> getScoresByChallenge(int codeOffNumber, int pageSize, int pageNum) {
+        Challenge challenge = challengeDao.findByCodeOffNumber(codeOffNumber);
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByChallenge(challenge, pageSize, pageNum)));
     }
 
-    public List<LeaderboardDTO> getScoresByTech(int id, int pageSize, int pageNum) {
-        Technology technology = technologyDao.find(id);
-        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology,pageSize,pageNum)));
+    public List<LeaderboardDTO> getScoresByTech(String techName, int pageSize, int pageNum) {
+        List<Technology> technology = technologyDao.search("description", techName);
+        return convertPersonListToLeaderboardList(convertDomainListToDtoList(personDao.getScoresByTech(technology, pageSize, pageNum)));
     }
 
     public int getNoCodeOffs(PersonDTO person) {

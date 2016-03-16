@@ -22,10 +22,10 @@ public interface PersonService {
     void deletePerson(Object id);
     PersonDTO createPerson(PersonDTO t);
     PersonDTO updatePerson(PersonDTO t);
-    List<LeaderboardDTO> getScoresByChallenge(int id);
-    List<LeaderboardDTO> getScoresByTech(int id);
-    List<LeaderboardDTO> getScoresByChallenge(int id, int pageSize, int pageNum);
-    List<LeaderboardDTO> getScoresByTech(int id, int pageSize, int pageNum);
+    List<LeaderboardDTO> getScoresByChallenge(int codeOffNumber);
+    List<LeaderboardDTO> getScoresByTech(String techName);
+    List<LeaderboardDTO> getScoresByChallenge(int codeOffNumber, int pageSize, int pageNum);
+    List<LeaderboardDTO> getScoresByTech(String techName, int pageSize, int pageNum);
     int getNoCodeOffs(PersonDTO person);
     List<TechnologyDTO> getListOfTechsByPerson(int id);
     List<LeaderboardDTO> getLeaderboard();

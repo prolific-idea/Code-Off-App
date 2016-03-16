@@ -61,14 +61,14 @@ public class LeaderboardRestController {
     @RequestMapping(value = "/tech", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<LeaderboardDTO> getLeaderboardByTech(@RequestParam int id,
+    List<LeaderboardDTO> getLeaderboardByTech(@RequestParam String techName,
                                               @RequestParam(required = false, defaultValue = "0") int pageSize,
                                               @RequestParam(required = false, defaultValue = "0") int pageNum)
     {
         if (pageNum == 0 && pageSize == 0) {
-            return personService.getScoresByTech(id);
+            return personService.getScoresByTech(techName);
         } else {
-            return personService.getScoresByTech(id, pageSize, pageNum);
+            return personService.getScoresByTech(techName, pageSize, pageNum);
         }
 
     }

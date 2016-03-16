@@ -67,6 +67,10 @@ public class ChallengeRestController {
         if (challengeToBeCreated.getStartDate().compareTo(challengeToBeCreated.getEndDate()) > 0)
             return new ResponseEntity<String>(new String("Start date has to before end date."), HttpStatus.NOT_ACCEPTABLE);
 
+        int codeOffNumber = (int)challengeService.countChallenges() + 1;
+        challengeToBeCreated.setCodeOffNumber(codeOffNumber);
+        challengeToBeCreated.setDeleted(false);
+
         ChallengeDTO challenge = challengeService.createChallenge(challengeToBeCreated);
         return new ResponseEntity<ChallengeDTO>(challenge, HttpStatus.OK);
     }

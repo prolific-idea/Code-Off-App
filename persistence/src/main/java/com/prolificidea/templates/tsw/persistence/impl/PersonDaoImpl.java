@@ -9,7 +9,10 @@ import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sahil.naran on 2016/02/29.
@@ -18,10 +21,10 @@ import java.util.List;
 public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
 
     public List<Person> findAllPersonsDesc(int pageSize, int pageNum) {
-            Query query = this.entityManager.createQuery("SELECT x from Person x ORDER BY x.score DESC");
-            query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
-            return query.getResultList();
-        }
+        Query query = this.entityManager.createQuery("SELECT x from Person x ORDER BY x.score DESC");
+        query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
+        return query.getResultList();
+    }
 
     public List<Person> findAllPersonsDesc() {
         Query query = this.entityManager.createQuery("SELECT x from Person x ORDER BY x.score DESC");
@@ -33,15 +36,19 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
                 "from Entry e, Person p where p.personId = e.personId and e.challengeId = :chal" +
                 " order by p.score desc").setParameter("chal", challenge);
         List<Person> peoples = query.getResultList();
-        return  peoples;
+        return peoples;
     }
 
-    public List<Person> getScoresByTech(Technology technology) {
-        Query query = this.entityManager.createQuery("Select distinct p " +
-                "from Entry e, Person p where p.personId = e.personId and e.techId = :tech" +
-                " order by p.score desc").setParameter("tech", technology);
-        List<Person> peoples = query.getResultList();
-        return  peoples;
+    public List<Person> getScoresByTech(List<Technology> technologies) {
+        Set<Person> peoples = new HashSet<Person>();
+        for (Technology technology : technologies) {
+            Query query = this.entityManager.createQuery("Select distinct p " +
+                    "from Entry e, Person p where p.personId = e.personId and e.techId = :tech" +
+                    " order by p.score desc").setParameter("tech", technologies);
+            peoples.addAll(query.getResultList());
+        }
+
+        return new ArrayList<Person>(peoples);
     }
 
     public List<Person> getScoresByChallenge(Challenge challenge, int pageSize, int pageNum) {
@@ -50,16 +57,20 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
                 " order by p.score desc").setParameter("chal", challenge);
         query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
         List<Person> peoples = query.getResultList();
-        return  peoples;
+        return peoples;
     }
 
-    public List<Person> getScoresByTech(Technology technology, int pageSize, int pageNum) {
-        Query query = this.entityManager.createQuery("Select distinct p " +
-                "from Entry e, Person p where p.personId = e.personId and e.techId = :tech" +
-                " order by p.score desc").setParameter("tech", technology);
-        query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
-        List<Person> peoples = query.getResultList();
-        return  peoples;
+    public List<Person> getScoresByTech(List<Technology> technologies, int pageSize, int pageNum) {
+        Set<Person> peoples = new HashSet<Person>();
+        for (Technology technology : technologies) {
+            Query query = this.entityManager.createQuery("Select distinct p " +
+                    "from Entry e, Person p where p.personId = e.personId and e.techId = :tech" +
+                    " order by p.score desc").setParameter("tech", technology);
+            query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
+            peoples.addAll(query.getResultList());
+        }
+
+        return new ArrayList<Person>(peoples);
     }
 
     public int getNoCodeOffs(Integer personId) {
@@ -71,9 +82,9 @@ public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
     public List<Technology> getListOfTechs(Person person) {
         Query query = this.entityManager.createQuery(
                 "select distinct t from Person p, Entry e, Technology t " +
-                "where p.personId = e.personId and t.techId = e.techId " +
-                "and p = :per"
-        ).setParameter("per",person);
+                        "where p.personId = e.personId and t.techId = e.techId " +
+                        "and p = :per"
+        ).setParameter("per", person);
         return query.getResultList();
     }
 
