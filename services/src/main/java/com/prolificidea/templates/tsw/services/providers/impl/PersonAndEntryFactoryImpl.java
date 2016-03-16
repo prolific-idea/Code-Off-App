@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -48,46 +49,46 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
 
     private ChallengeDTO challenge;
 
-    private RestTemplate restCall = new RestTemplate();
-
     public String markSolutionsOfUserIfTheyExsistForAChallenge(ChallengeDTO pollingChallenge) throws JSONException {
 
         challenge = pollingChallenge;
         String URLForks = API_URL + challenge.getUrl() + "/forks";
         JSONArray forks = getJSONFromURL(URLForks);
-        String userRepoURL = "End";
+
         for (int forkNumber = 0; forkNumber < forks.length(); forkNumber++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
             CreatePeopleAndEntries(fork);
         }
-        return userRepoURL;
+
+        return "finished";
     }
 
     private void CreatePeopleAndEntries(JSONObject fork) throws JSONException {
         PersonDTO person = new PersonDTO();
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
+
         buildPerson(person, entries, fork);
         buildEntries(person, entries, fork);
-        int newPersonID = createPerson(person);
-        if (entries.size() > 0) {
 
+        int newPersonID = createPerson(person);
+        if (entries.size() > 0)
             createEntries(entries, newPersonID);
-        }
 
     }
 
     private void buildEntries(PersonDTO person, List<EntryDTO> entries, JSONObject fork) throws JSONException {
         String branchesUrl = person.getRepoUrl() + "/branches";
         JSONArray branches = getJSONFromURL(branchesUrl);
+
         for (int branchNumber = 0; branchNumber < branches.length(); branchNumber++) {
             JSONObject branch = branches.getJSONObject(branchNumber);
+
             EntryDTO entry = new EntryDTO();
             entry.setBranch(branch.getString("name"));
             entry.setFullName(fork.getString("full_name"));
             entry.setUrl(person.getRepoUrl() + "/branches/" + entry.getBranch());
-
-            boolean tech = setTech(entry.getBranch(), person.getRepoUrl(), entry);
-            if (tech) {
+            boolean isValid = setTechAndSolution(entry.getBranch(), person.getRepoUrl(), entry);
+            if (isValid) {
                 setEntryChallenge(entry);
                 entries.add(entry);
             }
@@ -104,10 +105,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         entry.setDate(new Date());
     }
 
-    private boolean setTech(String branch, String URL, EntryDTO entry) throws JSONException {
+    private boolean setTechAndSolution(String branch, String URL, EntryDTO entry) throws JSONException {
         String path = getPath();
         URL = URL + "/contents/" + path + "?ref=" + branch;
-
         return TraverseFileDirectory(entry, URL);
     }
 
@@ -115,37 +115,47 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         String solutionPath = challenge.getSolutionFilePath();
         String[] splicedSolutionPath = solutionPath.split("/");
         StringBuilder builder = new StringBuilder();
+
         for (int numberOfString = 0; numberOfString < splicedSolutionPath.length - 1; numberOfString++) {
             builder.append(splicedSolutionPath[numberOfString]);
         }
         return builder.toString();
     }
 
-
+    @Transactional
     private void createEntries(List<EntryDTO> entries, int newPersonID) {
         for (EntryDTO entry : entries) {
             List<EntryDTO> entryExsists = entryService.searchEntrys("url", entry.getUrl());
             if (entryExsists.size() > 0) {
                 EntryDTO oldEntry = entryExsists.get(0);
-                if (oldEntry.getResult() != entry.getResult()) {
-                    oldEntry.setResult(entry.getResult());
-                    EntryDTO storeEntry = entryService.updateEntry(oldEntry);
-                    scoreService.addScore(storeEntry);
-                }
-
+                updateEntry(oldEntry,entry);
             } else {
-                entry.setPersonId(newPersonID);
-                EntryDTO createdEntry = entryService.createEntry(entry);
-                scoreService.addScore(createdEntry);
+                addEntry(entry,newPersonID);
             }
         }
     }
+    @Transactional
+    private void addEntry(EntryDTO entry, int newPersonID) {
+        entry.setPersonId(newPersonID);
+        EntryDTO createdEntry = entryService.createEntry(entry);
+        scoreService.addScore(createdEntry);
+    }
 
+    @Transactional
+    private void updateEntry(EntryDTO oldEntry1,EntryDTO entry) {
+        if (oldEntry1.getResult() != entry.getResult()) {
+            EntryDTO oldEntry = entryService.findEntry(oldEntry1.getEntryId());
+            oldEntry.setResult(entry.getResult());
+            EntryDTO storeEntry = entryService.updateEntry(oldEntry);
+            scoreService.addScore(storeEntry);
+        }
+    }
+    @Transactional
     private int createPerson(PersonDTO person) {
         List<PersonDTO> personList = personService.searchPersons("username", person.getUsername());
-        if (personList.size() > 0) {
+        if (personList.size() > 0)
             return personList.get(0).getPersonId();
-        }
+
         PersonDTO newPerson = personService.createPerson(person);
         return newPerson.getPersonId();
     }
@@ -155,7 +165,6 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         person.setScore(0);
         person.setUsername(getUsername(fork));
         person.setUrl("https://github.com/" + person.getUsername());
-        //person.setUrl(getUserURLFromFork(fork));
         person.setRepoUrl(buildRepoURL(fork));
         setFirstAndLastNames(person);
     }
@@ -248,47 +257,10 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return entry.getTechId() != 0 && entry.getSolution() != null;
     }
 
-/*    private EntryDTO TraverseFileDirectory(String URL, EntryDTO entry) throws JSONException {
-        JSONArray directoryContent = getJSONFromURL(URL);
-
-        if (directoryContent == null)
-            return null;
-
-        for (int contentNumber = 0; contentNumber < directoryContent.length(); contentNumber++) {
-
-            JSONObject content = directoryContent.getJSONObject(contentNumber);
-            String name = content.getString("name");
-            TechnologyDTO technology = extensionExtractor.extractExtension(name);
-            if (technology != null) {
-                if (technology.getDescription().equals("Directory")) {
-                    String directory = content.getString("url");
-                    entry = TraverseFileDirectory(directory,entry);
-                    if (entry.getTechId() != 0)
-                    {
-                        return entry;
-                    }
-
-                } else {
-                    entry.setTechId(technology.getTechId());
-                    return entry;
-                }
-            }
-        }
-        return null;
-    }*/
-
     private JSONArray getJSONFromURL(String URL) {
-        URL = URL.replace("%20", " ");
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        ResponseEntity<String> results = restCall.exchange(
-                URL,
-                HttpMethod.GET, entity, String.class);
-
+        String results =  urlService.getContent(URL);
         try {
-            JSONArray jsonResults = new JSONArray(results.getBody());
+            JSONArray jsonResults = new JSONArray(results);
             return jsonResults;
         } catch (JSONException e) {
             return null;
@@ -296,17 +268,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
     }
 
     private JSONObject getJSONObjectFromURL(String URL) {
-        URL = URL.replace("%20", " ");
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");// obtained with post mans ecyption with given username and password
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        ResponseEntity<String> results = restCall.exchange(
-                URL,
-                HttpMethod.GET, entity, String.class);
-
+        String results =  urlService.getContent(URL);
         try {
-            JSONObject jsonResults = new JSONObject(results.getBody());
+            JSONObject jsonResults = new JSONObject(results);
             return jsonResults;
         } catch (JSONException e) {
             return null;
