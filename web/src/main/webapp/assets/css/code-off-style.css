@@ -130,13 +130,20 @@ hr.line-nav {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	/*height: 500px;*/
-	/*border: 10px solid #00A2EF;*/
+	border: 10px solid #00A2EF;
 }
 
 .code-off-header-logo {
 	max-height: 65px;
 	height: auto;
 	margin-top: 65px;
+}
+
+.content-code-off {
+	color: #555555;
+	margin-top: 25px;
+	font-family: 'Montserrat Light', arial;
+	padding-right: 20px;
 }
 
 @media (max-width: 1200px) {
@@ -151,12 +158,23 @@ hr.line-nav {
 	}
 
 	.content-codeoff-panel {
-		font-size: 14px !important;
+		font-size: 11px !important;
 		font-family: Montserrat, sans-serif !important;
+		font-weight: 300;
 	}
 
 	#search-filter {
 		float: left !important;
+	}
+}
+
+@media (max-width: 768px) {
+	.code-off-header-logo {
+		margin-top: 20px !important;
+	}
+
+	.content-codeoff-panel {
+		height: auto !important;
 	}
 }
 
