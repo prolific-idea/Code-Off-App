@@ -67,7 +67,7 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         PersonDTO person = new PersonDTO();
         List<EntryDTO> entries = new ArrayList<EntryDTO>();
 
-        buildPerson(person, entries, fork);
+        person =buildPerson(person, entries, fork);
         buildEntries(person, entries, fork);
 
         int newPersonID = createPerson(person);
@@ -160,13 +160,20 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         return newPerson.getPersonId();
     }
 
-    private void buildPerson(PersonDTO person, List<EntryDTO> entries, JSONObject fork) throws JSONException {
-
-        person.setScore(0);
+    private PersonDTO buildPerson(PersonDTO person, List<EntryDTO> entries, JSONObject fork) throws JSONException {
         person.setUsername(getUsername(fork));
+
+        List<PersonDTO> personList = personService.searchPersons("username", person.getUsername());
+        if (personList.size() > 0) {
+            person =personList.get(0);
+            person.setRepoUrl(buildRepoURL(fork));
+            return person;
+        }
         person.setUrl("https://github.com/" + person.getUsername());
+        person.setScore(0);
         person.setRepoUrl(buildRepoURL(fork));
         setFirstAndLastNames(person);
+        return person;
     }
 
     private void setFirstAndLastNames(PersonDTO person) throws JSONException {
