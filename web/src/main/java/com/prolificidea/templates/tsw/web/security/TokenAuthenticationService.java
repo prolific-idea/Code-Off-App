@@ -24,7 +24,7 @@ public class TokenAuthenticationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationService.class);
 
-    public static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
+    public static final String AUTH_HEADER_NAME = "X-XSRF-TOKEN";
 
     public static final String CLAIM_USERNAME = "username";
     public static final String CLAIM_AUTHORITIES = "authorities";

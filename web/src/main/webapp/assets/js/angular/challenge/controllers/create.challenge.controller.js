@@ -1,7 +1,9 @@
 (function () {
+    "use strict";
+
     var app = angular.module("codeOffChallengeAdmin.challenge");
     app.controller("createChallengeController", function ($scope, $cookies, $log, $window, Challenges, SharedUpdateChallenge) {
-        if ($cookies.get("prolific-login-token") === null || $cookies.get("prolific-login-token") === undefined) {
+        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
             $window.location.href = "/assets/js/angular/login/login.html";
         } else {
             console.log("User logged in.");
@@ -101,18 +103,32 @@
             numberOfLinesToCompare: null
         };
 
-        ctrl.OK = function () {
+        ctrl.OK = function (form) {
             ctrl.DirtyForm = false;
             ctrl.createNotification = false;
             ctrl.errorNotification = false;
-            ctrl.challenge = null;
+            if (form) {
+                form.$setPristine();
+                form.$setUntouched();
+            }
+            ctrl.challenge = {
+                solution: null,
+                url: null,
+                solutionFilePath: null,
+                startDate: null,
+                endDate: null,
+                numberOfLinesToCompare: null
+            };
+            ctrl.startTime = null;
+            ctrl.endTime = null;
+            ctrl.SharedData.callGetChallenges = true;
         };
 
         ctrl.OKError = function () {
             ctrl.DirtyForm = false;
             ctrl.createNotification = false;
             ctrl.errorNotification = false;
-        }
+        };
 
         ctrl.DirtyForm = false;
     });

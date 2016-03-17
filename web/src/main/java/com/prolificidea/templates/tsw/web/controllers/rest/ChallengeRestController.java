@@ -3,6 +3,7 @@ package com.prolificidea.templates.tsw.web.controllers.rest;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeCountDTO;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
+import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,17 @@ public class ChallengeRestController {
     @Autowired
     ChallengeService challengeService;
 
+    @Autowired
+    UrlService urlService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<ChallengeDTO> getAllChallenges(@RequestParam(required = false, defaultValue = "0") int pageSize  , @RequestParam(required = false, defaultValue = "0") int pageNum) {
+    List<ChallengeDTO> getAllChallenges(@RequestParam(required = false, defaultValue = "0") int pageSize, @RequestParam(required = false, defaultValue = "0") int pageNum) {
         List<ChallengeDTO> challenges;
-        if (pageNum == 0 && pageSize == 0)
-        {
+        if (pageNum == 0 && pageSize == 0) {
             challenges = challengeService.findAllChallenges();
-        }
-        else {
+        } else {
             challenges = challengeService.findAllChallenges(pageSize, pageNum);
         }
         return challenges;
@@ -66,6 +68,14 @@ public class ChallengeRestController {
             return new ResponseEntity<String>(new String("Start date cannot be null."), HttpStatus.NOT_ACCEPTABLE);
         if (challengeToBeCreated.getStartDate().compareTo(challengeToBeCreated.getEndDate()) > 0)
             return new ResponseEntity<String>(new String("Start date has to before end date."), HttpStatus.NOT_ACCEPTABLE);
+        String found = urlService.getContent("https://github.com/" + challengeToBeCreated.getUrl());
+        if(found == "")
+            return new ResponseEntity<String>(new String("Please provide an valid url."), HttpStatus.NOT_ACCEPTABLE);
+
+
+        int codeOffNumber = (int) challengeService.countChallenges() + 1;
+        challengeToBeCreated.setCodeOffNumber(codeOffNumber);
+        challengeToBeCreated.setDeleted(false);
 
         ChallengeDTO challenge = challengeService.createChallenge(challengeToBeCreated);
         return new ResponseEntity<ChallengeDTO>(challenge, HttpStatus.OK);

@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                  .antMatchers("/api/time").permitAll()
                 .antMatchers("/api/appUserDetails/grant/**").permitAll()
                 .antMatchers("/api/leaderboard/**").permitAll()
+                 .antMatchers("/api/person/**").permitAll()
 //                //allow anonymous POSTs to register and login
                 .antMatchers("api/user/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
