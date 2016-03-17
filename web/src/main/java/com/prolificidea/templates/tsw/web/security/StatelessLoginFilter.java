@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by matthew.jordaan on 2016/03/10.
@@ -50,7 +51,9 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
         final CustomUser user = (CustomUser) userDetailsService.loadUserByUsername(authentication.getName());
 
         // Add the custom token as HTTP header to the response
-        response.addHeader(TokenAuthenticationService.AUTH_HEADER_NAME, tokenAuthenticationService.getToken(user));
+        //response.addHeader(TokenAuthenticationService.AUTH_HEADER_NAME, tokenAuthenticationService.getToken(user));
+        PrintWriter writer = response.getWriter();
+        writer.write(tokenAuthenticationService.getToken(user));
         // Add the authentication to the Security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

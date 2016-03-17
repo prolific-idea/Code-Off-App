@@ -11,8 +11,9 @@
         ctrl.login = function () {
             LoginResource.login(ctrl.user)
                 .$promise.then(function (response) {
-                if (response.headers["x-auth-token"] != null) {
-                    $cookies.put("prolific-login-token", response.headers["x-auth-token"], {path: "/"});
+                if (response.data != null) {
+                    $cookies.put("XSRF-TOKEN", response.data, {path: "/"});
+                    console.log($cookies.get("XSRF-TOKEN"));
                     $window.location.href = "/assets/js/angular/challenge/challengeMain.html";
                 }
             }, function () {

@@ -17,6 +17,24 @@ public class ChallengeDTO implements Serializable {
     private Date startDate;
     private Date endDate;
     private Integer numberOfLinesToCompare;
+    private boolean isDeleted;
+    private Integer codeOffNumber;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Integer getCodeOffNumber() {
+        return codeOffNumber;
+    }
+
+    public void setCodeOffNumber(Integer codeOffNumber) {
+        this.codeOffNumber = codeOffNumber;
+    }
 
     public ChallengeDTO() {
     }
@@ -29,6 +47,8 @@ public class ChallengeDTO implements Serializable {
         this.startDate = challenge.getStartDate();
         this.endDate = challenge.getEndDate();
         this.numberOfLinesToCompare = challenge.getNumberOfLinesToCompare();
+        this.isDeleted = challenge.isDeleted();
+        this.codeOffNumber = challenge.getCodeOffNumber();
     }
 
     public Integer getChallengeId() {

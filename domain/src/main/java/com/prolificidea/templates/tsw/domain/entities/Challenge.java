@@ -5,6 +5,8 @@
  */
 package com.prolificidea.templates.tsw.domain.entities;
 
+import org.hibernate.annotations.Type;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,11 @@ public class Challenge implements Serializable {
     private Date endDate;
     @Column(name = "numberOfLinesToCompare")
     private Integer numberOfLinesToCompare;
+    @Column(name = "isDeleted")
+    @Type(type = "numeric_boolean")
+    private boolean isDeleted;
+    @Column(name = "codeOffNumber")
+    private Integer codeOffNumber;
 //    @Transient
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "challengeId", fetch = FetchType.LAZY)
 //    private List<Entry> entryList;
@@ -124,6 +131,22 @@ public class Challenge implements Serializable {
         this.numberOfLinesToCompare = numberOfLinesToCompare;
     }
 
+    public Integer getCodeOffNumber() {
+        return codeOffNumber;
+    }
+
+    public void setCodeOffNumber(Integer codeOffNumber) {
+        this.codeOffNumber = codeOffNumber;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
 //    @XmlTransient
 //    public List<Entry> getEntryList() {
 //        return entryList;
@@ -157,5 +180,4 @@ public class Challenge implements Serializable {
     public String toString() {
         return "com.prolificidea.templates.tsw.domain.entities.Challenge[ challengeId=" + challengeId + " ]";
     }
-    
 }
