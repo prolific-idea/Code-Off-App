@@ -11,6 +11,9 @@
         var pageSize = 10;
         ctrl.page = 1;
         ctrl.CanNotNext = false;
+        ctrl.ShowNotice = false;
+        ctrl.successNotification = false;
+        ctrl.errorNotification = false;
 
         ctrl.challengeCountTemp = challengeCount.count();
         ctrl.challengeCountTemp.$promise.then(function () {
@@ -59,6 +62,30 @@
                 ctrl.page -= 1;
                 GetChallenges();
             }
+        };
+
+        ctrl.Delete = function (index) {
+            ctrl.ShowNotice = true;
+            ctrl.challengeToDelete = ctrl.challenges[index];
+            Challenges
+                .remove({id: ctrl.challengeToDelete.challengeId})
+                .$promise
+                .then(
+                    function () {
+                        ctrl.successNotification = true;
+                    }, function () {
+                        $log.error;
+                        ctrl.errorNotification = true;
+                    }
+                );
+        };
+
+        ctrl.OK = function () {
+            ctrl.ShowNotice = false;
+            ctrl.successNotification = false;
+            ctrl.errorNotification = false;
+            ctrl.challengeToDelete = {};
+            GetChallenges();
         };
 
         GetChallenges();

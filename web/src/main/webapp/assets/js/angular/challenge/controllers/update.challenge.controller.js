@@ -48,7 +48,9 @@
                     solution: challengeTemp.solution,
                     solutionFilePath: challengeTemp.solutionFilePath,
                     startDate: new Date(challengeTemp.startDate),
-                    url: challengeTemp.url
+                    url: challengeTemp.url,
+                    codeOffNumber: challengeTemp.codeOffNumber,
+                    deleted: challengeTemp.deleted
                 };
                 ctrl.startTime = ctrl.challenge.startDate;
                 ctrl.endTime = ctrl.challenge.endDate;
