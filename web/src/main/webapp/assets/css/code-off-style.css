@@ -326,6 +326,11 @@ hr.line-nav {
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+#content-main {
+	margin-top: 0px;
+	margin-bottom: 8px;
+}
+
 #code-off-github a a:hover, a:focus {
 	color: #48BBF2;
 	text-decoration: none;

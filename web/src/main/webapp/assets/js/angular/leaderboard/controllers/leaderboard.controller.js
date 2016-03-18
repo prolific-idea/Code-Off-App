@@ -18,12 +18,13 @@
 					   ctrl.getLeaderboard = function () {
 						   ctrl.codersTemp.$promise.then(function () {
 															 ctrl.coders = ctrl.codersTemp;
-															 if (ctrl.coders.length === 0)
-																 ctrl.codersIsNull = true;
-															 else
-																 ctrl.codersIsNull = false;
+							   if (ctrl.coders.length === 0) {
+								   ctrl.codersIsNull = true;
+							   } else {
+								   ctrl.codersIsNull = false;
+							   }
 
-															 ctrl.changeTechDescription();
+							   ctrl.changeTechDescription();
 															 console.log(ctrl.coders);
 															 var lastPage = Math.ceil(ctrl.countOfCoders / pageSize);
 															 if (lastPage === ctrl.pageNum || ctrl.coders.length < pageSize) {
@@ -100,60 +101,50 @@
 
 					   ctrl.$watch("searchTerm",
 								   function (newVal, oldVal) {
-									   console.log("Input has changed for search");
-									   console.log(newVal + " " + oldVal);
-									   console.log(ctrl.selectedSearch.name);
 									   if (ctrl.selectedSearch.name === "Filter") {
 										   ctrl.searchDisabled = true;
 									   }
 									   if (ctrl.selectedSearch.name === "Challenge") {
-										   console.log(ctrl.selectedSearch);
 										   validateChallengeSearch(newVal);
-										   console.log("Should search be disabled? := " + ctrl.searchDisabled ? "yes" : "no");
 									   }
 									   if (ctrl.selectedSearch.name === "Technology") {
 										   validateTechnologySearch(newVal);
-										   console.log("Should search be disabled? := " + ctrl.searchDisabled ? "yes" : "no");
 									   }
 								   }, true
 					   );
 
 					   function validateChallengeSearch(searchTerm) {
 						   var reg = new RegExp("^[0-9]+$");
-						   console.log("validateChallengeSearch");
 						   if (reg.test(searchTerm)) {
-							   console.log("reg.test(searchTerm) " + reg.test(searchTerm));
 							   ctrl.searchDisabled = false;
 						   } else {
 							   ctrl.searchDisabled = true;
-							   console.log("reg.test(searchTerm) " + reg.test(searchTerm));
 						   }
 					   }
 
 					   function validateTechnologySearch(searchTerm) {
 						   var reg = new RegExp("^[a-zA-Z]+$");
-						   console.log(validateTechnologySearch);
-						   console.log(searchTerm);
 						   if (reg.test(searchTerm)) {
 							   ctrl.searchDisabled = false;
 						   } else if (searchTerm.length > 16) {
 							   ctrl.searchDisabled = true;
-						   } else if (reg.test(searchTerm) && searchTerm.length > 16) {
+						   } else if (!reg.test(searchTerm) || searchTerm.length > 16) {
 							   ctrl.searchDisabled = true;
-						   }else {
+						   } else {
 							   ctrl.searchDisabled = true;
 						   }
 					   }
 
 					   ctrl.toPaginate = function () {
-						   if (ctrl.selectedSearch.name === "Filter")
+						   if (ctrl.selectedSearch.name === "Filter") {
 							   ctrl.getDefaultLeaderboard();
-						   else if (ctrl.selectedSearch.name === "Challenge")
+						   } else if (ctrl.selectedSearch.name === "Challenge") {
 							   ctrl.getChallengeLeaderoard();
-						   else if (ctrl.selectedSearch.name === "Technology")
+						   } else if (ctrl.selectedSearch.name === "Technology") {
 							   ctrl.getTechnologyLeaderboard();
-						   else
+						   } else {
 							   ctrl.getDefaultLeaderboard();
+						   }
 					   };
 
 					   ctrl.toNextPage = function () {
@@ -232,17 +223,19 @@
 					   }
 
 					   function hideAllTechnologies(numIcons) {
-						   if (numIcons < 1)
+						   if (numIcons < 1) {
 							   return true;
+						   }
 					   }
 
 					   function clamp(numIcons, nTechs) {
-						   if (numIcons > nTechs)
+						   if (numIcons > nTechs) {
 							   return nTechs;
-						   else if (numIcons < 1 && nTechs === 1)
+						   } else if (numIcons < 1 && nTechs === 1) {
 							   return 1;
-						   else
+						   } else {
 							   return numIcons;
+						   }
 					   }
 
 					   $(window).resize(function () {
