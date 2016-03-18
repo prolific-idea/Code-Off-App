@@ -68,7 +68,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         c.setCodeOffNumber(t.getCodeOffNumber());
 
         ChallengeDTO newChallenge= new ChallengeDTO(challengeDao.create(c));
-        solutionRepoPollService.setChallengeID(newChallenge.getChallengeId());
+       // solutionRepoPollService.setChallengeID(newChallenge.getChallengeId());
         return newChallenge;
     }
 

@@ -55,6 +55,9 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
         String URLForks = API_URL + challenge.getUrl() + "/forks";
         JSONArray forks = getJSONFromURL(URLForks);
 
+        if (forks == null)
+            return "bad url";
+
         for (int forkNumber = 0; forkNumber < forks.length(); forkNumber++) {
             JSONObject fork = forks.getJSONObject(forkNumber);
             CreatePeopleAndEntries(fork);

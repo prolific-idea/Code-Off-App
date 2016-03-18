@@ -1,8 +1,10 @@
 package com.prolificidea.templates.tsw.services.providers;
 
+import org.json.JSONObject;
+
 public interface SolutionRepoPollService {
 
-    int getChallengeID() ;
+    String getTime();
 
-    void setChallengeID(int challengeID);
+    JSONObject getReport();
 }

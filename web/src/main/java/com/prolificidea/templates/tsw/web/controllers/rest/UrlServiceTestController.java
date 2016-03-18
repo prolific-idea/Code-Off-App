@@ -5,6 +5,7 @@ import com.prolificidea.templates.tsw.services.providers.impl.PersonAndEntryFact
 import com.prolificidea.templates.tsw.services.providers.impl.SolutionRepoPollServiceImpl;
 import com.prolificidea.templates.tsw.services.providers.impl.UrlServiceImpl;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.ConfigurableMimeFileTypeMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,12 @@ public class UrlServiceTestController {
     public String Time() {
 
         return solutionRepoPollService.getTime();
+    }
+
+    @RequestMapping(value = "/api/report", method = RequestMethod.GET)
+    public String report() {
+
+        return solutionRepoPollService.getReport().toString();
     }
 
     @RequestMapping(value = "/api/ext", method = RequestMethod.GET)

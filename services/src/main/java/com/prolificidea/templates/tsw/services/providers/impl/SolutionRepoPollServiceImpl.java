@@ -1,13 +1,12 @@
 package com.prolificidea.templates.tsw.services.providers.impl;
 
-import com.prolificidea.templates.tsw.domain.entities.Challenge;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.SolutionRepoPollService;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,18 +14,20 @@ import org.springframework.web.client.RestOperations;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-/**
- * Created by stuart.callen on 2016/03/02.
- */
 @Service
 @EnableScheduling
 public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private final int ONE_MINUTE =60000;
+    private final int MINUTES_BETWEEN_POLLS = 10;
+
+    private JSONObject report = new JSONObject();
+
+    private String time;
 
     @Autowired
     private PersonAndEntryFactoryImpl personAndEnt;
@@ -37,43 +38,88 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
     @Autowired
     ChallengeService challengeService;
 
+    public JSONObject getReport() {
+        return report;
+    }
 
-    private String time;
-
-    private final int ONE_MINUTE =60000;
-
-    private final int MINUTES_BETWEEN_POLLS = 10;
-
-    private int challengeID =0; // needs to be removed when scheduling between dates
+    public String getTime() {
+        return time;
+    }
 
     @Scheduled(fixedRate = ONE_MINUTE  * MINUTES_BETWEEN_POLLS)//Should be 60000*30
-    public void pollRepositoryForSolution() {
-
-        challengeID += 1;
-        time = Integer.toString(challengeID)+"Last Polled: " + dateFormat.format(new Date()) ;
+    public void pollRepositoryForSolution() throws JSONException {
+        intailizeReport();
+        time = "Last Polled: " + dateFormat.format(new Date()) ;
         String temp = time;
         try {
             time = temp +" CurrentlyPolling!";
 
             List<ChallengeDTO> challenges = currentlyRunningChallenges();
             if (challenges.size() >0){
-                pollMultipleChallenges(challenges);
+               pollMultipleChallenges(challenges);
             }
-            lastRunner ();
+            lastRunner ();;
             time = temp +" Finished Polling At: " + dateFormat.format(new Date());
+            endReport();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        time = "Excpetion";
     }
 
     private List<ChallengeDTO> currentlyRunningChallenges(){
         return challengeService.getChallengesThatAreOnGoing();
     }
     private void pollMultipleChallenges(List<ChallengeDTO> challenges) throws JSONException {
+        JSONArray challengesArray =new JSONArray();
+        int challengeNumber = 0;
         for (ChallengeDTO challenge :challenges){
-            personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(challenge);
+            try {
+                personAndEnt.markSolutionsOfUserIfTheyExsistForAChallenge(challenge);
+                challengesArray.put(challengeNumber,getJSONObjectForChallenge(challenge,0));
+            }catch(Exception e)
+            {
+                challengesArray.put(challengeNumber,getJSONObjectForChallenge(challenge,1));
+            }
+            challengeNumber ++;
         }
+        report.put("challenges_polled",challengesArray);
     }
+
+    private JSONObject getJSONObjectForChallenge(ChallengeDTO challenge, int status) {
+        JSONObject challengeObject = new JSONObject();
+        try {
+            challengeObject.put("challenge_number", challenge.getCodeOffNumber());
+            challengeObject.put("status",0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return challengeObject;
+    }
+
+    private void intailizeReport(){
+        try {
+            report.put("last_polled", dateFormat.format(new Date()).toString());
+            report.put("polling_status","Currently Polling");
+            LocalDateTime time = LocalDateTime.now();
+            time = time.plusMinutes(MINUTES_BETWEEN_POLLS);
+            report.put("next_poll",time.toLocalTime().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void endReport(){
+        try {
+            report.put("polling_status","Finished Polling");
+            report.put("finished_polled", dateFormat.format(new Date()).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private List<ChallengeDTO> challengesEndingInLessThenPollingTime(){
         List<ChallengeDTO> challengesLessThenPollingTime = new ArrayList<ChallengeDTO>();
@@ -99,17 +145,7 @@ public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
     {Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(instant);}
 
-    public int getChallengeID() {
-        return challengeID;
-    }
 
-    public void setChallengeID(int challengeID) {
-        this.challengeID = challengeID;
-    }
-
-    public String getTime() {
-        return time;
-    }
 
     private void lastRunner ()
     {List<ChallengeDTO> challenges =challengesEndingInLessThenPollingTime();
