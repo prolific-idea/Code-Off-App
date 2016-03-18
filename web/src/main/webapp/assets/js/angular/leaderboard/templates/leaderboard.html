@@ -8,13 +8,13 @@
                         <div class="pull-right form-group" style="display: inline-flex;">
                             <div class="btn-group" style="display: inline-flex; margin-top: 12px;">
                                 <form name="searchForm">
-                                    <input type="number" name="search" placeholder="search..." class="form-control"
+                                    <input type="text" name="search" placeholder="search..." class="form-control"
                                            ng-model="searchTerm"
                                            ng-pattern="^[0-9]+$" min="1" required>
                                 </form>
                                 <button type="button" class="btn btn-default" ng-click="searchFor()"
                                         ng-disabled="searchForm.search.$invalid || searchForm.search.$error.pattern ||
-                                    searchForm.search.$error.required">
+                                    searchForm.search.$error.required || searchDisabled ">
                                     {{selectedSearch.name}}
                                 </button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
