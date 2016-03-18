@@ -111,6 +111,10 @@
 										   validateChallengeSearch(newVal);
 										   console.log("Should search be disabled? := " + ctrl.searchDisabled ? "yes" : "no");
 									   }
+									   if (ctrl.selectedSearch.name === "Technology") {
+										   validateTechnologySearch(newVal);
+										   console.log("Should search be disabled? := " + ctrl.searchDisabled ? "yes" : "no");
+									   }
 								   }, true
 					   );
 
@@ -127,8 +131,18 @@
 					   }
 
 					   function validateTechnologySearch(searchTerm) {
-						   var reg = new RegExp();
+						   var reg = new RegExp("^[a-zA-Z]+$");
 						   console.log(validateTechnologySearch);
+						   console.log(searchTerm);
+						   if (reg.test(searchTerm)) {
+							   ctrl.searchDisabled = false;
+						   } else if (searchTerm.length > 16) {
+							   ctrl.searchDisabled = true;
+						   } else if (reg.test(searchTerm) && searchTerm.length > 16) {
+							   ctrl.searchDisabled = true;
+						   }else {
+							   ctrl.searchDisabled = true;
+						   }
 					   }
 
 					   ctrl.toPaginate = function () {
