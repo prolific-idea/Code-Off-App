@@ -98,6 +98,39 @@
 						   }
 					   };
 
+					   ctrl.$watch("searchTerm",
+								   function (newVal, oldVal) {
+									   console.log("Input has changed for search");
+									   console.log(newVal + " " + oldVal);
+									   console.log(ctrl.selectedSearch.name);
+									   if (ctrl.selectedSearch.name === "Filter") {
+										   ctrl.searchDisabled = true;
+									   }
+									   if (ctrl.selectedSearch.name === "Challenge") {
+										   console.log(ctrl.selectedSearch);
+										   validateChallengeSearch(newVal);
+										   console.log("Should search be disabled? := " + ctrl.searchDisabled ? "yes" : "no");
+									   }
+								   }, true
+					   );
+
+					   function validateChallengeSearch(searchTerm) {
+						   var reg = new RegExp("^[0-9]+$");
+						   console.log("validateChallengeSearch");
+						   if (reg.test(searchTerm)) {
+							   console.log("reg.test(searchTerm) " + reg.test(searchTerm));
+							   ctrl.searchDisabled = false;
+						   } else {
+							   ctrl.searchDisabled = true;
+							   console.log("reg.test(searchTerm) " + reg.test(searchTerm));
+						   }
+					   }
+
+					   function validateTechnologySearch(searchTerm) {
+						   var reg = new RegExp();
+						   console.log(validateTechnologySearch);
+					   }
+
 					   ctrl.toPaginate = function () {
 						   if (ctrl.selectedSearch.name === "Filter")
 							   ctrl.getDefaultLeaderboard();
@@ -151,7 +184,7 @@
 						   } else {
 							   numIcons = Math.floor(w / (16 * 10));
 						   }
-						   console.log(numIcons);
+
 						   numIcons = clamp(numIcons, numberOfTech);
 						   for (var i = 0; i < numIcons; i++) {
 							   html += '<i class=" icon-spacing icon-' + techs[i].description + '"></i>';
