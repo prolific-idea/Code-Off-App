@@ -4,6 +4,8 @@ import com.prolificidea.templates.tsw.services.DTOs.ChallengeCountDTO;
 import com.prolificidea.templates.tsw.services.DTOs.ChallengeDTO;
 import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class ChallengeRestController {
 
     @Autowired
     UrlService urlService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ChallengeRestController.class);
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public
@@ -69,12 +73,9 @@ public class ChallengeRestController {
         if (challengeToBeCreated.getStartDate().compareTo(challengeToBeCreated.getEndDate()) > 0)
             return new ResponseEntity<String>(new String("Start date has to before end date."), HttpStatus.NOT_ACCEPTABLE);
         String found = urlService.getContent("https://github.com/" + challengeToBeCreated.getUrl());
-        if(found == "")
+        if (found == "")
             return new ResponseEntity<String>(new String("Please provide an valid url."), HttpStatus.NOT_ACCEPTABLE);
 
-
-        int codeOffNumber = (int) challengeService.countChallenges() + 1;
-        challengeToBeCreated.setCodeOffNumber(codeOffNumber);
         challengeToBeCreated.setDeleted(false);
 
         ChallengeDTO challenge = challengeService.createChallenge(challengeToBeCreated);
@@ -95,6 +96,18 @@ public class ChallengeRestController {
         ChallengeDTO challenge = challengeService.updateChallenge(challengeToBeUpdated);
 
         return new ResponseEntity<ChallengeDTO>(challenge, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> deleteChallenge(@PathVariable int id) {
+        try {
+            challengeService.deleteChallenge(id);
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new ResponseEntity<String>(new String("Something went wrong please view log."), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

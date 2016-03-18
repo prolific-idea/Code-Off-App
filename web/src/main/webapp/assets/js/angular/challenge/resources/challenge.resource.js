@@ -1,6 +1,6 @@
 (function () {
     angular.module("codeOffChallengeAdmin.resources", ["ngCookies"])
-        .factory("Challenges", function ($resource, $cookies) {
+        .factory("Challenges", function ($resource) {
             return $resource("/api/challenges/:id", null, {
                 getAll: {
                     method: "GET",
@@ -23,13 +23,18 @@
                 },
                 remove: {
                     method: "DELETE",
-                    params: {id: "@id"}
+                    headers:{
+                        'ACCEPT' : 'text/plain'
+                    },
+                    params:{
+                        id:"@id"
+                    }
                 },
                 create: {
                     method: "POST"
                 }
             });
-        }).factory("challengeCount", function ($resource, $cookies) {
+        }).factory("challengeCount", function ($resource) {
         return $resource("/api/challenges/count", null, {
             count: {
                 method: "GET"
