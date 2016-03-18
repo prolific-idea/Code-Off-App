@@ -316,6 +316,12 @@ hr.line-nav {
 	margin-top: 70px;
 }
 
+@media (max-width: 370px) {
+	.codeoff-header-logo {
+		width: 90%;
+	}
+}
+
 .pn {
 	/* box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3); */
 }
@@ -531,4 +537,12 @@ th > p {
 .field-tip:hover .tip-content {
 	right: -20px;
 	opacity: 1;
+}
+
+@media (max-width: 500px) {
+	.field-tip .tip-content {
+		width: 150px;
+		font-size: small;
+		margin-right: -150px;
+	}
 }
