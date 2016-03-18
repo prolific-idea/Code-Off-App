@@ -86,7 +86,8 @@ public class PersonAndEntryFactoryImpl implements PersonAndEntryFactory {
             EntryDTO entry = new EntryDTO();
             entry.setBranch(branch.getString("name"));
             entry.setFullName(fork.getString("full_name"));
-            entry.setUrl(person.getRepoUrl() + "/branches/" + entry.getBranch());
+            entry.setUrl(person.getRepoUrl() + "/branches/" + entry.getBranch() + "/" + this.getPath());
+
             boolean isValid = setTechAndSolution(entry.getBranch(), person.getRepoUrl(), entry);
             if (isValid) {
                 setEntryChallenge(entry);
