@@ -208,8 +208,7 @@
 						   }
 
 						   if (numberOfTech === 0) {
-							   html = '<i class="fa fa-info-circle field-tip icon-spacing"><span class="tip-content" ' +
-								   'style="font-family: \'Montserrat Light\' !important;">No technologies</span></i>';
+							   html = '';
 						   }
 
 						   return $sce.trustAsHtml(html);
