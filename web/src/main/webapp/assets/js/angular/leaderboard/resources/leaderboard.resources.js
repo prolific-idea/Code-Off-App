@@ -50,5 +50,15 @@
 					isArray: true
 				}
 			});
+		}).factory("ScorePut", function ($resource) {
+		return $resource("/api/person/score/:id", null, {
+			putScore: {
+				method: "PUT",
+				params: {
+					id : "@id",
+					score: "@score"
+				}
+			}
 		});
+	});
 }());

@@ -62,12 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                  .antMatchers("/api/report").permitAll()
                 .antMatchers("/api/appUserDetails/grant/**").permitAll()
                 .antMatchers("/api/leaderboard/**").permitAll()
-                 .antMatchers("/api/person/**").permitAll()
+                 .antMatchers("/api/person/count").permitAll()
 //                //allow anonymous POSTs to register and login
                 .antMatchers("api/user/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                 .antMatchers("api/challenges/**").hasRole("SIMPLE")
+                 .antMatchers("api/person/**").hasRole("SIMPLE")
 ////                //all other request need to be authenticated
                 .anyRequest().hasRole("SIMPLE").and()
 //

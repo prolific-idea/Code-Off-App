@@ -13,6 +13,7 @@
 
 	angular.module("codeOffLeaderboard", [
 		"ngResource",
+		"ngCookies",
 		"ngSanitize"
 	]);
 })();

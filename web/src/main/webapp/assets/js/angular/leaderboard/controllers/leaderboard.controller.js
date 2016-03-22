@@ -2,12 +2,19 @@
 	var app = angular.module("codeOffLeaderboard");
 
 	app.controller("viewLeaderboardController",
-				   function ($scope, $http, $log, $sce, $window, Coders, PersonCount, Challenges, Technologies) {
+				   function ($scope,$cookies, $http, $log, $sce, $window, Coders, PersonCount, Challenges, ScorePut, Technologies) {
 					   var ctrl = $scope;
 					   var pageSize = 10;
 					   ctrl.pageNum = 1;
 					   ctrl.coders = [];
+					   ctrl.showPointEdit = false;
+					   if ($cookies.get("XSRF-TOKEN") !== null && $cookies.get("XSRF-TOKEN") !== undefined) {
+						   ctrl.personCountTemp = PersonCount.count();
+						   ctrl.personCountTemp.$promise.then(function () {
+							   ctrl.showPointEdit = true;
+						   }, $log.error);
 
+					   }
 					   ctrl.getPersonsCount = function () {
 						   ctrl.personCountTemp = PersonCount.count();
 						   ctrl.personCountTemp.$promise.then(function () {
@@ -112,6 +119,16 @@
 									   }
 								   }, true
 					   );
+
+					   ctrl.setPoints = function (index) {
+						   var coder=ctrl.coders[index];
+						   ScorePut.putScore({id:coder.personDTO.personId,score:coder.points})
+								   .$promise.then(function () {
+							   ctrl.searchFor();
+						   }, function () {
+							   $log.error;
+						   });
+					   };
 
 					   function validateChallengeSearch(searchTerm) {
 						   var reg = new RegExp("^[0-9]+$");

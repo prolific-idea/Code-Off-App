@@ -41,6 +41,13 @@ public class PersonRestController {
         return count;
     }
 
+    @RequestMapping(value = "/score/{ident}", method = RequestMethod.PUT)
+    public @ResponseBody PersonDTO updateScore(@PathVariable int ident,@RequestParam (required = true) int score){
+        PersonDTO person = personService.findPerson(ident);
+        person.setScore(score);
+        return personService.updatePerson(person);
+    }
+
     @RequestMapping(value = "/desc", method = RequestMethod.GET)
     public @ResponseBody
     List<PersonDTO> getAllPersonsDesc(@RequestParam(required = false, defaultValue = "0") int pageSize,
