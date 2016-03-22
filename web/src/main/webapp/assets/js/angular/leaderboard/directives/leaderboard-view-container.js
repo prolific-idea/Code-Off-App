@@ -6,7 +6,7 @@
 	angular.module('codeOffApp.leaderboard')
 		.directive('leaderboardView', function () {
 			return {
-				restrict:    'E',
+				restrict: 'E',
 				templateUrl: 'assets/js/angular/leaderboard/templates/leaderboard.html'
 			}
 		});

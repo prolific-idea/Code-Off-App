@@ -22,8 +22,24 @@
             </div>
         </div>
         <ng-form name="updateChallengeForm">
-            <h2 class="h2" style="color: #797979; font-weight: 700;">Update challenge</h2>
+            <h2 class="h2" style="color: #797979; font-weight: 700;">Update Challenge</h2>
 
+
+            <div class="form-group">
+                <label for="ChallengeNumber">Challenge Number</label><br/>
+                <input
+                        id="ChallengeNumber"
+                        name="ChallengeNumber"
+                        class="form-control"
+                        placeholder="Challenge Number"
+                        ng-model="challenge.codeOffNumber"
+                        required/>
+
+                <div ng-messages="createChallengeForm.ChallengeNumber.$error"
+                     ng-show="createChallengeForm.ChallengeNumber.$touched && createChallengeForm.ChallengeNumber.$invalid">
+                    <div class="error" style="color:red;" ng-message="required">Please provide a code off number.</div>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="ChallengeUrl">Challenge Url: https://github.com/</label><br/>
                 <input

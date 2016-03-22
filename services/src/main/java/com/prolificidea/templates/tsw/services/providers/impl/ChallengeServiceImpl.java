@@ -81,6 +81,8 @@ public class ChallengeServiceImpl implements ChallengeService {
         c.setSolution(t.getSolution());
         c.setSolutionFilePath(t.getSolutionFilePath());
         c.setStartDate(t.getStartDate());
+        c.setDeleted(t.isDeleted());
+        c.setCodeOffNumber(t.getCodeOffNumber());
         return new ChallengeDTO(challengeDao.update(c));
     }
 
