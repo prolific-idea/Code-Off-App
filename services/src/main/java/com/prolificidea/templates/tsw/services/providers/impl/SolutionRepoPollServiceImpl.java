@@ -23,7 +23,7 @@ import java.util.*;
 public class SolutionRepoPollServiceImpl  implements SolutionRepoPollService{
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private final int ONE_MINUTE =60000;
-    private final int MINUTES_BETWEEN_POLLS = 10;
+    private final int MINUTES_BETWEEN_POLLS = 4;
 
     private JSONObject report = new JSONObject();
 

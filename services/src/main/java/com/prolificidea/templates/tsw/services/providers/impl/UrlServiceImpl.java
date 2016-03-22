@@ -5,6 +5,7 @@ import com.prolificidea.templates.tsw.services.providers.ChallengeService;
 import com.prolificidea.templates.tsw.services.providers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
@@ -22,7 +23,7 @@ public class UrlServiceImpl implements UrlService {
     ChallengeService challengeService;
 
     @Autowired
-    private RestOperations restCall;
+    private RestTemplate restCall;
 
     public UrlServiceImpl() {
     }
@@ -33,6 +34,7 @@ public class UrlServiceImpl implements UrlService {
 
         headers.set("Authorization", "Basic YjE0NTY4NzdAdHJidm4uY29tOkVudEFsbFN0YXJSZWRvbmVBbGxBcXVpcmVk");
         HttpEntity<String> contentHttpEntity = new HttpEntity<String>("parameters", headers);
+
         try {
             ResponseEntity<String> fileContentResults = restCall.exchange(
                     downloadUrl,
