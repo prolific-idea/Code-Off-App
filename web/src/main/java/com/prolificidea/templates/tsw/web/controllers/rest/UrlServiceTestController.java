@@ -26,32 +26,13 @@ public class UrlServiceTestController {
     @Autowired
     SolutionRepoPollServiceImpl solutionRepoPollService;
 
-    @RequestMapping(value = "/api/test", method = RequestMethod.GET)
-    public String test() {
-        return "Ah";
-    }
-
     @RequestMapping(value = "/api/compare", method = RequestMethod.GET)
     public boolean compare() {
         return false;
     }
 
-    @RequestMapping(value = "/api/time", method = RequestMethod.GET)
-    public String Time() {
-
-        return solutionRepoPollService.getTime();
-    }
-
     @RequestMapping(value = "/api/report", method = RequestMethod.GET)
     public String report() {
-
         return solutionRepoPollService.getReport().toString();
-    }
-
-    @RequestMapping(value = "/api/ext", method = RequestMethod.GET)
-    public String ext() {
-
-        ConfigurableMimeFileTypeMap mimeMap = new ConfigurableMimeFileTypeMap();
-        return mimeMap.getContentType("C:\\Users\\stuart.callen\\Desktop\\rishal-pi-template-spring-web-b48fdbb337ab\\rishal-pi-template-spring-web-b48fdbb337ab\\domain\\src\\main\\java\\com\\prolificidea\\templates\\tsw\\domain\\AppUser.java");
     }
 }
