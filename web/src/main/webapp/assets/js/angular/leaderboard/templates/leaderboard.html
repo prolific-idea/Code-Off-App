@@ -40,7 +40,8 @@
                         <th></th>
                         <th>Tech</th>
                         <th>Code Offs</th>
-                        <th>Points</th>
+                        <th ng-if="showPointEdit == false">Points</th>
+                        <th ng-if="showPointEdit == true">Variance</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -55,18 +56,18 @@
                                 </div>
                             </a>
                         </td>
-                        <td class="code-off-tech col-lg-4 col-md-5 col-sm-5 col-xs-5">
+                        <td class="code-off-tech col-lg-4 col-md-5 col-sm-4 col-xs-4">
                             <span ng-bind-html="iconDisplay(coder.techs)"></span>
                         </td>
                         <td class="code-off-points col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             {{coder.noCodeOffs}}
                         </td>
-                        <td class="code-off-points col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                        <td class="code-off-points col-lg-1 col-md-1 col-sm-2 col-xs-2">
                             <div class="row" ng-if="showPointEdit == true">
                                 <div class="input-group form-inline ">
-                                    <input type="number" class="form-control" ng-model ="coder.points" value="{{coder.points}}">
+                                    <input type="number" class="form-control" ng-model ="coder.personDTO.variance" value="{{coder.personDTO.variance}}">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button" ng-click="setPoints($index)">Submit</button>
+                                        <button class="btn btn-default" type="button" ng-click="setPoints($index)">OK</button>
                                     </span>
                                 </div>
                             </div>

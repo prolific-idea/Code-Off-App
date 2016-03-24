@@ -5,6 +5,8 @@
  */
 package com.prolificidea.templates.tsw.domain.entities;
 
+import org.hibernate.annotations.Formula;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -44,7 +46,12 @@ public class Person implements Serializable {
     private int score;
     @Column(name = "url")
     private String url;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @Column(name = "variance")
+    private int variance;
+    @Formula(value = "score+variance")
+    private long actualScore;
+
+    //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
 //    private List<Entry> entryList;
 
     public Person() {
@@ -108,6 +115,22 @@ public class Person implements Serializable {
         this.url = url;
     }
 
+    public int getVariance() {
+        return variance;
+    }
+
+    public long getActualScore() {
+        return actualScore;
+    }
+
+    public void setActualScore() {
+        this.actualScore = score+variance;
+    }
+
+    public void setVariance(int variance) {
+        this.variance = variance;
+    }
+
 //    @XmlTransient
 //    public List<Entry> getEntryList() {
 //        return entryList;
@@ -141,5 +164,5 @@ public class Person implements Serializable {
     public String toString() {
         return "com.prolificidea.templates.tsw.domain.entities.Person[ personId=" + personId + " ]";
     }
-    
+
 }

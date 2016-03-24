@@ -56,7 +56,7 @@
 				method: "PUT",
 				params: {
 					id : "@id",
-					score: "@score"
+					variance: "@score"
 				}
 			}
 		});

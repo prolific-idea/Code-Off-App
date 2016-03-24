@@ -4,7 +4,7 @@
 	app.controller("viewLeaderboardController",
 				   function ($scope,$cookies, $http, $log, $sce, $window, Coders, PersonCount, Challenges, ScorePut, Technologies) {
 					   var ctrl = $scope;
-					   var pageSize = 10;
+					   var pageSize = 50;
 					   ctrl.pageNum = 1;
 					   ctrl.coders = [];
 					   ctrl.showPointEdit = false;
@@ -122,7 +122,7 @@
 
 					   ctrl.setPoints = function (index) {
 						   var coder=ctrl.coders[index];
-						   ScorePut.putScore({id:coder.personDTO.personId,score:coder.points})
+						   ScorePut.putScore({id:coder.personDTO.personId,score:coder.personDTO.variance})
 								   .$promise.then(function () {
 							   ctrl.searchFor();
 						   }, function () {

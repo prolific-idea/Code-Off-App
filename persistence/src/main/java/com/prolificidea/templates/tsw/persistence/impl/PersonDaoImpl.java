@@ -21,7 +21,7 @@ import java.util.Set;
 public class PersonDaoImpl extends GenericDaoImpl<Person> implements PersonDao {
 
     public List<Person> findAllPersonsDesc(int pageSize, int pageNum) {
-        Query query = this.entityManager.createQuery("SELECT x from Person x ORDER BY x.score DESC");
+        Query query = this.entityManager.createQuery("SELECT x  from Person x ORDER BY x.actualScore  DESC");
         query.setFirstResult((pageNum - 1) * pageSize).setMaxResults(pageSize);
         return query.getResultList();
     }

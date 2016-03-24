@@ -15,6 +15,7 @@ public class PersonDTO implements Serializable {
     private String lastName;
     private int score;
     private String url;
+    private int variance;
 
     public String getRepoUrl() {
         return repoUrl;
@@ -30,12 +31,14 @@ public class PersonDTO implements Serializable {
     }
 
     public PersonDTO(Person p) {
+        this.variance = p.getVariance();
         this.personId = p.getPersonId();
         this.username = p.getUsername();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.score = p.getScore();
         this.url = p.getUrl();
+
     }
 
     public Integer getPersonId() {
@@ -84,5 +87,13 @@ public class PersonDTO implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getVariance() {
+        return variance;
+    }
+
+    public void setVariance(int variance) {
+        this.variance = variance;
     }
 }

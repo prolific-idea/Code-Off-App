@@ -42,9 +42,9 @@ public class PersonRestController {
     }
 
     @RequestMapping(value = "/score/{ident}", method = RequestMethod.PUT)
-    public @ResponseBody PersonDTO updateScore(@PathVariable int ident,@RequestParam (required = true) int score){
+    public @ResponseBody PersonDTO updateScore(@PathVariable int ident,@RequestParam (required = true) int variance){
         PersonDTO person = personService.findPerson(ident);
-        person.setScore(score);
+        person.setVariance(variance);
         return personService.updatePerson(person);
     }
 

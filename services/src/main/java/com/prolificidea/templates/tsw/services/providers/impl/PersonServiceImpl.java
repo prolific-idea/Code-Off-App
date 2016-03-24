@@ -70,6 +70,7 @@ public class PersonServiceImpl implements PersonService {
         p.setScore(t.getScore());
         p.setUsername(t.getUsername());
         p.setUrl(t.getUrl());
+        p.setVariance(t.getVariance());
         return new PersonDTO(personDao.create(p));
     }
 
@@ -81,6 +82,7 @@ public class PersonServiceImpl implements PersonService {
         p.setScore(t.getScore());
         p.setUsername(t.getUsername());
         p.setUrl(t.getUrl());
+        p.setVariance(t.getVariance());
         return new PersonDTO(personDao.update(p));
     }
 
@@ -129,11 +131,19 @@ public class PersonServiceImpl implements PersonService {
 
     public List<LeaderboardDTO> getLeaderboard() {
         List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc());
+        for(PersonDTO personDTO: personDTOs)
+        {
+            personDTO.setScore(personDTO.getScore() +personDTO.getVariance());
+        }
         return convertPersonListToLeaderboardList(personDTOs);
     }
 
     public List<LeaderboardDTO> getLeaderboard(int pageSize, int pageNum) {
         List<PersonDTO> personDTOs = convertDomainListToDtoList(personDao.findAllPersonsDesc(pageSize, pageNum));
+        for(PersonDTO personDTO: personDTOs)
+        {
+            personDTO.setScore(personDTO.getScore() +personDTO.getVariance());
+        }
         return convertPersonListToLeaderboardList(personDTOs);
     }
 
