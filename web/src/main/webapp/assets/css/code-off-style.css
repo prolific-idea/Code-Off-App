@@ -427,6 +427,10 @@ hr.line-nav {
 	padding-right: 20px;
 }
 
+.logout-button {
+	margin-top: 10px;
+}
+
 .code-off-intro-background {
 	background: #FFFFFF;
 	text-align: center;

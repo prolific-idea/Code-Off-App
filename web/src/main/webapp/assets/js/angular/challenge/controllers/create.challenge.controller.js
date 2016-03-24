@@ -2,13 +2,7 @@
     "use strict";
 
     var app = angular.module("codeOffChallengeAdmin.challenge");
-    app.controller("createChallengeController", function ($scope, $cookies, $log, $window, Challenges, SharedUpdateChallenge) {
-        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
-            $window.location.href = "/assets/js/angular/login/login.html";
-        } else {
-            console.log("User logged in.");
-        }
-
+    app.controller("createChallengeController", function ($scope, $log, Challenges, SharedUpdateChallenge) {
         var ctrl = $scope;
 
         $scope.format = 'yyyy/MM/dd';

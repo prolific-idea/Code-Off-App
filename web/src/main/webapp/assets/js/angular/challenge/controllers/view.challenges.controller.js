@@ -1,12 +1,6 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
-    app.controller("viewChallengesController", function ($scope, $http, $cookies, $log, $window, Challenges, challengeCount, SharedUpdateChallenge) {
-        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
-            $window.location.href = "/assets/js/angular/login/login.html";
-        } else {
-            console.log("User logged in.");
-        }
-
+    app.controller("viewChallengesController", function ($scope, $http, $log, Challenges, challengeCount, SharedUpdateChallenge) {
         var ctrl = $scope;
         var pageSize = 10;
         ctrl.page = 1;
@@ -31,6 +25,7 @@
                     ctrl.CanNotNext = false;
             }, $log.error);
         }
+
 
         ctrl.Update = function (index) {
             SharedUpdateChallenge.setChallengeData(ctrl.challenges[index]);

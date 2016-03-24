@@ -1,12 +1,6 @@
 (function () {
     var app = angular.module("codeOffChallengeAdmin.challenge");
-    app.controller("updateChallengeController", function ($scope, $http, $cookies, $log, $window, $uibModal, Challenges, SharedUpdateChallenge) {
-        if ($cookies.get("XSRF-TOKEN") === null || $cookies.get("XSRF-TOKEN") === undefined) {
-            $window.location.href = "/assets/js/angular/login/login.html";
-        } else {
-            console.log("User logged in.");
-        }
-
+    app.controller("updateChallengeController", function ($scope, $http, $log, $uibModal, Challenges, SharedUpdateChallenge) {
         var ctrl = $scope;
 
         $scope.format = 'yyyy/MM/dd';
